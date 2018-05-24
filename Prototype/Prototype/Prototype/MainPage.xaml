@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Prototype"
+            xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+             x:Class="Prototype.MainPage">
+    <Grid x:Name="mainGrid" Margin="0,5,0,0" BackgroundColor="White" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition/>
+            <RowDefinition Height="200"/>
+        </Grid.RowDefinitions>
+        <Button x:Name="LocateMe" Grid.Column="0" Grid.Row="0" 
+               Text="locate me"
+               TextColor="Black" 
+               VerticalOptions="Center" 
+               HorizontalOptions="Center"
+                Clicked="Locate_Button"/>
+        
+        <StackLayout Grid.Column="0" Grid.Row="1">
+            <maps:Map
+                x:Name="MyMap"
+                IsShowingUser="true"
+                MapType="Street"
+                HasZoomEnabled="True"
+                
+            />
+        </StackLayout>
+        <Frame Grid.Column="0" Grid.Row="2" >
+            <ListView>
+                  <!--<ListView.ItemsSource >
+                    <x:Array Type="{x:Type local:Person}" xmlns="">
+                        <local:Person Name="Yvonne" Birthday="01/10/1987" FavoriteColor="Purple" />
+                        <local:Person Name="Zachary" Birthday="02/05/1988" FavoriteColor="Red" />
+                    </x:Array>
+                </ListView.ItemsSource>
+
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="0, 5"
+                                     Orientation="Horizontal">
+                                <BoxView Color="{Binding FavoriteColor}" />
+                                <StackLayout VerticalOptions="Center"
+                                         Spacing="0">
+                                    <Label Text="{Binding Name}" />
+                                    <Label Text="{Binding Birthday, StringFormat='Born {0:d}'}" />
+                                </StackLayout>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate> -->
+            </ListView>
+        </Frame>
+
+    </Grid>
+
+</ContentPage>
