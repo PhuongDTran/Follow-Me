@@ -31,29 +31,7 @@
         </StackLayout>
         <Frame Grid.Column="0" Grid.Row="2" >
             <ListView>
-                  <!--<ListView.ItemsSource >
-                    <x:Array Type="{x:Type local:Person}" xmlns="">
-                        <local:Person Name="Yvonne" Birthday="01/10/1987" FavoriteColor="Purple" />
-                        <local:Person Name="Zachary" Birthday="02/05/1988" FavoriteColor="Red" />
-                    </x:Array>
-                </ListView.ItemsSource>
 
-
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <StackLayout Padding="0, 5"
-                                     Orientation="Horizontal">
-                                <BoxView Color="{Binding FavoriteColor}" />
-                                <StackLayout VerticalOptions="Center"
-                                         Spacing="0">
-                                    <Label Text="{Binding Name}" />
-                                    <Label Text="{Binding Birthday, StringFormat='Born {0:d}'}" />
-                                </StackLayout>
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate> -->
             </ListView>
         </Frame>
 
