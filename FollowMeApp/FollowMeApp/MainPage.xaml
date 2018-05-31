@@ -2,11 +2,13 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:FollowMeApp"
-             x:Class="FollowMeApp.MainPage">
+             x:Class="FollowMeApp.MainPage"
+             xmlns:VM="clr-namespace:FollowMeApp.ViewModel"
+             BindingContext="{Binding Source={StaticResource Locator}, Path=Main}">
 
     <StackLayout>
         <!-- Place new controls here -->
-    	<Label Text="Welcome to Xamarin.Forms!" 
+    	<Label Text="{Binding WelcomeTitle,Mode=OneWay}" 
            HorizontalOptions="Center"
            VerticalOptions="CenterAndExpand" />
     </StackLayout>

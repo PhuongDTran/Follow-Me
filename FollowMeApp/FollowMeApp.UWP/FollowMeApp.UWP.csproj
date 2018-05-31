@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{56D685CB-3A47-4B75-A40E-30851FC83D8B}</ProjectGuid>
+    <ProjectGuid>{7A07FF88-020E-4DF5-AB82-89A5D24EB251}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FollowMeApp.UWP</RootNamespace>
@@ -143,18 +143,16 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="CommonServiceLocator">
+      <Version>2.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="MvvmLight">
+      <Version>5.4.1</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="3.0.0.482510" />
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.0.1" />
-    <PackageReference Include="Xamarin.Forms.Maps">
-      <Version>3.0.0.482510</Version>
-    </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\FollowMeApp\FollowMeApp.csproj">
-      <Project>{F4E751D8-AEEA-4B7C-9C1C-D2937EE86FF8}</Project>
-      <Name>FollowMeApp</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <Import Project="..\FollowMeApp\FollowMeApp.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

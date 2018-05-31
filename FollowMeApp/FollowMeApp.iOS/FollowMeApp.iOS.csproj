@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{5E8BFDEE-6A23-4B70-B1B3-F4D5CB737C0B}</ProjectGuid>
+    <ProjectGuid>{77EAB2D9-1BFB-4C42-8803-2B29BF163224}</ProjectGuid>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TemplateGuid>{6143fdea-f3c2-4a09-aafa-6e230626515e}</TemplateGuid>
     <OutputType>Exe</OutputType>
@@ -147,16 +147,14 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="3.0.0.482510" />
-    <PackageReference Include="Xamarin.Forms.Maps">
-      <Version>3.0.0.482510</Version>
+    <PackageReference Include="CommonServiceLocator">
+      <Version>2.0.2</Version>
     </PackageReference>
+    <PackageReference Include="MvvmLight">
+      <Version>5.4.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Forms" Version="3.0.0.482510" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
-  <ItemGroup>
-    <ProjectReference Include="..\FollowMeApp\FollowMeApp.csproj">
-      <Project>{F4E751D8-AEEA-4B7C-9C1C-D2937EE86FF8}</Project>
-      <Name>FollowMeApp</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <Import Project="..\FollowMeApp\FollowMeApp.projitems" Label="Shared" />
 </Project>

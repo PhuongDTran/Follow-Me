@@ -7,15 +7,15 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="e1d2809a-9112-49cc-a868-17402031d49e"
-    Publisher="CN=9df1177d-2422-421e-9276-644774ba0619"
+    Name="62ffba87-b0f7-45de-af3b-9c98fefdf295"
+    Publisher="CN=81c040b6-b791-4cfa-930a-fc6d7f84a332"
     Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="ec0cc741-fd3e-485c-81be-68815c480690" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>FollowMeApp.UWP</DisplayName>
-    <PublisherDisplayName>9df1177d-2422-421e-9276-644774ba0619</PublisherDisplayName>
+    <PublisherDisplayName>81c040b6-b791-4cfa-930a-fc6d7f84a332</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
