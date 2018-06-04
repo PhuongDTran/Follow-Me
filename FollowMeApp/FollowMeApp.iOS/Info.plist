@@ -38,10 +38,6 @@
 	<array>
 		<dict>
 			<key>CFBundleTypeName</key>
-			<string>Document Type 1</string>
-		</dict>
-		<dict>
-			<key>CFBundleTypeName</key>
 			<string>MKDirectionsRequest</string>
 			<key>LSItemContentTypes</key>
 			<array>
@@ -49,5 +45,19 @@
 			</array>
 		</dict>
 	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
+	</array>
+  <array>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>Can we use your location at all times?</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Can we use your location when your app is being used?</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>Can we use your location at all times?</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>This app needs access location when open.</string>
+  </array>
 </dict>
 </plist>
