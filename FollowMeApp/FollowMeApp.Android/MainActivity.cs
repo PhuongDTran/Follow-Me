@@ -6,10 +6,13 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Android;
 
 namespace FollowMeApp.Droid
 {
     [Activity(Label = "FollowMeApp", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+
+
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle bundle)
@@ -22,6 +25,21 @@ namespace FollowMeApp.Droid
             global::Xamarin.Forms.Forms.Init(this, bundle);
             global::Xamarin.FormsMaps.Init(this, bundle);
             LoadApplication(new App());
+        }
+
+        protected override void OnStart()
+        {
+            base.OnStart();
+            CheckPermission();
+
+        }
+        //TODO: temporarily handle permissions
+        private void CheckPermission()
+        {
+            if(CheckSelfPermission(Manifest.Permission.AccessCoarseLocation) != (int)Permission.Granted)
+            {
+                RequestPermissions(new string[] { Manifest.Permission.AccessCoarseLocation, Manifest.Permission.AccessFineLocation }, 0);
+            }
         }
     }
 }
