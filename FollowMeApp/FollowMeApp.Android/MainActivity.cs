@@ -30,11 +30,11 @@ namespace FollowMeApp.Droid
         protected override void OnStart()
         {
             base.OnStart();
-            CheckPermission();
+            GrantPermissions();
 
         }
         //TODO: temporarily handle permissions
-        private void CheckPermission()
+        private void GrantPermissions()
         {
             if(CheckSelfPermission(Manifest.Permission.AccessCoarseLocation) != (int)Permission.Granted)
             {
