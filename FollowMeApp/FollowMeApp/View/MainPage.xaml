@@ -14,20 +14,23 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="100"/>
+            <RowDefinition Height="50"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <!-- Place new controls here -->
+        <!-- Title -->
     	<Label Grid.Column="1" Grid.Row="0" Text="{Binding WelcomeTitle,Mode=OneWay}" 
            HorizontalOptions="Center"
-           VerticalOptions="CenterAndExpand" />
-        <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3">
-            <maps:Map
+           VerticalOptions="Center" />
+        <Button Grid.Column="2" Grid.Row="0" Text="Start Trip"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"/>
+        <Grid x:Name="MapGrid" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3">
+           <!-- <maps:Map
                 x:Name="MyMap"
                 IsShowingUser="true"
                 MapType="Street"
-                HasZoomEnabled="True"/>
-            <Button x:Name="MyLocation" Image="my_location.png" HorizontalOptions="Center" VerticalOptions="Center"/>
+                HasZoomEnabled="True"/> -->
+            <Button x:Name="MyLocation" Text="image" Image="my_location.png" HorizontalOptions="End" VerticalOptions="End"/>
         </Grid>
     </Grid>
 
