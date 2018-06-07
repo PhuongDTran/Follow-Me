@@ -18,10 +18,10 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <!-- Title -->
-    	<Label Grid.Column="1" Grid.Row="0" Text="{Binding WelcomeTitle,Mode=OneWay}" 
+    	<Label Grid.Column="1" Grid.Row="0" Text="{Binding Title,Mode=OneWay}" 
            HorizontalOptions="Center"
            VerticalOptions="Center" />
-        <Button Grid.Column="2" Grid.Row="0" Text="Start Trip"
+        <Button Grid.Column="2" Grid.Row="0" Text="{Binding StartButtonText,Mode=OneWay}"
                 HorizontalOptions="Center"
                 VerticalOptions="Center"/>
         <Grid x:Name="MapGrid" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3">

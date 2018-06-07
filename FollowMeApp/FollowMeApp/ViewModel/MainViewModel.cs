@@ -25,9 +25,14 @@ namespace FollowMeApp.ViewModel
         public const string ClockPropertyName = "Clock";
 
         /// <summary>
-        /// The <see cref="WelcomeTitle" /> property's name.
+        /// The <see cref="Title" /> property's name.
         /// </summary>
-        public const string WelcomeTitlePropertyName = "WelcomeTitle";
+        public const string TitlePropertyName = "Title";
+
+        /// <summary>
+        /// The <see cref="StartButtonText" /> property's name.
+        /// </summary>
+        public const string StartButtonPropertyText = "StartButtonText";
 
         private readonly IDataService _dataService;
         private readonly INavigationService _navigationService;
@@ -37,7 +42,8 @@ namespace FollowMeApp.ViewModel
         private RelayCommand<string> _navigateCommand;
         private bool _runClock;
         private RelayCommand<string> _showDialogCommand;
-        private string _welcomeTitle = "Hello MVVM";
+        private string _title = "";
+        private string _startButtonText = "";
 
         /// <summary>
         /// Sets and gets the Clock property.
@@ -68,7 +74,7 @@ namespace FollowMeApp.ViewModel
                        ?? (_incrementCommand = new RelayCommand(
                            () =>
                            {
-                               WelcomeTitle = string.Format("Clicked {0} time(s)", ++_index);
+                               Title = string.Format("Clicked {0} time(s)", ++_index);
                            }));
             }
         }
@@ -118,20 +124,33 @@ namespace FollowMeApp.ViewModel
             }
         }
 
+        public string StartButtonText
+        {
+            get
+            {
+                return _startButtonText;
+            }
+            set
+            {
+                Set(ref _startButtonText, value);
+            }
+        }
+
+
         /// <summary>
         /// Sets and gets the WelcomeTitle property.
         /// Changes to this property's value raise the PropertyChanged event.
         /// Use the "mvvminpc*" snippet group to create more such properties.
         /// </summary>
-        public string WelcomeTitle
+        public string Title
         {
             get
             {
-                return _welcomeTitle;
+                return _title;
             }
             set
             {
-                Set(ref _welcomeTitle, value);
+                Set(ref _title, value);
             }
         }
 
@@ -164,7 +183,8 @@ namespace FollowMeApp.ViewModel
                         return;
                     }
 
-                    WelcomeTitle = item.Title;
+                    Title = item.Title;
+                    StartButtonText = item.StartButtonText;
                 });
         }
 
@@ -228,7 +248,7 @@ namespace FollowMeApp.ViewModel
                                 "AnyNotification",
                                 reply =>
                                 {
-                                    WelcomeTitle = reply;
+                                    Title = reply;
                                 }));
                     }));
             }

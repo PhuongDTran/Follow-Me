@@ -2,9 +2,16 @@
 {
     public class DataItem
     {
-        public DataItem(string title)
+        public DataItem(string title, string startButtonText)
         {
             Title = title;
+            StartButtonText = startButtonText;
+        }
+       
+        public string StartButtonText
+        {
+            get;
+            private set;
         }
 
         public string Title
