@@ -21,13 +21,14 @@
     	<Label Grid.Column="1" Grid.Row="0" Text="{Binding WelcomeTitle,Mode=OneWay}" 
            HorizontalOptions="Center"
            VerticalOptions="CenterAndExpand" />
-        <StackLayout Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3">
+        <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3">
             <maps:Map
                 x:Name="MyMap"
                 IsShowingUser="true"
                 MapType="Street"
                 HasZoomEnabled="True"/>
-        </StackLayout>
+            <Button x:Name="MyLocation" Image="my_location.png" HorizontalOptions="Center" VerticalOptions="Center"/>
+        </Grid>
     </Grid>
 
 </ContentPage>
