@@ -7,7 +7,7 @@ using Xamarin.Forms;
 using Xamarin.Essentials;
 using Xamarin.Forms.Maps;
 
-namespace FollowMeApp
+namespace FollowMeApp.View
 {
 	public partial class MainPage : ContentPage
 	{
