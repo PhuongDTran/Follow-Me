@@ -1,12 +1,8 @@
-﻿using System;
-
+﻿
+using Android;
 using Android.App;
 using Android.Content.PM;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Android.OS;
-using Android;
 
 namespace FollowMeApp.Droid
 {
@@ -33,6 +29,7 @@ namespace FollowMeApp.Droid
             GrantPermissions();
 
         }
+
         //TODO: temporarily handle permissions
         private void GrantPermissions()
         {
