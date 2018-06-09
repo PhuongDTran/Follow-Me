@@ -4,7 +4,7 @@ using System.Text;
 using Xamarin.Essentials;
 namespace FollowMeApp.Model
 {
-    class LocationData
+    public class LocationData
     {
         public LocationData(Location location)
         {
