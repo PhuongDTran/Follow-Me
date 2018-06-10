@@ -9,6 +9,7 @@ using GalaSoft.MvvmLight.Views;
 using CommonServiceLocator;
 using FollowMeApp.Model;
 using Xamarin.Essentials;
+using Xamarin.Forms.Maps;
 
 namespace FollowMeApp.ViewModel
 {
@@ -39,6 +40,19 @@ namespace FollowMeApp.ViewModel
         private readonly INavigationService _navigationService;
         private string _title = "";
         private string _startButtonText = "";
+        private Position _position;
+
+        public Position CurrentPosition
+        {
+            get
+            {
+                return _position;
+            }
+            set
+            {
+                Set(ref _position, value);
+            }
+        }
 
         public string StartButtonText
         {
@@ -83,9 +97,7 @@ namespace FollowMeApp.ViewModel
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
-        protected StartViewModel(
-            IDataService dataService,
-            INavigationService navigationService)
+        protected StartViewModel(IDataService dataService, INavigationService navigationService)
         {
             _dataService = dataService;
             _navigationService = navigationService;
@@ -101,6 +113,15 @@ namespace FollowMeApp.ViewModel
 
                     Title = item.Title;
                     StartButtonText = item.StartButtonText;
+                });
+            _dataService.GetLocation(
+                (location, error) =>
+                {
+                    if (error != null)
+                    {
+                        return;
+                    }
+                    CurrentPosition = new Position(location.Latitude, location.Longitude);
                 });
         }
     }
