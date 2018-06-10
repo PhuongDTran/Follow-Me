@@ -9,9 +9,9 @@ using Xamarin.Forms.Maps;
 
 namespace FollowMeApp.View
 {
-	public partial class MainPage : ContentPage
+	public partial class MainView : ContentPage
 	{
-		public MainPage()
+		public MainView()
 		{
 			InitializeComponent();
             GetCurrentLocation();

@@ -17,7 +17,7 @@ namespace FollowMeApp.ViewModel
     /// See http://www.mvvmlight.net
     /// </para>
     /// </summary>
-    public class MainViewModel : ViewModelBase
+    public class StartViewModel : ViewModelBase
     {
         /// <summary>
         /// The <see cref="Clock" /> property's name.
@@ -154,7 +154,7 @@ namespace FollowMeApp.ViewModel
             }
         }
 
-        public MainViewModel() :
+        public StartViewModel() :
            this(new DataService(), null)
         {
             // This no argument constructor is needed for the ViewModelLocator to create an instance of
@@ -167,7 +167,7 @@ namespace FollowMeApp.ViewModel
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
-        protected MainViewModel(
+        protected StartViewModel(
             IDataService dataService,
             INavigationService navigationService)
         {
