@@ -28,7 +28,7 @@ namespace FollowMeApp.ViewModel
         [SuppressMessage("Microsoft.Performance",
             "CA1822:MarkMembersAsStatic",
             Justification = "This non-static member is needed for data binding purposes.")]
-        public StartViewModel MainViewModel
+        public StartViewModel MainVM
         {
             get
             {
@@ -36,11 +36,11 @@ namespace FollowMeApp.ViewModel
             }
         }
 
-        public AddingMethodViewModel AddingMethodViewModel
+        public SharingViewModel SharingVM
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<AddingMethodViewModel>();
+                return ServiceLocator.Current.GetInstance<SharingViewModel>();
             }
         }
 

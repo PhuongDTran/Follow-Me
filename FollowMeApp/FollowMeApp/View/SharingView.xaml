@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FollowMeApp.View.AddingMethodView"
+             x:Class="FollowMeApp.View.SharingView"
              xmlns:VM="clr-namespace:FollowMeApp.ViewModel"
-             BindingContext="{Binding Source={StaticResource Locator},Path=AddingMethodViewModel}">
+             BindingContext="{Binding Source={StaticResource Locator},Path=SharingVM}">
     <ContentPage.Content>
         <StackLayout>
             <Label Text="Welcome to Xamarin.Forms!"

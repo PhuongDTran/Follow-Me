@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace FollowMeApp.View
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class AddingMethodView : ContentPage
+	public partial class SharingView : ContentPage
 	{
-		public AddingMethodView ()
+		public SharingView ()
 		{
 			InitializeComponent ();
 		}

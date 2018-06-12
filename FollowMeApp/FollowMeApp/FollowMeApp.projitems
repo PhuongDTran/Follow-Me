@@ -17,9 +17,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Design\DesignDataService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModel\AddingMethodViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)View\AddingMethodView.xaml.cs">
-      <DependentUpon>AddingMethodView.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModel\SharingViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)View\SharingView.xaml.cs">
+      <DependentUpon>SharingView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)View\MainView.xaml.cs">
@@ -32,7 +32,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModel\ViewModelLocator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)View\AddingMethodView.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)View\SharingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>

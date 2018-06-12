@@ -5,7 +5,7 @@
              x:Class="FollowMeApp.View.MainView"
              xmlns:VM="clr-namespace:FollowMeApp.ViewModel"
              xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
-             BindingContext="{Binding Source={StaticResource Locator}, Path=MainViewModel}">
+             BindingContext="{Binding Source={StaticResource Locator}, Path=MainVM}">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -25,11 +25,11 @@
                 HorizontalOptions="Center"
                 VerticalOptions="Center"/>
         <Grid x:Name="MapGrid" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3">
-           <!-- <maps:Map
-                x:Name="MyMap"
+            <maps:Map
+                x:Name="AppMap"
                 IsShowingUser="true"
                 MapType="Street"
-                HasZoomEnabled="True"/> -->
+                HasZoomEnabled="True"/>
             <Button x:Name="MyLocation" Text="image" Image="my_location.png" HorizontalOptions="End" VerticalOptions="End"/>
         </Grid>
     </Grid>
