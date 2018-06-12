@@ -36,6 +36,14 @@ namespace FollowMeApp.ViewModel
             }
         }
 
+        public AddingMethodViewModel AddingMethodViewModel
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<AddingMethodViewModel>();
+            }
+        }
+
         /// <summary>
         /// This property can be used to force the application to run with design time data.
         /// </summary>
