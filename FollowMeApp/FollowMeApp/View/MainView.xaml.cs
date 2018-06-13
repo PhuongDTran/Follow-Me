@@ -9,6 +9,7 @@ using Xamarin.Forms.Maps;
 using FollowMeApp.ViewModel;
 using Rg.Plugins.Popup;
 using Rg.Plugins.Popup.Contracts;
+using Rg.Plugins.Popup.Services;
 
 namespace FollowMeApp.View
 {
@@ -35,8 +36,7 @@ namespace FollowMeApp.View
 
         private async void ShowPopUp(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(_sharingView);
-            
+            await PopupNavigation.Instance.PushAsync(_sharingView, true);
         }
 
         private async void GetCurrentLocation()

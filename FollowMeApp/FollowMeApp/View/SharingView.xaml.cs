@@ -4,45 +4,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Rg.Plugins.Popup.Pages;
+using Rg.Plugins.Popup.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace FollowMeApp.View
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class SharingView : PopupPage
 	{
 		public SharingView ()
 		{
 			InitializeComponent ();
 		}
-        protected override void OnAppearing()
+
+        private async void OnClose(object sender, EventArgs e)
         {
-            base.OnAppearing();
+            await PopupNavigation.Instance.PopAsync();
         }
 
-        protected override void OnDisappearing()
+        protected override Task OnAppearingAnimationEndAsync()
         {
-            base.OnDisappearing();
+            return Content.FadeTo(0.5);
         }
 
-        // ### Methods for supporting animations in your popup page ###
-
-         
-        // ### Overrided methods which can prevent closing a popup page ###
-
-        // Invoked when a hardware back button is pressed
-        protected override bool OnBackButtonPressed()
+        protected override Task OnDisappearingAnimationBeginAsync()
         {
-            // Return true if you don't want to close this popup page when a back button is pressed
-            return base.OnBackButtonPressed();
-        }
-
-        // Invoked when background is clicked
-        protected override bool OnBackgroundClicked()
-        {
-            // Return false if you don't want to close this popup page when a background of the popup page is clicked
-            return base.OnBackgroundClicked();
+            return Content.FadeTo(1);
         }
     }
 }
