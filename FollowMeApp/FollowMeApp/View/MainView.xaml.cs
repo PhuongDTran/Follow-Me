@@ -6,17 +6,38 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Essentials;
 using Xamarin.Forms.Maps;
+using FollowMeApp.ViewModel;
+using Rg.Plugins.Popup;
+using Rg.Plugins.Popup.Contracts;
 
 namespace FollowMeApp.View
 {
 	public partial class MainView : ContentPage
 	{
+        private StartViewModel viewModel;
+        private SharingView _sharingView;
+
 		public MainView()
 		{
 			InitializeComponent();
-            GetCurrentLocation();
-           
-		}
+            viewModel = (StartViewModel)BindingContext;
+            _sharingView = new SharingView();
+            if (true)
+            {
+                //Position currentPosition = viewModel.CurrentPosition;
+                //MapSpan span = new MapSpan(currentPosition, 360, 360);
+                //AppMap.MoveToRegion(span);
+                //GetCurrentLocation();
+            }
+
+
+        }
+
+        private async void ShowPopUp(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(_sharingView);
+            
+        }
 
         private async void GetCurrentLocation()
         {
