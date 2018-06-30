@@ -36,11 +36,11 @@ namespace FollowMeApp.ViewModel
             }
         }
 
-        public SharingViewModel SharingVM
+        public ShareViewModel ShareVM
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<SharingViewModel>();
+                return ServiceLocator.Current.GetInstance<ShareViewModel>();
             }
         }
 

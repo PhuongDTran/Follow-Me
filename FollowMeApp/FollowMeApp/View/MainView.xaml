@@ -31,7 +31,12 @@
                 IsShowingUser="true"
                 MapType="Street"
                 HasZoomEnabled="True"/>
-            <Button x:Name="MyLocation" Text="image" Image="my_location.png" HorizontalOptions="End" VerticalOptions="End"/>
+            <Button x:Name="MyLocation" Text="image" Image="my_location.png" HorizontalOptions="End" VerticalOptions="End" HeightRequest="200" WidthRequest="200"/>
+            <!-- <Image x:Name="MyLocation" Source="my_location.png" VerticalOptions="End" HorizontalOptions="End">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnGetLocationTapped"/>
+                </Image.GestureRecognizers>
+            </Image> -->
         </Grid>
     </Grid>
 

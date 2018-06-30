@@ -3,26 +3,40 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
              xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
-             x:Class="FollowMeApp.View.SharingView"
+             x:Class="FollowMeApp.View.ShareView"
              xmlns:VM="clr-namespace:FollowMeApp.ViewModel">
-             <!--BindingContext="{Binding Source={StaticResource Locator},Path=SharingVM}"--> 
+             <!--BindingContext="{Binding Source={StaticResource Locator},Path=ShareVM}" -->
     <pages:PopupPage.Animation>
-        <animations:ScaleAnimation 
+        <animations:ScaleAnimation
             PositionIn="Center"
             PositionOut="Center"
-            ScaleIn="1.2"
-            ScaleOut="0.8"
+            ScaleIn="2.0"
+            ScaleOut="2.0"
             DurationIn="400"
             DurationOut="300"
             EasingIn="SinOut"
             EasingOut="SinIn"
-            HasBackgroundAnimation="True"/>
+            HasBackgroundAnimation="False"/>
     </pages:PopupPage.Animation>
     <!--You can use any elements here which are extended from Xamarin.Forms.View-->
-    <StackLayout 
+    <StackLayout
+        BackgroundColor="White"
         VerticalOptions="Center" 
         HorizontalOptions="Center" 
         Padding="20, 20, 20, 20">
-        <Label Text="Test" HorizontalOptions="Center" VerticalOptions="Center" FontSize="Medium" TextColor="Red"/>
+        <Label 
+            Text="Add friends via:" 
+            HorizontalOptions="Center"
+            VerticalOptions="Center" 
+            FontSize="Medium" 
+            TextColor="Black"/>
+        <Button 
+            Text="Bluetooth" 
+            HorizontalOptions="Center" 
+            VerticalOptions="Center"/>
+        <Button 
+            Text="URL" 
+            HorizontalOptions="Center" 
+            VerticalOptions="Center"/>
     </StackLayout>
 </pages:PopupPage>

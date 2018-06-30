@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FollowMeApp.ViewModel
 {
-    public class SharingViewModel
+    public class ShareViewModel
     {
     }
 }

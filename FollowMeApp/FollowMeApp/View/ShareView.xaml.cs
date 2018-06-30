@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 
 namespace FollowMeApp.View
 {
-	public partial class SharingView : PopupPage
+	public partial class ShareView : PopupPage
 	{
-		public SharingView ()
+		public ShareView ()
 		{
 			InitializeComponent ();
 		}
@@ -24,7 +24,7 @@ namespace FollowMeApp.View
 
         protected override Task OnAppearingAnimationEndAsync()
         {
-            return Content.FadeTo(0.5);
+            return Content.FadeTo(1);
         }
 
         protected override Task OnDisappearingAnimationBeginAsync()

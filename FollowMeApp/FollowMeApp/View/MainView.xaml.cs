@@ -16,15 +16,16 @@ namespace FollowMeApp.View
 	public partial class MainView : ContentPage
 	{
         private StartViewModel viewModel;
-        private SharingView _sharingView;
+        private ShareView _shareView;
 
 		public MainView()
 		{
 			InitializeComponent();
             viewModel = (StartViewModel)BindingContext;
-            _sharingView = new SharingView();
-            if (true)
+            _shareView = new ShareView();
+            if (Device.RuntimePlatform == Device.Android)
             {
+                //MyLocation.IsVisible = true;
                 //Position currentPosition = viewModel.CurrentPosition;
                 //MapSpan span = new MapSpan(currentPosition, 360, 360);
                 //AppMap.MoveToRegion(span);
@@ -33,10 +34,13 @@ namespace FollowMeApp.View
 
 
         }
-
+        private void OnGetLocationTapped(object sender, EventArgs e)
+        {
+            DisplayAlert("alert", "tap recognized", "ok");
+        }
         private async void ShowPopUp(object sender, EventArgs e)
         {
-            await PopupNavigation.Instance.PushAsync(_sharingView, true);
+            await PopupNavigation.Instance.PushAsync(_shareView, true);
         }
 
         private async void GetCurrentLocation()
