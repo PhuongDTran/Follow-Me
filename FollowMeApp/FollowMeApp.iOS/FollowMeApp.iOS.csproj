@@ -177,6 +177,9 @@
   <ItemGroup>
     <None Include="Resources\my_location.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\bluetooth.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\FollowMeApp\FollowMeApp.projitems" Label="Shared" />
 </Project>
