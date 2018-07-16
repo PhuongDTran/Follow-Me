@@ -26,11 +26,11 @@
                 VerticalOptions="Center"
                 Clicked="ShowPopUp"/>
         <Grid x:Name="MapGrid" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3">
-            <!--<maps:Map
+            <maps:Map
                 x:Name="MainMap"
                 IsShowingUser="true"
                 MapType="Street"
-                HasZoomEnabled="True"/> -->
+                HasZoomEnabled="True"/>
             <Button x:Name="MyLocation" Text="image" Image="my_location.png" HorizontalOptions="End" VerticalOptions="End"/>
         </Grid>
     </Grid>

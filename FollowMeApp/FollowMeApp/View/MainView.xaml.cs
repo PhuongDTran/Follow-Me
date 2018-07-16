@@ -55,13 +55,7 @@ namespace FollowMeApp.View
                 {
                     Console.WriteLine($"Latitude: {location.Latitude}, Longitude: {location.Longitude}");
                     MapSpan mapSpan = new MapSpan(new Position(location.Latitude, location.Longitude), 360, 360);
-                    Map mainMap = new Map(mapSpan);
-                    mainMap.IsShowingUser = true;
-                    mainMap.MapType = MapType.Street;
-                    mainMap.HasZoomEnabled = true;
-                    MapGrid.Children.Add(mainMap);
-
-                    //MainMap.MoveToRegion(mapSpan);
+                    MainMap.MoveToRegion(mapSpan);
                 }
             }
             catch (FeatureNotSupportedException fnsEx)
