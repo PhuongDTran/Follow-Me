@@ -50,24 +50,19 @@ namespace FollowMeApp.View
             {
                 var request = new GeolocationRequest(GeolocationAccuracy.Medium);
                 var location = await Geolocation.GetLocationAsync(request);
-                Map tempMap = new Map();
-                tempMap.IsShowingUser = true;
-                tempMap.MapType = MapType.Street;
-                tempMap.HasZoomEnabled = true;
-                MapGrid.Children.Add(tempMap);
 
-                //if (location != null)
-                //{
-                //    Console.WriteLine($"Latitude: {location.Latitude}, Longitude: {location.Longitude}");
-                //    MapSpan mapSpan = new MapSpan(new Position(location.Latitude, location.Longitude), 360, 360);
-                //    Map myMap = new Map(mapSpan);
-                //    myMap.IsShowingUser = true;
-                //    myMap.MapType = MapType.Street;
-                //    myMap.HasZoomEnabled = true;
-                //    MapGrid.Children.Add(myMap);
+                if (location != null)
+                {
+                    Console.WriteLine($"Latitude: {location.Latitude}, Longitude: {location.Longitude}");
+                    MapSpan mapSpan = new MapSpan(new Position(location.Latitude, location.Longitude), 360, 360);
+                    Map mainMap = new Map(mapSpan);
+                    mainMap.IsShowingUser = true;
+                    mainMap.MapType = MapType.Street;
+                    mainMap.HasZoomEnabled = true;
+                    MapGrid.Children.Add(mainMap);
 
-                //    //MainMap.MoveToRegion(mapSpan);
-                //}
+                    //MainMap.MoveToRegion(mapSpan);
+                }
             }
             catch (FeatureNotSupportedException fnsEx)
             {
