@@ -1,5 +1,6 @@
 ﻿using System;
 using FollowMeApp.Model;
+using Xamarin.Essentials;
 
 namespace FollowMeApp.Design
 {
@@ -11,6 +12,11 @@ namespace FollowMeApp.Design
 
             var item = new DataItem("Welcome to MVVM Light [design]", "Start [design]");
             callback(item, null);
+        }
+
+        public void GetLocation(Action<Location, Exception> callback)
+        {
+            throw new NotImplementedException();
         }
     }
 }

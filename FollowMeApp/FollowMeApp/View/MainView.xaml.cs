@@ -21,16 +21,17 @@ namespace FollowMeApp.View
 		public MainView()
 		{
 			InitializeComponent();
-            viewModel = (StartViewModel)BindingContext;
+            //viewModel = (StartViewModel)BindingContext;
             _shareView = new ShareView();
-            if (Device.RuntimePlatform == Device.Android)
-            {
-                //MyLocation.IsVisible = true;
-                //Position currentPosition = viewModel.CurrentPosition;
-                //MapSpan span = new MapSpan(currentPosition, 360, 360);
-                //AppMap.MoveToRegion(span);
-                //GetCurrentLocation();
-            }
+            //if (Device.RuntimePlatform == Device.Android)
+            //{
+            //    MyLocation.IsVisible = false;
+            //    //Position currentPosition = viewModel.CurrentPosition;
+            //    //MapSpan span = new MapSpan(currentPosition, 360, 360);
+            //    //AppMap.MoveToRegion(span);
+            //    //GetCurrentLocation();
+            //}
+            GetCurrentLocation();
 
 
         }
@@ -49,17 +50,24 @@ namespace FollowMeApp.View
             {
                 var request = new GeolocationRequest(GeolocationAccuracy.Medium);
                 var location = await Geolocation.GetLocationAsync(request);
+                Map tempMap = new Map();
+                tempMap.IsShowingUser = true;
+                tempMap.MapType = MapType.Street;
+                tempMap.HasZoomEnabled = true;
+                MapGrid.Children.Add(tempMap);
 
-                if (location != null)
-                {
-                    Console.WriteLine($"Latitude: {location.Latitude}, Longitude: {location.Longitude}");
-                    MapSpan span = new MapSpan(new Position(location.Latitude, location.Longitude), 360, 360);
-                    Map myMap = new Map(span);
-                    myMap.IsShowingUser = true;
-                    myMap.MapType = MapType.Street;
-                    myMap.HasZoomEnabled = true;
-                    MapGrid.Children.Add(myMap);
-                }
+                //if (location != null)
+                //{
+                //    Console.WriteLine($"Latitude: {location.Latitude}, Longitude: {location.Longitude}");
+                //    MapSpan mapSpan = new MapSpan(new Position(location.Latitude, location.Longitude), 360, 360);
+                //    Map myMap = new Map(mapSpan);
+                //    myMap.IsShowingUser = true;
+                //    myMap.MapType = MapType.Street;
+                //    myMap.HasZoomEnabled = true;
+                //    MapGrid.Children.Add(myMap);
+
+                //    //MainMap.MoveToRegion(mapSpan);
+                //}
             }
             catch (FeatureNotSupportedException fnsEx)
             {
@@ -68,10 +76,12 @@ namespace FollowMeApp.View
             catch (PermissionException pEx)
             {
                 // Handle permission exception
+                Console.WriteLine("permission exception");
             }
             catch (Exception ex)
             {
                 // Unable to get location
+                Console.WriteLine("unable to get location");
             }
         }
     }

@@ -26,17 +26,12 @@
                 VerticalOptions="Center"
                 Clicked="ShowPopUp"/>
         <Grid x:Name="MapGrid" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3">
-            <maps:Map
-                x:Name="AppMap"
+            <!--<maps:Map
+                x:Name="MainMap"
                 IsShowingUser="true"
                 MapType="Street"
-                HasZoomEnabled="True"/>
-            <Button x:Name="MyLocation" Text="image" Image="my_location.png" HorizontalOptions="End" VerticalOptions="End" HeightRequest="200" WidthRequest="200"/>
-            <!-- <Image x:Name="MyLocation" Source="my_location.png" VerticalOptions="End" HorizontalOptions="End">
-                <Image.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="OnGetLocationTapped"/>
-                </Image.GestureRecognizers>
-            </Image> -->
+                HasZoomEnabled="True"/> -->
+            <Button x:Name="MyLocation" Text="image" Image="my_location.png" HorizontalOptions="End" VerticalOptions="End"/>
         </Grid>
     </Grid>
 
