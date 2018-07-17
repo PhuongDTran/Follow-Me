@@ -31,7 +31,7 @@
                 IsShowingUser="true"
                 MapType="Street"
                 HasZoomEnabled="True"/>
-            <Button x:Name="MyLocation" Text="image" Image="my_location.png" HorizontalOptions="End" VerticalOptions="End"/>
+            <Button x:Name="CurrentLocation" Text="image" Image="my_location.png" HorizontalOptions="End" VerticalOptions="End"/>
         </Grid>
     </Grid>
 
