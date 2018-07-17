@@ -26,12 +26,20 @@
                 VerticalOptions="Center"
                 Clicked="ShowPopUp"/>
         <Grid x:Name="MapGrid" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3">
+            <!--Map component used in both Android and iOS-->
             <maps:Map
                 x:Name="MainMap"
                 IsShowingUser="true"
                 MapType="Street"
                 HasZoomEnabled="True"/>
-            <Button x:Name="CurrentLocation" Text="image" Image="my_location.png" HorizontalOptions="End" VerticalOptions="End"/>
+            
+            <!-- Green arrow to get user current location display on iOS platform-->
+            <Image x:Name="MyLocation" WidthRequest="30" HeightRequest="30" Source="my_location.png" VerticalOptions="End" HorizontalOptions="End">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnMyLocationTapped"/>
+                </Image.GestureRecognizers>
+            </Image>
+
         </Grid>
     </Grid>
 

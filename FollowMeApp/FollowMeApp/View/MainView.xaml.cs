@@ -21,20 +21,21 @@ namespace FollowMeApp.View
 		public MainView()
 		{
 			InitializeComponent();
-            //viewModel = (StartViewModel)BindingContext;
             _shareView = new ShareView();
             if (Device.RuntimePlatform == Device.Android)
             {
-                CurrentLocation.IsVisible = false;
+                //MyLocation.IsVisible = false;
             }
             GetCurrentLocation();
 
 
         }
-        private void OnGetLocationTapped(object sender, EventArgs e)
+
+        private void OnMyLocationTapped(object sender, EventArgs e)
         {
-            DisplayAlert("alert", "tap recognized", "ok");
+            GetCurrentLocation();
         }
+
         private async void ShowPopUp(object sender, EventArgs e)
         {
             await PopupNavigation.Instance.PushAsync(_shareView, true);
@@ -49,8 +50,6 @@ namespace FollowMeApp.View
 
                 if (location != null)
                 {
-                    //MapSpan mapSpan = new MapSpan(new Position(location.Latitude, location.Longitude), 360, 360);
-                    //MainMap.MoveToRegion(mapSpan);
                     MainMap.MoveToRegion( MapSpan.FromCenterAndRadius( new Position( location.Latitude, location.Longitude), Distance.FromMiles(1)));
                 }
             }
