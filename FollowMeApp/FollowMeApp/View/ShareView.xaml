@@ -10,9 +10,9 @@
         <animations:ScaleAnimation
             PositionIn="Center"
             PositionOut="Center"
-            ScaleIn="2.0"
-            ScaleOut="2.0"
-            DurationIn="400"
+            ScaleIn="1.5"
+            ScaleOut="1.5"
+            DurationIn="300"
             DurationOut="300"
             EasingIn="SinOut"
             EasingOut="SinIn"
