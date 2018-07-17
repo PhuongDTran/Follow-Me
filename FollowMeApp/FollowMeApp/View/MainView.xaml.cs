@@ -23,14 +23,10 @@ namespace FollowMeApp.View
 			InitializeComponent();
             //viewModel = (StartViewModel)BindingContext;
             _shareView = new ShareView();
-            //if (Device.RuntimePlatform == Device.Android)
-            //{
-            //    MyLocation.IsVisible = false;
-            //    //Position currentPosition = viewModel.CurrentPosition;
-            //    //MapSpan span = new MapSpan(currentPosition, 360, 360);
-            //    //AppMap.MoveToRegion(span);
-            //    //GetCurrentLocation();
-            //}
+            if (Device.RuntimePlatform == Device.Android)
+            {
+                CurrentLocation.IsVisible = false;
+            }
             GetCurrentLocation();
 
 
@@ -53,9 +49,9 @@ namespace FollowMeApp.View
 
                 if (location != null)
                 {
-                    Console.WriteLine($"Latitude: {location.Latitude}, Longitude: {location.Longitude}");
-                    MapSpan mapSpan = new MapSpan(new Position(location.Latitude, location.Longitude), 360, 360);
-                    MainMap.MoveToRegion(mapSpan);
+                    //MapSpan mapSpan = new MapSpan(new Position(location.Latitude, location.Longitude), 360, 360);
+                    //MainMap.MoveToRegion(mapSpan);
+                    MainMap.MoveToRegion( MapSpan.FromCenterAndRadius( new Position( location.Latitude, location.Longitude), Distance.FromMiles(1)));
                 }
             }
             catch (FeatureNotSupportedException fnsEx)
