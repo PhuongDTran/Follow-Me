@@ -30,6 +30,7 @@
     <MtouchSdkVersion>11.3</MtouchSdkVersion>
     <CodesignKey>iPhone Developer</CodesignKey>
     <CodesignProvision />
+    <IOSDebugOverWiFi>true</IOSDebugOverWiFi>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -102,7 +103,9 @@
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <None Include="Entitlements.plist" />
-    <None Include="Info.plist" />
+    <None Include="Info.plist">
+      <SubType>Designer</SubType>
+    </None>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -175,7 +178,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\my_location.png" />
+    <BundleResource Include="Resources\my_location.png" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\bluetooth.png" />
