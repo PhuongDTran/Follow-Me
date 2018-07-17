@@ -14,22 +14,13 @@ namespace FollowMeApp.Model
             callback(item, null);
            
         }
-        public async void GetLocation( Action<Location, Exception> callback)
+        public async void GetUserLocation( Action<Location, Exception> callback)
         {
-            var currentLocation = await GetLocation();
-            callback(currentLocation, null);
-        }
-
-        private async Task<Location> GetLocation()
-        {
+            Location location = null;
             try
             {
                 var request = new GeolocationRequest(GeolocationAccuracy.Medium);
-                var location = await Geolocation.GetLocationAsync(request);
-                if (location != null)
-                {
-                    return location;
-                }
+                location = await Geolocation.GetLocationAsync(request);
             }
             catch (FeatureNotSupportedException fnsEx)
             {
@@ -38,12 +29,39 @@ namespace FollowMeApp.Model
             catch (PermissionException pEx)
             {
                 // Handle permission exception
+                Console.WriteLine("permission exception");
             }
             catch (Exception ex)
             {
                 // Unable to get location
+                Console.WriteLine("unable to get location");
             }
-            return null;
+            callback(location, null);
         }
+
+        /*private async Task<Location> GetLocation()
+        {
+            Location location = null;
+            try
+            {
+                var request = new GeolocationRequest(GeolocationAccuracy.Medium);
+                location = await Geolocation.GetLocationAsync(request);
+            }
+            catch (FeatureNotSupportedException fnsEx)
+            {
+                // Handle not supported on device exception
+            }
+            catch (PermissionException pEx)
+            {
+                // Handle permission exception
+                Console.WriteLine("permission exception");
+            }
+            catch (Exception ex)
+            {
+                // Unable to get location
+                Console.WriteLine("unable to get location");
+            }
+            return location;
+        }*/
     }
 }

@@ -14,7 +14,7 @@ namespace FollowMeApp.Design
             callback(item, null);
         }
 
-        public void GetLocation(Action<Location, Exception> callback)
+        public void GetUserLocation(Action<Location, Exception> callback)
         {
             throw new NotImplementedException();
         }

@@ -1,14 +1,6 @@
-using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Messaging;
-using GalaSoft.MvvmLight.Threading;
-using GalaSoft.MvvmLight.Views;
-using CommonServiceLocator;
 using FollowMeApp.Model;
-using Xamarin.Essentials;
+using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Views;
 using Xamarin.Forms.Maps;
 
 namespace FollowMeApp.ViewModel
@@ -21,11 +13,6 @@ namespace FollowMeApp.ViewModel
     /// </summary>
     public class StartViewModel : ViewModelBase
     {
-        /// <summary>
-        /// The <see cref="Clock" /> property's name.
-        /// </summary>
-        public const string ClockPropertyName = "Clock";
-
         /// <summary>
         /// The <see cref="Title" /> property's name.
         /// </summary>
@@ -40,17 +27,17 @@ namespace FollowMeApp.ViewModel
         private readonly INavigationService _navigationService;
         private string _title = "";
         private string _startButtonText = "";
-        private Position _position;
+        private Position _userCurrentPosition;
 
-        public Position CurrentPosition
+        public Position UserCurrentPosition
         {
             get
             {
-                return _position;
+                return _userCurrentPosition;
             }
             set
             {
-                Set(ref _position, value);
+                Set(ref _userCurrentPosition, value);
             }
         }
 
@@ -114,14 +101,15 @@ namespace FollowMeApp.ViewModel
                     Title = item.Title;
                     StartButtonText = item.StartButtonText;
                 });
-            _dataService.GetLocation(
+
+            _dataService.GetUserLocation(
                 (location, error) =>
                 {
                     if (error != null)
                     {
                         return;
                     }
-                    CurrentPosition = new Position(location.Latitude, location.Longitude);
+                    UserCurrentPosition = new Position(location.Latitude, location.Longitude);
                 });
         }
     }
