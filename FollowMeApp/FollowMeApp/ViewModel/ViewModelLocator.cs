@@ -28,11 +28,11 @@ namespace FollowMeApp.ViewModel
         [SuppressMessage("Microsoft.Performance",
             "CA1822:MarkMembersAsStatic",
             Justification = "This non-static member is needed for data binding purposes.")]
-        public StartViewModel MainVM
+        public MainViewModel MainVM
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<StartViewModel>();
+                return ServiceLocator.Current.GetInstance<MainViewModel>();
             }
         }
 
@@ -71,7 +71,7 @@ namespace FollowMeApp.ViewModel
                 SimpleIoc.Default.Register<IDataService, DesignDataService>();
             }
 
-            SimpleIoc.Default.Register<StartViewModel>();
+            SimpleIoc.Default.Register<MainViewModel>();
         }
 
         /// <summary>

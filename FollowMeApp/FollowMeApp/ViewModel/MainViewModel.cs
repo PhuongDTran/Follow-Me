@@ -11,7 +11,7 @@ namespace FollowMeApp.ViewModel
     /// See http://www.mvvmlight.net
     /// </para>
     /// </summary>
-    public class StartViewModel : ViewModelBase
+    public class MainViewModel : ViewModelBase
     {
         /// <summary>
         /// The <see cref="Title" /> property's name.
@@ -71,7 +71,7 @@ namespace FollowMeApp.ViewModel
             }
         }
 
-        public StartViewModel() :
+        public MainViewModel() :
            this(new DataService(), null)
         {
             // This no argument constructor is needed for the ViewModelLocator to create an instance of
@@ -84,7 +84,7 @@ namespace FollowMeApp.ViewModel
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
-        protected StartViewModel(IDataService dataService, INavigationService navigationService)
+        protected MainViewModel(IDataService dataService, INavigationService navigationService)
         {
             _dataService = dataService;
             _navigationService = navigationService;
