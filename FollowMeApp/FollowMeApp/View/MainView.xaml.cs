@@ -1,39 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xamarin.Forms;
-using Xamarin.Essentials;
-using Xamarin.Forms.Maps;
-using FollowMeApp.ViewModel;
-using Rg.Plugins.Popup;
-using Rg.Plugins.Popup.Contracts;
+﻿using FollowMeApp.ViewModel;
 using Rg.Plugins.Popup.Services;
+using System;
+using System.ComponentModel;
+using Xamarin.Essentials;
+using Xamarin.Forms;
+using Xamarin.Forms.Maps;
 
 namespace FollowMeApp.View
 {
-	public partial class MainView : ContentPage
+    public partial class MainView : ContentPage
 	{
-        private StartViewModel viewModel;
+        private MainViewModel _mainVM;
         private ShareView _shareView;
 
 		public MainView()
 		{
 			InitializeComponent();
             _shareView = new ShareView();
+            _mainVM = (MainViewModel)BindingContext;
+            _mainVM.LocationAvailableEvent += new EventHandler(OnLocationAvailable);
             if (Device.RuntimePlatform == Device.Android)
             {
-                //MyLocation.IsVisible = false;
+                MyLocation.IsVisible = false;
             }
-            GetCurrentLocation();
-
-
         }
 
         private void OnMyLocationTapped(object sender, EventArgs e)
         {
-            GetCurrentLocation();
+            
         }
 
         private async void ShowPopUp(object sender, EventArgs e)
@@ -41,7 +35,17 @@ namespace FollowMeApp.View
             await PopupNavigation.Instance.PushAsync(_shareView, true);
         }
 
-        private async void GetCurrentLocation()
+        private void OnLocationAvailable(object sender, EventArgs e)
+        {
+            var position = _mainVM.UserCurrentPosition;
+            if (position != null)
+            {
+                MainMap.MoveToRegion(MapSpan.FromCenterAndRadius(position, Distance.FromMiles(1)));
+            }
+        }
+
+       
+        /*private async void GetCurrentLocation()
         {
             try
             {
@@ -67,6 +71,6 @@ namespace FollowMeApp.View
                 // Unable to get location
                 Console.WriteLine("unable to get location");
             }
-        }
+        }*/
     }
 }

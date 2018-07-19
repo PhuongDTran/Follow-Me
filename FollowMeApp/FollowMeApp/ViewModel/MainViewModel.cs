@@ -1,6 +1,7 @@
 using FollowMeApp.Model;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Views;
+using System;
 using Xamarin.Forms.Maps;
 
 namespace FollowMeApp.ViewModel
@@ -71,6 +72,8 @@ namespace FollowMeApp.ViewModel
             }
         }
 
+        public event EventHandler LocationAvailableEvent;
+
         public MainViewModel() :
            this(new DataService(), null)
         {
@@ -110,6 +113,11 @@ namespace FollowMeApp.ViewModel
                         return;
                     }
                     UserCurrentPosition = new Position(location.Latitude, location.Longitude);
+
+                    //LocationEvent e = new LocationEvent();
+                    //e.UserLocation = location;
+                    //LocationAvailableEvent?.Invoke(this, e);
+                    LocationAvailableEvent?.Invoke(this, null);
                 });
         }
     }
