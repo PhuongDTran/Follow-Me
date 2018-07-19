@@ -72,8 +72,6 @@ namespace FollowMeApp.ViewModel
             }
         }
 
-        public event EventHandler LocationAvailableEvent;
-
         public MainViewModel() :
            this(new DataService(), null)
         {
@@ -113,11 +111,6 @@ namespace FollowMeApp.ViewModel
                         return;
                     }
                     UserCurrentPosition = new Position(location.Latitude, location.Longitude);
-
-                    //LocationEvent e = new LocationEvent();
-                    //e.UserLocation = location;
-                    //LocationAvailableEvent?.Invoke(this, e);
-                    LocationAvailableEvent?.Invoke(this, null);
                 });
         }
     }

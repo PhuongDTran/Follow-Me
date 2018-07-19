@@ -18,7 +18,7 @@ namespace FollowMeApp.View
 			InitializeComponent();
             _shareView = new ShareView();
             _mainVM = (MainViewModel)BindingContext;
-            _mainVM.LocationAvailableEvent += new EventHandler(OnLocationAvailable);
+            _mainVM.PropertyChanged += OnUserCurrentPositionChange;
             if (Device.RuntimePlatform == Device.Android)
             {
                 MyLocation.IsVisible = false;
@@ -35,7 +35,8 @@ namespace FollowMeApp.View
             await PopupNavigation.Instance.PushAsync(_shareView, true);
         }
 
-        private void OnLocationAvailable(object sender, EventArgs e)
+
+        private void OnUserCurrentPositionChange(object sender, PropertyChangedEventArgs e)
         {
             var position = _mainVM.UserCurrentPosition;
             if (position != null)
@@ -44,7 +45,7 @@ namespace FollowMeApp.View
             }
         }
 
-       
+
         /*private async void GetCurrentLocation()
         {
             try
