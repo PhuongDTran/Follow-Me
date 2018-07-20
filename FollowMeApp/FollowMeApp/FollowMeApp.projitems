@@ -17,6 +17,8 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Design\DesignDataService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\LocationData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModel\LocationEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModel\ShareViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)View\ShareView.xaml.cs">
       <DependentUpon>ShareView.xaml</DependentUpon>
