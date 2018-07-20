@@ -27,7 +27,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)View\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Model\DataItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\DataService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\IDataService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModel\MainViewModel.cs" />
