@@ -6,14 +6,6 @@ namespace FollowMeApp.Model
 {
     public class DataService : IDataService
     {
-        public void GetData(Action<DataItem, Exception> callback)
-        {
-            // Use this to connect to the actual data service
-
-            var item = new DataItem("Follow Me", "Start a Trip");
-            callback(item, null);
-           
-        }
         public async void GetUserLocation( Action<Location, Exception> callback)
         {
             Location location = null;
@@ -25,6 +17,7 @@ namespace FollowMeApp.Model
             catch (FeatureNotSupportedException fnsEx)
             {
                 // Handle not supported on device exception
+                Console.WriteLine("not supportted on device exception");
             }
             catch (PermissionException pEx)
             {

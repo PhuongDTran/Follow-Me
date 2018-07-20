@@ -20,14 +20,12 @@ namespace FollowMeApp.ViewModel
         public const string TitlePropertyName = "Title";
 
         /// <summary>
-        /// The <see cref="StartButtonText" /> property's name.
+        /// The <see cref="StartTripText" /> property's name.
         /// </summary>
         public const string StartButtonPropertyText = "StartButtonText";
 
         private readonly IDataService _dataService;
         private readonly INavigationService _navigationService;
-        private string _title = "";
-        private string _startButtonText = "";
         private Position _userCurrentPosition;
 
         public Position UserCurrentPosition
@@ -42,18 +40,13 @@ namespace FollowMeApp.ViewModel
             }
         }
 
-        public string StartButtonText
+        public string StartTripText
         {
             get
             {
-                return _startButtonText;
-            }
-            set
-            {
-                Set(ref _startButtonText, value);
+                return "Start a trip";
             }
         }
-
 
         /// <summary>
         /// Sets and gets the WelcomeTitle property.
@@ -64,11 +57,7 @@ namespace FollowMeApp.ViewModel
         {
             get
             {
-                return _title;
-            }
-            set
-            {
-                Set(ref _title, value);
+                return "Follow Me";
             }
         }
 
@@ -89,20 +78,6 @@ namespace FollowMeApp.ViewModel
         {
             _dataService = dataService;
             _navigationService = navigationService;
-
-            _dataService.GetData(
-                (item, error) =>
-                {
-                    if (error != null)
-                    {
-                        // Report error here
-                        return;
-                    }
-
-                    Title = item.Title;
-                    StartButtonText = item.StartButtonText;
-                });
-
             _dataService.GetUserLocation(
                 (location, error) =>
                 {

@@ -21,7 +21,7 @@
     	<Label Grid.Column="1" Grid.Row="0" Text="{Binding Title,Mode=OneWay}" 
            HorizontalOptions="Center"
            VerticalOptions="Center" />
-        <Button Grid.Column="2" Grid.Row="0" Text="{Binding StartButtonText,Mode=OneWay}"
+        <Button Grid.Column="2" Grid.Row="0" Text="{Binding StartTripText,Mode=OneWay}"
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
                 Clicked="ShowPopUp"/>
