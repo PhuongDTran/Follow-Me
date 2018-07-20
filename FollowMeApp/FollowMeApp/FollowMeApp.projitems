@@ -16,7 +16,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Design\DesignDataService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\LocationData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModel\LocationEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModel\ShareViewModel.cs" />
@@ -37,5 +36,8 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Design\" />
   </ItemGroup>
 </Project>

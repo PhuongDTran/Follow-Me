@@ -1,10 +1,8 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using CommonServiceLocator;
+using FollowMeApp.Model;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
-using GalaSoft.MvvmLight.Views;
-using CommonServiceLocator;
-using FollowMeApp.Design;
-using FollowMeApp.Model;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FollowMeApp.ViewModel
 {
@@ -68,7 +66,7 @@ namespace FollowMeApp.ViewModel
             else
             {
                 // Use this service in Blend or when forcing the use of design time data.
-                SimpleIoc.Default.Register<IDataService, DesignDataService>();
+                
             }
 
             SimpleIoc.Default.Register<MainViewModel>();
