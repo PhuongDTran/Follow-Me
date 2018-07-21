@@ -6,13 +6,15 @@ namespace FollowMeApp.Model
 {
     public class DataService : IDataService
     {
-        public async void GetUserLocation( Action<Location, Exception> callback)
+        public async void GetUserLocation( Action<LocationData, Exception> callback)
         {
+            var locationData = new LocationData();
             Location location = null;
             try
             {
                 var request = new GeolocationRequest(GeolocationAccuracy.Medium);
                 location = await Geolocation.GetLocationAsync(request);
+                locationData.Location = location;
             }
             catch (FeatureNotSupportedException fnsEx)
             {
@@ -29,32 +31,7 @@ namespace FollowMeApp.Model
                 // Unable to get location
                 Console.WriteLine("unable to get location");
             }
-            callback(location, null);
+            callback(locationData, null);
         }
-
-        /*private async Task<Location> GetLocation()
-        {
-            Location location = null;
-            try
-            {
-                var request = new GeolocationRequest(GeolocationAccuracy.Medium);
-                location = await Geolocation.GetLocationAsync(request);
-            }
-            catch (FeatureNotSupportedException fnsEx)
-            {
-                // Handle not supported on device exception
-            }
-            catch (PermissionException pEx)
-            {
-                // Handle permission exception
-                Console.WriteLine("permission exception");
-            }
-            catch (Exception ex)
-            {
-                // Unable to get location
-                Console.WriteLine("unable to get location");
-            }
-            return location;
-        }*/
     }
 }

@@ -4,6 +4,6 @@ namespace FollowMeApp.Model
 {
     public interface IDataService
     {
-        void GetUserLocation(Action<Location, Exception> callback);
+        void GetUserLocation(Action<LocationData, Exception> callback);
     }
 }

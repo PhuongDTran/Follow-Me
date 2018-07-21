@@ -79,13 +79,13 @@ namespace FollowMeApp.ViewModel
             _dataService = dataService;
             _navigationService = navigationService;
             _dataService.GetUserLocation(
-                (location, error) =>
+                (locationData, error) =>
                 {
                     if (error != null)
                     {
                         return;
                     }
-                    UserCurrentPosition = new Position(location.Latitude, location.Longitude);
+                    UserCurrentPosition = new Position(locationData.Location.Latitude, locationData.Location.Longitude);
                 });
         }
     }
