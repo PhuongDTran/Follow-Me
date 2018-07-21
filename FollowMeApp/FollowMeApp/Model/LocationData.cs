@@ -5,23 +5,21 @@ using Xamarin.Essentials;
 
 namespace FollowMeApp.Model
 {
-    class LocationData
+    public class LocationData
     {
-        public Location Location
-        {
-            get;
-            private set;
-        }
+        public LocationData() { }
 
-        public Double Speed
+        public LocationData (Location location, Double speed, Double heading)
         {
-            get;
-            private set;
+            Location = location;
+            Speed = speed;
+            Heading = heading;
         }
-        public Double Heading
-        {
-            get;
-            private set;
-        } 
+        public Location Location { get; set; }
+   
+        public Double Speed { get; set; }
+       
+        public Double Heading { get; set; }
+        
     }
 }
