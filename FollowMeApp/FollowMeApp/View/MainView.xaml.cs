@@ -44,34 +44,5 @@ namespace FollowMeApp.View
                 MainMap.MoveToRegion(MapSpan.FromCenterAndRadius(position, Distance.FromMiles(1)));
             }
         }
-
-
-        /*private async void GetCurrentLocation()
-        {
-            try
-            {
-                var request = new GeolocationRequest(GeolocationAccuracy.Medium);
-                var location = await Geolocation.GetLocationAsync(request);
-
-                if (location != null)
-                {
-                    MainMap.MoveToRegion( MapSpan.FromCenterAndRadius( new Position( location.Latitude, location.Longitude), Distance.FromMiles(1)));
-                }
-            }
-            catch (FeatureNotSupportedException fnsEx)
-            {
-                // Handle not supported on device exception
-            }
-            catch (PermissionException pEx)
-            {
-                // Handle permission exception
-                Console.WriteLine("permission exception");
-            }
-            catch (Exception ex)
-            {
-                // Unable to get location
-                Console.WriteLine("unable to get location");
-            }
-        }*/
     }
 }
