@@ -36,7 +36,7 @@
             <!-- Green arrow to get user current location display on iOS platform-->
             <Image x:Name="MyLocation" WidthRequest="30" HeightRequest="30" Source="my_location.png" VerticalOptions="End" HorizontalOptions="End">
                 <Image.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="OnMyLocationTapped"/>
+                    <TapGestureRecognizer Command="{Binding CurrentLocationCommand}"/>
                 </Image.GestureRecognizers>
             </Image>
 

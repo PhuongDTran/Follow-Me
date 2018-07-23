@@ -1,7 +1,9 @@
 using FollowMeApp.Model;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Views;
+using GalaSoft.MvvmLight.Command;
 using System;
+using System.Windows.Input;
 using Xamarin.Forms.Maps;
 
 namespace FollowMeApp.ViewModel
@@ -60,6 +62,8 @@ namespace FollowMeApp.ViewModel
                 return "Follow Me";
             }
         }
+
+        public ICommand CurrentLocationCommand { get; private set; }
 
         public MainViewModel() :
            this(new DataService(), null)
