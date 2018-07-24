@@ -4,8 +4,8 @@
              xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
              xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
              x:Class="FollowMeApp.View.ShareView"
-             xmlns:VM="clr-namespace:FollowMeApp.ViewModel">
-             <!--BindingContext="{Binding Source={StaticResource Locator},Path=ShareVM}" -->
+             xmlns:VM="clr-namespace:FollowMeApp.ViewModel"
+             BindingContext="{Binding Source={StaticResource Locator},Path=ShareVM}">
     <pages:PopupPage.Animation>
         <animations:ScaleAnimation
             PositionIn="Center"

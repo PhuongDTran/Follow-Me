@@ -70,6 +70,7 @@ namespace FollowMeApp.ViewModel
             }
 
             SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<ShareViewModel>();
         }
 
         /// <summary>
