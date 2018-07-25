@@ -1,7 +1,5 @@
 ﻿using System;
 using Xamarin.Essentials;
-using Xamarin.Forms;
-using Plugin.DeviceInfo;
 
 namespace FollowMeApp.Model
 {
@@ -33,17 +31,6 @@ namespace FollowMeApp.Model
                 Console.WriteLine("unable to get location");
             }
             callback(locationData, null);
-        }
-
-        public void GetDeviceInfo(Action<DeviceData, Exception> callback)
-        {
-            //https://github.com/jamesmontemagno/DeviceInfoPlugin
-            DeviceData deviceData = new DeviceData()
-            {
-                DeviceID = CrossDeviceInfo.Current.Id,
-                DeviceName = CrossDeviceInfo.Current.DeviceName
-            };
-
         }
     }
 }
