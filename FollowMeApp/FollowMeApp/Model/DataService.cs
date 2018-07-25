@@ -1,12 +1,13 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Xamarin.Essentials;
+using Xamarin.Forms;
+using Plugin.DeviceInfo;
 
 namespace FollowMeApp.Model
 {
     public class DataService : IDataService
     {
-        public async void GetUserLocation( Action<LocationData, Exception> callback)
+        public async void GetUserLocation(Action<LocationData, Exception> callback)
         {
             var locationData = new LocationData();
             Location location = null;
@@ -32,6 +33,17 @@ namespace FollowMeApp.Model
                 Console.WriteLine("unable to get location");
             }
             callback(locationData, null);
+        }
+
+        public void GetDeviceInfo(Action<DeviceData, Exception> callback)
+        {
+            //https://github.com/jamesmontemagno/DeviceInfoPlugin
+            DeviceData deviceData = new DeviceData()
+            {
+                DeviceID = CrossDeviceInfo.Current.Id,
+                DeviceName = CrossDeviceInfo.Current.DeviceName
+            };
+
         }
     }
 }

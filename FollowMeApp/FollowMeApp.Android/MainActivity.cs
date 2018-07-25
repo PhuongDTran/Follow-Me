@@ -20,6 +20,7 @@ namespace FollowMeApp.Droid
             Rg.Plugins.Popup.Popup.Init(this,bundle);
             global::Xamarin.Forms.Forms.Init(this, bundle);
             global::Xamarin.FormsMaps.Init(this, bundle);
+            Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, bundle);
             LoadApplication(new App());
         }
 
