@@ -18,7 +18,10 @@ public class GroupIdDao {
 	private Connection conn = null;
 	final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 	
-	//constructor
+	/**
+	 * The constructor makes a connection to database
+	 * @throws SQLException
+	 */
 	public GroupIdDao() throws SQLException{
 		if(conn == null){
 			conn = ConnectionManager.getInstance().getConnection();
@@ -38,11 +41,11 @@ public class GroupIdDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			String sql = "SELECT group_id FROM GroupInfo WHERE group_id = ?";
+			String sql = "SELECT group_id FROM GroupInfo WHERE group_id=?";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, groupId);
+			pstmt.setString( 1, groupId);
 			rs = pstmt.executeQuery();
-			return rs != null ? true : false;
+			return rs.next();
 		}catch (SQLException ex) {
 			logger.error("doesExist() failed. " + ex.getMessage());
 		}finally {
@@ -51,6 +54,10 @@ public class GroupIdDao {
 		return false;
 	}
 	
+	/**
+	 * add group id to corresponding table in mysql
+	 * @param groupId
+	 */
 	public void addGroupId(String groupId){
 		PreparedStatement pstmt = null;
 		try {
@@ -63,5 +70,12 @@ public class GroupIdDao {
 		}finally {
 			release(pstmt);
 		}
+	}
+	
+	/**
+	 * close connection to database
+	 */
+	public void releaseConnection(){
+		ConnectionManager.getInstance().releaseConnection(conn);
 	}
 }
