@@ -1,4 +1,5 @@
 ﻿using FollowMeApp.ViewModel;
+using Newtonsoft.Json.Linq;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using System;
@@ -20,10 +21,21 @@ namespace FollowMeApp.View
         private async void OnGenerateUrl(Object sender, EventArgs e)
         {
             HttpClient client = new HttpClient();
+            try { 
             var response = await client.GetAsync("http://192.168.4.146:4567/groupid/");
             response.EnsureSuccessStatusCode();
             var groupId = await response.Content.ReadAsStringAsync();
             await DisplayAlert("testing", groupId, "ok");
+            } catch (ArgumentNullException ex)
+            {
+                Console.WriteLine("The request was null. ", ex.Message);
+            } catch (InvalidOperationException ex)
+            {
+                Console.WriteLine("Already sent by the HttpClient instance.", ex.Message);
+            } catch (HttpRequestException ex)
+            {
+                Console.WriteLine("Underlying issue:network connectivity, DNS failure, or timeout.", ex.Message);
+            }
         }
 
         #region Animations
