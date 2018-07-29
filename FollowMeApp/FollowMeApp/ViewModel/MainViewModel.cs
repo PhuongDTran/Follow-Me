@@ -1,6 +1,7 @@
 using FollowMeApp.Model;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Views;
+using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Windows.Input;
@@ -27,8 +28,22 @@ namespace FollowMeApp.ViewModel
         public const string StartButtonPropertyText = "StartButtonText";
 
         private readonly IDataService _dataService;
+        private readonly IDeviceService _deviceService;
         private readonly INavigationService _navigationService;
         private Position _userCurrentPosition;
+        private DeviceData _deviceData;
+
+        public DeviceData DeviceData
+        {
+            get
+            {
+                return _deviceData;
+            }
+            set
+            {
+                Set(ref _deviceData, value);
+            }
+        }
 
         public Position UserCurrentPosition
         {
@@ -66,21 +81,24 @@ namespace FollowMeApp.ViewModel
         public ICommand CurrentLocationCommand { get; private set; }
 
         public MainViewModel() :
-           this(new DataService(), null)
+           this(new DataService(), new DeviceService(), null)
         {
             // This no argument constructor is needed for the ViewModelLocator to create an instance of
             //  this view model. The INavigationService is a UI feature that was not copied into this 
             //  project from the original sample code, and so null is passed for the navigation service here.
             // NOTE: in production, we would do this differently, to allow different IDataService and
             //  INavigationService instances to be passed in. This is just for making the basic test work.
+            MessengerInstance.Send(UserCurrentPosition, "UserCurrentPosition");
+            MessengerInstance.Send(DeviceData, "DeviceData");
         }
 
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
-        protected MainViewModel(IDataService dataService, INavigationService navigationService)
+        protected MainViewModel(IDataService dataService, IDeviceService deviceService, INavigationService navigationService)
         {
             _dataService = dataService;
+            _deviceService = deviceService;
             _navigationService = navigationService;
             _dataService.GetUserLocation(
                 (locationData, error) =>
@@ -91,6 +109,16 @@ namespace FollowMeApp.ViewModel
                     }
                     UserCurrentPosition = new Position(locationData.Location.Latitude, locationData.Location.Longitude);
                 });
+            _deviceService.GetDeviceData(
+                (deviceData, error) =>
+                {
+                    if (error != null)
+                    {
+                        return;
+                    }
+                    DeviceData = deviceData;
+                });
+
         }
     }
 }

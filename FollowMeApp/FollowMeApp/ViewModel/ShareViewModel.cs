@@ -1,6 +1,10 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Views;
+using GalaSoft.MvvmLight.Command;
 using FollowMeApp.Model;
+using System.Windows.Input;
+using Xamarin.Forms.Maps;
+
 namespace FollowMeApp.ViewModel
 {
     /// <summary>
@@ -14,6 +18,7 @@ namespace FollowMeApp.ViewModel
         private readonly IDeviceService _deviceService;
         private readonly INavigationService _navigationService;
         private DeviceData _deviceData;
+        private Position _userCurrentPosition;
 
         public DeviceData DeviceData
         {
@@ -27,9 +32,24 @@ namespace FollowMeApp.ViewModel
             }
         }
 
+        public Position UserCurrentPosition
+        {
+            get
+            {
+                return _userCurrentPosition;
+            }
+            set
+            {
+                Set(ref _userCurrentPosition, value);
+            }
+        }
+
         public ShareViewModel() :
             this(new DeviceService(), null)
         {
+            GenerateUrlCommand = new RelayCommand(OnGenerateUrlCommand, CanGenerateUrlCommand);
+            MessengerInstance.Register<Position>(this, "UserCurrentPosition", position => UserCurrentPosition = position);
+            MessengerInstance.Register<DeviceData>(this, "DeviceData", device => DeviceData = device);
 
         }
 
@@ -37,11 +57,19 @@ namespace FollowMeApp.ViewModel
         {
             _deviceService = deviceService;
             _navigationService = navigationService;
-            _deviceService.GetDeviceData(
-                (deviceData, error) =>
-                {
-                    DeviceData = deviceData;
-                });
+            
         }
+
+        #region Commands
+        public ICommand GenerateUrlCommand { get; private set; }
+        private void OnGenerateUrlCommand()
+        {
+
+        }
+        private bool CanGenerateUrlCommand()
+        {
+            return true;
+        }
+        #endregion
     }
 }
