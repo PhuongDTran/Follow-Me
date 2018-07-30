@@ -1,4 +1,5 @@
 import static spark.Spark.get;
+import static spark.Spark.post;
 
 import com.followme.groupid.GroupIdController;
 import com.followme.util.DatabaseConnection;
@@ -12,7 +13,7 @@ public class FollowMeMain {
 		DatabaseConnection.initialize();
 		
 		get("/hello/", (req,res) -> "hello");
-		get(Path.Web.GROUPID,   GroupIdController.HandleGroupIdRequest);
+		post(Path.Web.GROUPID,   GroupIdController.HandleGroupIdRequest);
 
 	}
 
