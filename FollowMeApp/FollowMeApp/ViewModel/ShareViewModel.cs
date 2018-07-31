@@ -47,9 +47,8 @@ namespace FollowMeApp.ViewModel
         public ShareViewModel() :
             this(new DeviceService(), null)
         {
-            GenerateUrlCommand = new RelayCommand(OnGenerateUrlCommand, CanGenerateUrlCommand);
+            //GenerateUrlCommand = new RelayCommand(OnGenerateUrlCommand, CanGenerateUrlCommand);
             MessengerInstance.Register<Position>(this, "UserCurrentPosition", position => UserCurrentPosition = position);
-            MessengerInstance.Register<DeviceData>(this, "DeviceData", device => DeviceData = device);
 
         }
 
@@ -57,7 +56,11 @@ namespace FollowMeApp.ViewModel
         {
             _deviceService = deviceService;
             _navigationService = navigationService;
-            
+            _deviceService.GetDeviceData(
+                (deviceData, error) =>
+                {
+                    DeviceData = deviceData;
+                });
         }
 
         #region Commands
