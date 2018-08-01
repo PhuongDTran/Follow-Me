@@ -40,7 +40,7 @@ namespace FollowMeApp.ViewModel
             set
             {
                 Set(ref _userCurrentPosition, value);
-                MessengerInstance.Send(_userCurrentPosition, "UserCurrentPosition");
+                MessengerInstance.Send(_userCurrentPosition, PublishedData.CurrentPositionToken);
             }
         }
 

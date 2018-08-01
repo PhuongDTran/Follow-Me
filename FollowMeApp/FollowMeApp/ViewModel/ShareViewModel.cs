@@ -48,7 +48,7 @@ namespace FollowMeApp.ViewModel
             this(new DeviceService(), null)
         {
             //GenerateUrlCommand = new RelayCommand(OnGenerateUrlCommand, CanGenerateUrlCommand);
-            MessengerInstance.Register<Position>(this, "UserCurrentPosition", position => UserCurrentPosition = position);
+            MessengerInstance.Register<Position>(this, PublishedData.CurrentPositionToken, position => UserCurrentPosition = position);
 
         }
 
