@@ -27,10 +27,11 @@
     <MtouchArch>x86_64</MtouchArch>
     <MtouchLink>SdkOnly</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
-    <MtouchSdkVersion>11.3</MtouchSdkVersion>
+    <MtouchSdkVersion>11.4</MtouchSdkVersion>
     <CodesignKey>iPhone Developer</CodesignKey>
     <CodesignProvision />
     <IOSDebugOverWiFi>true</IOSDebugOverWiFi>
+    <MtouchProfiling>true</MtouchProfiling>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
