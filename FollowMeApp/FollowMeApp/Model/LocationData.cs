@@ -7,13 +7,13 @@ namespace FollowMeApp.Model
     {
         public LocationData() { }
 
-        public LocationData (Location location, Double speed, Double heading)
+        public LocationData ( Xamarin.Essentials.Location location, Double speed, Double heading)
         {
             Location = location;
             Speed = speed;
             Heading = heading;
         }
-        public Location Location { get; set; }
+        public Xamarin.Essentials.Location Location { get; set; }
    
         public Double Speed { get; set; }
        
