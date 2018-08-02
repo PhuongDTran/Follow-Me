@@ -37,6 +37,7 @@
         <Button 
             Text="URL" 
             HorizontalOptions="Center" 
-            VerticalOptions="Center"/>
+            VerticalOptions="Center"
+            Clicked="OnGenerateUrl"/>
     </StackLayout>
 </pages:PopupPage>
