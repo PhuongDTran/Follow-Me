@@ -4,8 +4,8 @@ using System.Text;
 
 namespace FollowMeApp.Model
 {
-    public interface ILocationService
+    public class GeolocationManager
     {
-
+        public static IGeolocationService instance;
     }
 }

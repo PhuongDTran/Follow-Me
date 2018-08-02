@@ -8,13 +8,13 @@ using UIKit;
 
 namespace FollowMeApp.iOS
 {
-    public class iOSLocationService : ILocationService
+    public class iOSLocationService : IGeolocationService
     {
-        public void StartUpdatingLocation(ILocationListener listener)
+        public void StartUpdatingLocation(IGeolocationListener listener)
         {
         }
 
-        public void StopUpdatingLocation(ILocationListener listener)
+        public void StopUpdatingLocation(IGeolocationListener listener)
         {
         
         }

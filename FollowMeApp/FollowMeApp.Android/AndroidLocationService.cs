@@ -9,16 +9,26 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Android.Gms.Common;
+using Android.Gms.Location;
 using FollowMeApp.Model;
+
 namespace FollowMeApp.Droid
 {
-    public class AndroidLocationService : ILocationService
+    public class AndroidLocationService : LocationCallback, IGeolocationService
     {
-        public void StartUpdatingLocation(ILocationListener listener)
+        private IGeolocationListener[] _listeners;
+       
+        public AndroidLocationService()
+        { 
+        }
+
+       
+        public void StartUpdatingLocation(IGeolocationListener listener)
         {
         }
 
-        public void StopUpdatingLocation(ILocationListener listener)
+        public void StopUpdatingLocation(IGeolocationListener listener)
         {
         }
     }
