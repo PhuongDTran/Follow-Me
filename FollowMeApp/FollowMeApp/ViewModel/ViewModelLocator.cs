@@ -61,7 +61,7 @@ namespace FollowMeApp.ViewModel
                 && !UseDesignTimeData)
             {
                 // Use this service in production.
-                SimpleIoc.Default.Register<IDataService, DataService>();
+                //SimpleIoc.Default.Register<IDataService, DataService>();
             }
             else
             {
