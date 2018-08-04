@@ -6,7 +6,7 @@ namespace FollowMeApp.Model
 {
     public interface IGeolocationListener
     {
-        void OnLocationUpdated(Location[] newLocations);
+        void OnLocationUpdated(Location newLocation);
         void OnLocationPermissionsChanged();
     }
 }

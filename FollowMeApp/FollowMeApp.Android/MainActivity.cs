@@ -6,6 +6,7 @@ using Android.OS;
 using Android.Gms.Common;
 using Android.Util;
 using Android.Gms.Location;
+using FollowMeApp.Model;
 
 namespace FollowMeApp.Droid
 {
@@ -15,7 +16,7 @@ namespace FollowMeApp.Droid
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
 
-        protected async override void OnCreate(Bundle bundle)
+        protected override void OnCreate(Bundle bundle)
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
@@ -25,9 +26,8 @@ namespace FollowMeApp.Droid
             global::Xamarin.FormsMaps.Init(this, bundle);
             Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, bundle);
 
-            AndroidLocationService locationService = new AndroidLocationService(this);
-            await locationService.StartUpdatingLocationAsync();
-
+            GeolocationManager.instance = new AndroidGeolocationService(this);
+           
             LoadApplication(new App());
         }
 

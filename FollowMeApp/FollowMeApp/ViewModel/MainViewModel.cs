@@ -6,6 +6,7 @@ using GalaSoft.MvvmLight.Command;
 using System;
 using System.Windows.Input;
 using Xamarin.Forms.Maps;
+using System.Threading.Tasks;
 
 namespace FollowMeApp.ViewModel
 {
@@ -27,7 +28,6 @@ namespace FollowMeApp.ViewModel
         /// </summary>
         public const string StartButtonPropertyText = "StartButtonText";
 
-        private readonly IDataService _dataService;
         private readonly INavigationService _navigationService;
         private Position _userCurrentPosition;
 
@@ -68,33 +68,28 @@ namespace FollowMeApp.ViewModel
         public ICommand CurrentLocationCommand { get; private set; }
 
         public MainViewModel() :
-           this(new DataService(), null)
+           this(null)
         {
             // This no argument constructor is needed for the ViewModelLocator to create an instance of
             //  this view model. The INavigationService is a UI feature that was not copied into this 
             //  project from the original sample code, and so null is passed for the navigation service here.
             // NOTE: in production, we would do this differently, to allow different IDataService and
             //  INavigationService instances to be passed in. This is just for making the basic test work.
-           
+
         }
 
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
-        protected MainViewModel(IDataService dataService, INavigationService navigationService)
+        protected MainViewModel(INavigationService navigationService)
         {
-            _dataService = dataService;
             _navigationService = navigationService;
-            _dataService.GetUserLocation(
-                (locationData, error) =>
-                {
-                    if (error != null)
-                    {
-                        return;
-                    }
-                    UserCurrentPosition = new Position(locationData.Location.Latitude, locationData.Location.Longitude);
-                });
-            
+            GeolocationManager.instance.LocationUpdatesEvent += OnLocationUpdates;
+        }
+
+        private void OnLocationUpdates(object sender, Location location)
+        {
+            UserCurrentPosition = new Position(location.Latitude, location.Longitude);
         }
     }
 }

@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace FollowMeApp.Model
 {
     public interface IGeolocationService
     {
-        void StartUpdatingLocation( IGeolocationListener listener);
-        void StopUpdatingLocation( IGeolocationListener listener);
+        event EventHandler<Location> LocationUpdatesEvent;
+        Task StartUpdatingLocationAsync();
+        Task StopUpdatingLocationAsync();
+        void AddGeolocationListener( IGeolocationListener listener);
     }
 }

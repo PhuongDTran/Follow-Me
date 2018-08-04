@@ -7,5 +7,7 @@ namespace FollowMeApp.Model
     public class GeolocationManager
     {
         public static IGeolocationService instance;
+
+        private GeolocationManager() { }
     }
 }

@@ -1,7 +1,9 @@
 using FollowMeApp.View;
 using System;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using FollowMeApp.Model;
 
 [assembly: XamlCompilation (XamlCompilationOptions.Compile)]
 namespace FollowMeApp
@@ -11,23 +13,26 @@ namespace FollowMeApp
 		public App ()
 		{
 			InitializeComponent();
-
-			MainPage = new MainView();
+            MainPage = new MainView();
 		}
 
-		protected override void OnStart ()
+		protected async override void OnStart ()
 		{
-			// Handle when your app starts
+            // Handle when your app starts
+            await GeolocationManager.instance.StartUpdatingLocationAsync();
+
+        }
+
+		protected async override void OnSleep ()
+		{
+            // Handle when your app sleeps
+            await GeolocationManager.instance.StopUpdatingLocationAsync();
 		}
 
-		protected override void OnSleep ()
+		protected async override void OnResume ()
 		{
-			// Handle when your app sleeps
-		}
-
-		protected override void OnResume ()
-		{
-			// Handle when your app resumes
-		}
+            // Handle when your app resumes
+            await GeolocationManager.instance.StartUpdatingLocationAsync();
+        }
 	}
 }
