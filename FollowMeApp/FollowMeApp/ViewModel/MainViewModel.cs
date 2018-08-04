@@ -16,7 +16,7 @@ namespace FollowMeApp.ViewModel
     /// See http://www.mvvmlight.net
     /// </para>
     /// </summary>
-    public class MainViewModel : ViewModelBase
+    public class MainViewModel : ViewModelBase, IGeolocationListener
     {
         /// <summary>
         /// The <see cref="Title" /> property's name.
@@ -84,12 +84,16 @@ namespace FollowMeApp.ViewModel
         protected MainViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
-            GeolocationManager.instance.LocationUpdatesEvent += OnLocationUpdates;
+            GeolocationManager.instance.AddGeolocationListener(this);
+        }
+        
+        public void OnLocationUpdated(Location newLocation)
+        {
+            UserCurrentPosition = new Position(newLocation.Latitude, newLocation.Longitude);
         }
 
-        private void OnLocationUpdates(object sender, Location location)
+        public void OnLocationPermissionsChanged()
         {
-            UserCurrentPosition = new Position(location.Latitude, location.Longitude);
         }
     }
 }
