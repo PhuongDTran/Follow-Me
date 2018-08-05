@@ -1,6 +1,6 @@
 ﻿using Foundation;
 using UIKit;
-
+using FollowMeApp.Model;
 namespace FollowMeApp.iOS
 {
     // The UIApplicationDelegate for the application. This class is responsible for launching the 
@@ -21,6 +21,8 @@ namespace FollowMeApp.iOS
             Rg.Plugins.Popup.Popup.Init();
             global::Xamarin.Forms.Forms.Init();
             global::Xamarin.FormsMaps.Init();
+            GeolocationManager.instance = new iOSGeolocationService();
+            
             LoadApplication(new App());
             return base.FinishedLaunching(app, options);
         }
