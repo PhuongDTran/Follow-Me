@@ -16,8 +16,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Model\LocationData.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModel\LocationEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\DeviceData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\DeviceService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\IDeviceService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\IGeolocationService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\IGeolocationListener.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Location.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\GeolocationManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModel\PublishedData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModel\ShareViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)View\ShareView.xaml.cs">
       <DependentUpon>ShareView.xaml</DependentUpon>
@@ -26,8 +32,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)View\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Model\DataService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\IDataService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModel\MainViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModel\ViewModelLocator.cs" />
   </ItemGroup>
