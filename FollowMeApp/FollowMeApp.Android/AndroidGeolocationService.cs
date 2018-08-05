@@ -52,6 +52,7 @@ namespace FollowMeApp.Droid
                     Latitude = result.LastLocation.Latitude,
                     Longitude = result.LastLocation.Longitude,
                     Speed = (int)Math.Round(result.LastLocation.Speed * 2.23694) // convert to mph
+                    //TODO: need handle heading direction Android
                 };
                 //TODO: update location only when location changed  
                 LocationUpdatesEvent?.Invoke(this, location);
