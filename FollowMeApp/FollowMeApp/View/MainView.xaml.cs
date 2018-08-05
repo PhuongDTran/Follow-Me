@@ -30,7 +30,7 @@ namespace FollowMeApp.View
             
         }
 
-        private async void ShowPopUp(object sender, EventArgs e)
+        private async void DisplaySharingMethodsPopup(object sender, EventArgs e)
         {
             await PopupNavigation.Instance.PushAsync(_shareView, true);
         }
