@@ -16,11 +16,16 @@ namespace FollowMeApp
             MainPage = new MainView();
 		}
 
-		protected async override void OnStart ()
+        public delegate void AppEventDelegate();
+
+        public event AppEventDelegate AppStart;
+        public event AppEventDelegate AppSleep;
+		protected override void OnStart ()
 		{
             // Handle when your app starts
-            await GeolocationManager.instance.StartUpdatingLocationAsync();
 
+           //fired this event if there is a subscriber
+            AppStart?.Invoke();
         }
 
 		protected async override void OnSleep ()
@@ -29,10 +34,10 @@ namespace FollowMeApp
             await GeolocationManager.instance.StopUpdatingLocationAsync();
 		}
 
-		protected async override void OnResume ()
+		protected  override void OnResume ()
 		{
             // Handle when your app resumes
-            await GeolocationManager.instance.StartUpdatingLocationAsync();
+            //await GeolocationManager.instance.StartUpdatingLocationAsync();
         }
 	}
 }

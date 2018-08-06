@@ -7,7 +7,7 @@ using System;
 using System.Windows.Input;
 using Xamarin.Forms.Maps;
 using System.Threading.Tasks;
-
+using Xamarin.Forms;
 namespace FollowMeApp.ViewModel
 {
     /// <summary>
@@ -84,13 +84,16 @@ namespace FollowMeApp.ViewModel
         protected MainViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
-            GeolocationManager.instance.LocationUpdatesEvent += OnLocationUpdates;
+            GeolocationManager.instance.LocationUpdatesEvent += (object sender, Location location) => 
+            {
+                UserCurrentPosition = new Position(location.Latitude, location.Longitude);
+            };
+
+            //listen for AppStart event and run the code very early when app started
+            ((App)Application.Current).AppStart += async () =>
+            {
+                await GeolocationManager.instance.StartUpdatingLocationAsync();
+            };
         }
-        
-        private void OnLocationUpdates(object sender, Location location)
-        {
-            UserCurrentPosition = new Position(location.Latitude, location.Longitude);
-        }
-    
     }
 }
