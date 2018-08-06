@@ -3,9 +3,6 @@ using Android;
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
-using Android.Gms.Common;
-using Android.Util;
-using Android.Gms.Location;
 using FollowMeApp.Model;
 
 namespace FollowMeApp.Droid
@@ -38,34 +35,6 @@ namespace FollowMeApp.Droid
             GrantPermissions();
 
         }
-
-        /// <summary>
-        /// Check if Google Play Services installed
-        /// </summary>
-        /// <returns></returns>
-        private bool IsGooglePlayServicesInstalled()
-        {
-            var queryResult = GoogleApiAvailability.Instance.IsGooglePlayServicesAvailable(this);
-            if (queryResult == ConnectionResult.Success)
-            {
-                Log.Info("MainActivity", "Google Play Services is installed on this device.");
-                return true;
-            }
-
-            if (GoogleApiAvailability.Instance.IsUserResolvableError(queryResult))
-            {
-                // Check if there is a way the user can resolve the issue
-                var errorString = GoogleApiAvailability.Instance.GetErrorString(queryResult);
-                Log.Error("MainActivity", "There is a problem with Google Play Services on this device: {0} - {1}",
-                          queryResult, errorString);
-
-                // Alternately, display the error to the user.
-            }
-
-            return false;
-        }
-
-
 
         //TODO: temporarily handle permissions
         private void GrantPermissions()
