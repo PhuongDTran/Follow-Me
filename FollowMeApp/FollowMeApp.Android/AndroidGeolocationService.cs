@@ -2,33 +2,40 @@
 using FollowMeApp.Model;
 using System;
 using System.Threading.Tasks;
+using Android.Gms.Common;
+using Android.Util;
 
 namespace FollowMeApp.Droid
 {
-    public class AndroidGeolocationService :LocationCallback, IGeolocationService
+    public class AndroidGeolocationService : LocationCallback, IGeolocationService
     {
         private IGeolocationListener _geolocationListener;
         private FusedLocationProviderClient _fusedLocationProviderClient;
+        private MainActivity _mainActivity;
         public event EventHandler<Location> LocationUpdatesEvent;
 
         public AndroidGeolocationService(MainActivity mainActivity)
         {
-            _fusedLocationProviderClient = LocationServices.GetFusedLocationProviderClient(mainActivity);
+            _mainActivity = mainActivity;
+            _fusedLocationProviderClient = LocationServices.GetFusedLocationProviderClient(_mainActivity);
         }
 
-        public void AddGeolocationListener( IGeolocationListener listener)
+        public void AddGeolocationListener(IGeolocationListener listener)
         {
             _geolocationListener = listener;
         }
 
         public async Task StartUpdatingLocationAsync()
         {
-            LocationRequest locationRequest = new LocationRequest()
-               .SetPriority(LocationRequest.PriorityHighAccuracy)
-               .SetInterval(1000 * 10)
-               .SetFastestInterval(1000 * 1);
+            if (IsGooglePlayServicesInstalled())
+            {
+                LocationRequest locationRequest = new LocationRequest()
+                   .SetPriority(LocationRequest.PriorityHighAccuracy)
+                   .SetInterval(1000 * 10)
+                   .SetFastestInterval(1000 * 1);
 
-            await _fusedLocationProviderClient.RequestLocationUpdatesAsync(locationRequest, this);
+                await _fusedLocationProviderClient.RequestLocationUpdatesAsync(locationRequest, this);
+            }
         }
 
         public async Task StopUpdatingLocationAsync()
@@ -63,5 +70,32 @@ namespace FollowMeApp.Droid
                 }
             }
         }
+
+        /// <summary>
+        /// Check if Google Play Services installed
+        /// </summary>
+        /// <returns></returns>
+        private bool IsGooglePlayServicesInstalled()
+        {
+            var queryResult = GoogleApiAvailability.Instance.IsGooglePlayServicesAvailable(_mainActivity);
+            if (queryResult == ConnectionResult.Success)
+            {
+                Log.Info("MainActivity", "Google Play Services is installed on this device.");
+                return true;
+            }
+
+            if (GoogleApiAvailability.Instance.IsUserResolvableError(queryResult))
+            {
+                // Check if there is a way the user can resolve the issue
+                var errorString = GoogleApiAvailability.Instance.GetErrorString(queryResult);
+                Log.Error("MainActivity", "There is a problem with Google Play Services on this device: {0} - {1}",
+                          queryResult, errorString);
+
+                // Alternately, display the error to the user.
+            }
+
+            return false;
+        }
+
     }
 }
