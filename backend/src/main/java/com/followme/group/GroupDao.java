@@ -67,7 +67,7 @@ public class GroupDao {
 			pstmt.setString(2, leaderId);
 			pstmt.executeUpdate();
 		}catch (SQLException ex) {
-			logger.error("getInvestment() failed. " + ex.getMessage());
+			logger.error("addToGroupInfo() failed. " + ex.getMessage());
 		}finally {
 			release(pstmt);
 		}
