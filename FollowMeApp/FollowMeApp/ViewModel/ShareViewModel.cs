@@ -37,18 +37,6 @@ namespace FollowMeApp.ViewModel
                 Set(ref _groupId, value);
             }
         }
-
-        public DeviceData DeviceData
-        {
-            get
-            {
-                return _deviceData;
-            }
-            set
-            {
-                Set(ref _deviceData, value);
-            }
-        }
         
         public ShareViewModel() :
             this(new DeviceService(), null)
@@ -67,7 +55,7 @@ namespace FollowMeApp.ViewModel
             _deviceService.GetDeviceData(
                 (deviceData, error) =>
                 {
-                    DeviceData = deviceData;
+                    _deviceData = deviceData;
                 });
         }
 
@@ -82,8 +70,8 @@ namespace FollowMeApp.ViewModel
             JObject json = new JObject();
             json.Add("latitude", _location.Latitude);
             json.Add("longitude", _location.Longitude);
-            json.Add("device_id", DeviceData.DeviceID);
-            json.Add("device_name", DeviceData.DeviceName);
+            json.Add("device_id", _deviceData.DeviceID);
+            json.Add("device_name", _deviceData.DeviceName);
             HttpClient client = new HttpClient();
             try
             {
