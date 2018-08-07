@@ -11,7 +11,8 @@ namespace FollowMeApp.Model
             DeviceData deviceData = new DeviceData()
             {
                 DeviceID = CrossDeviceInfo.Current.Id,
-                DeviceName = CrossDeviceInfo.Current.DeviceName
+                DeviceName = CrossDeviceInfo.Current.DeviceName,
+                Platform = CrossDeviceInfo.Current.Platform.ToString()
             };
             callback(deviceData, null);
         }

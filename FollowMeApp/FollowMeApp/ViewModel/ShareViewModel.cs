@@ -70,8 +70,9 @@ namespace FollowMeApp.ViewModel
             JObject json = new JObject();
             json.Add("latitude", _location.Latitude);
             json.Add("longitude", _location.Longitude);
-            json.Add("device_id", _deviceData.DeviceID);
-            json.Add("device_name", _deviceData.DeviceName);
+            json.Add("member_id", _deviceData.DeviceID);
+            json.Add("member_name", _deviceData.DeviceName);
+            json.Add("platform", _deviceData.Platform);
             HttpClient client = new HttpClient();
             try
             {

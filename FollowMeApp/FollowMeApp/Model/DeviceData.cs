@@ -6,5 +6,6 @@ namespace FollowMeApp.Model
     {
         public String DeviceID { get; set; }
         public String DeviceName { get; set; }
+        public String Platform { get; set; }
     }
 }
