@@ -8,7 +8,7 @@ create table GroupInfo( group_id varchar(20) not null,
                             primary key(group_id));
                             
 create table MemberInfo( member_id varchar(50) not null,
-							member_name varchar(20),
+							member_name varchar(30),
                             platform varchar(10),
                             primary key (member_id));
 
