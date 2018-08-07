@@ -68,10 +68,10 @@ namespace FollowMeApp.ViewModel
             String url = "http://192.168.4.146:4567/groupid/";
             String contentType = "application/json";
             JObject json = new JObject();
-            json.Add("latitude", _location.Latitude);
-            json.Add("longitude", _location.Longitude);
-            json.Add("member_id", _deviceData.DeviceID);
-            json.Add("member_name", _deviceData.DeviceName);
+            json.Add("id", _deviceData.DeviceID);
+            json.Add("name", _deviceData.DeviceName);
+            json.Add("lat", _location.Latitude);
+            json.Add("lon", _location.Longitude);
             json.Add("platform", _deviceData.Platform);
             HttpClient client = new HttpClient();
             try
