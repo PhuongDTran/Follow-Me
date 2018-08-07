@@ -58,7 +58,7 @@ public class GroupDao {
 	 * add group id and leader id to corresponding table in mysql
 	 * @param groupId
 	 */
-	public void addToGroupInfo(String groupId,String leaderId){
+	public void addGroup(String groupId,String leaderId){
 		PreparedStatement pstmt = null;
 		try {
 			String sql = "INSERT INTO GroupInfo VALUES (?,?)";
@@ -67,7 +67,7 @@ public class GroupDao {
 			pstmt.setString(2, leaderId);
 			pstmt.executeUpdate();
 		}catch (SQLException ex) {
-			logger.error("addToGroupInfo() failed. " + ex.getMessage());
+			logger.error("addGroup() failed. " + ex.getMessage());
 		}finally {
 			release(pstmt);
 		}
