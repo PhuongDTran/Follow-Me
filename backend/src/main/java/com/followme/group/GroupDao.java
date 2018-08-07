@@ -1,4 +1,4 @@
-package com.followme.groupid;
+package com.followme.group;
 
 import static com.followme.util.Release.release;
 
@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import com.followme.util.ConnectionManager;
 
-public class GroupIdDao {
+public class GroupDao {
 
 	private Connection conn = null;
 	final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
@@ -22,7 +22,7 @@ public class GroupIdDao {
 	 * The constructor makes a connection to database
 	 * @throws SQLException
 	 */
-	public GroupIdDao() throws SQLException{
+	public GroupDao() throws SQLException{
 		if(conn == null){
 			conn = ConnectionManager.getInstance().getConnection();
 			if (conn == null){
@@ -55,15 +55,16 @@ public class GroupIdDao {
 	}
 	
 	/**
-	 * add group id to corresponding table in mysql
+	 * add group id and leader id to corresponding table in mysql
 	 * @param groupId
 	 */
-	public void addGroupId(String groupId){
+	public void addToGroupInfo(String groupId,String leaderId){
 		PreparedStatement pstmt = null;
 		try {
-			String sql = "INSERT INTO GroupInfo( group_id) VALUES (?)";
+			String sql = "INSERT INTO GroupInfo VALUES (?,?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, groupId);
+			pstmt.setString(2, leaderId);
 			pstmt.executeUpdate();
 		}catch (SQLException ex) {
 			logger.error("getInvestment() failed. " + ex.getMessage());
