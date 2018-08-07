@@ -1,3 +1,4 @@
+package com.followme;
 import static spark.Spark.get;
 import static spark.Spark.post;
 
