@@ -59,9 +59,9 @@ namespace FollowMeApp.iOS
                         Latitude = e.Locations.Last().Coordinate.Latitude,
                         Longitude = e.Locations.Last().Coordinate.Longitude,
                         Speed = (int)Math.Round(e.Locations.Last().Speed * 2.23694) // convert to mph
-                        //TODO: need handle heading direction iOS
+                        //TODO: need to handle heading direction iOS
                     };
-                    // fire our custom event
+                    // fire a custom event
                     LocationUpdatesEvent?.Invoke(this, location);
                 };
                 _locationManager.StartUpdatingLocation();
