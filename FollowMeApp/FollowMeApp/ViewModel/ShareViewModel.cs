@@ -4,6 +4,11 @@ using GalaSoft.MvvmLight.Command;
 using FollowMeApp.Model;
 using System.Windows.Input;
 using Xamarin.Forms.Maps;
+using System;
+using Newtonsoft.Json.Linq;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace FollowMeApp.ViewModel
 {
@@ -18,7 +23,7 @@ namespace FollowMeApp.ViewModel
         private readonly IDeviceService _deviceService;
         private readonly INavigationService _navigationService;
         private DeviceData _deviceData;
-        private Position _userCurrentPosition;
+        private Location _location;
 
         public DeviceData DeviceData
         {
@@ -31,27 +36,16 @@ namespace FollowMeApp.ViewModel
                 Set(ref _deviceData, value);
             }
         }
-
-        public Position UserCurrentPosition
-        {
-            get
-            {
-                return _userCurrentPosition;
-            }
-            set
-            {
-                Set(ref _userCurrentPosition, value);
-            }
-        }
-
+        
         public ShareViewModel() :
             this(new DeviceService(), null)
         {
-            //GenerateUrlCommand = new RelayCommand(OnGenerateUrlCommand, CanGenerateUrlCommand);
-            MessengerInstance.Register<Position>(this, PublishedData.CurrentPositionToken, position => UserCurrentPosition = position);
-
+            GeolocationManager.instance.LocationUpdatesEvent += (sender, location) =>
+            {
+                _location = location;
+            };
         }
-
+        
         protected ShareViewModel( IDeviceService deviceService, INavigationService navigationService)
         {
             _deviceService = deviceService;
@@ -65,14 +59,8 @@ namespace FollowMeApp.ViewModel
 
         #region Commands
         public ICommand GenerateUrlCommand { get; private set; }
-        private void OnGenerateUrlCommand()
-        {
 
-        }
-        private bool CanGenerateUrlCommand()
-        {
-            return true;
-        }
+        
         #endregion
     }
 }
