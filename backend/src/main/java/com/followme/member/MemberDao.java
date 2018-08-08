@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import com.followme.util.ConnectionManager;
 
-public class MemberDao {
+class MemberDao {
 
 	private Connection conn = null;
 	final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
@@ -22,7 +22,7 @@ public class MemberDao {
 	 * The constructor makes a connection to database
 	 * @throws SQLException
 	 */
-	public MemberDao() throws SQLException{
+	protected MemberDao() throws SQLException{
 		if(conn == null){
 			conn = ConnectionManager.getInstance().getConnection();
 			if (conn == null){
@@ -48,7 +48,7 @@ public class MemberDao {
 		return false;
 	}
 	
-	public void addMember(String memberId,String memberName, String platform){
+	protected void addMember(String memberId,String memberName, String platform){
 		PreparedStatement pstmt = null;
 		try {
 			String sql = "INSERT INTO MemberInfo VALUES (?,?,?)";
@@ -64,7 +64,7 @@ public class MemberDao {
 		}
 	}
 	
-	public void updateMemberName(String memberId, String memberName){
+	protected void updateMemberName(String memberId, String memberName){
 		PreparedStatement pstmt = null;
 		try {
 			String sql = "UPDATE MemberInfo SET member_name=? WHERE member_id=?";

@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import com.followme.util.ConnectionManager;
 
-public class GroupDao {
+class GroupDao {
 
 	private Connection conn = null;
 	final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
@@ -22,7 +22,7 @@ public class GroupDao {
 	 * The constructor makes a connection to database
 	 * @throws SQLException
 	 */
-	public GroupDao() throws SQLException{
+	protected GroupDao() throws SQLException{
 		if(conn == null){
 			conn = ConnectionManager.getInstance().getConnection();
 			if (conn == null){
@@ -37,7 +37,7 @@ public class GroupDao {
 	 * @return <i>true</i> if found</br>
 	 * <i>false</i> if not. 
 	 */
-	public boolean doesExist(String groupId){
+	protected boolean doesExist(String groupId){
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
@@ -58,7 +58,7 @@ public class GroupDao {
 	 * add group id and leader id to corresponding table in mysql
 	 * @param groupId
 	 */
-	public void addGroup(String groupId,String leaderId){
+	protected void addGroup(String groupId,String leaderId){
 		PreparedStatement pstmt = null;
 		try {
 			String sql = "INSERT INTO GroupInfo VALUES (?,?)";
@@ -76,7 +76,7 @@ public class GroupDao {
 	/**
 	 * close connection to database
 	 */
-	public void releaseConnection(){
+	protected void releaseConnection(){
 		ConnectionManager.getInstance().releaseConnection(conn);
 	}
 }
