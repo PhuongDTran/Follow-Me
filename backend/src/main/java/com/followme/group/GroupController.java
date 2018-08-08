@@ -1,37 +1,38 @@
 package com.followme.group;
 
-import spark.Request;
-import spark.Response;
-import spark.Route;
-import org.apache.commons.lang3.RandomStringUtils;
+import java.lang.invoke.MethodHandles;
+import java.sql.SQLException;
 
-import com.followme.member.MemberController;
-import com.google.gson.*;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GroupController {
 
-	public static Route HandleGroupIdRequest = (Request request, Response response) -> {
+	final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-		if( !request.body().isEmpty()){
-			GroupDao groupDao = new GroupDao(); 
-			String groupId = "";
-			Gson gson = new GsonBuilder().create();
-			JsonObject json = gson.fromJson(request.body(), JsonObject.class);
-			String memberId = json.get("id").getAsString();
-			String memberName = json.get("name").getAsString();
-			String platform = json.get("platform").getAsString();
-			System.out.println(json.toString());
+	public static void addGroup(String groupId, String leaderId){
+		try{
+			GroupDao groupDao = new GroupDao();
+			groupDao.addGroup(groupId, leaderId);
+		}catch(SQLException ex){
+			logger.error("error when creating GroupDao()." + ex.getMessage());
+		}
+	}
+
+	public static String generateGroupId(){
+		String groupId = "";
+		try{
+			GroupDao groupDao = new GroupDao();
 			do{
 				//a 20-length string includes letters and numbers 
 				groupId = RandomStringUtils.random(20, true, true);
 			}while(	groupDao.doesExist(groupId));
-			groupDao.addGroup(groupId, memberId);
-			MemberController.addMember(memberId, memberName, platform);
-			return groupId;
-		}else {
-			response.status(301);
-			return null;
+			
+		}catch(SQLException ex){
+			logger.error("error when creating GroupDao()." + ex.getMessage());
 		}
 		
-	};
+		return groupId;
+	}
 }
