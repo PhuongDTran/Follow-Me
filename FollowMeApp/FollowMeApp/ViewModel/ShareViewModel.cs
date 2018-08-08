@@ -72,6 +72,8 @@ namespace FollowMeApp.ViewModel
             json.Add("name", _deviceData.DeviceName);
             json.Add("lat", _location.Latitude);
             json.Add("lon", _location.Longitude);
+            json.Add("speed", _location.Speed);
+            json.Add("heading", 0); //TODO: need heading
             json.Add("platform", _deviceData.Platform);
             HttpClient client = new HttpClient();
             try
