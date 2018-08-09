@@ -50,21 +50,23 @@ namespace FollowMeApp.iOS
         {
             if (CLLocationManager.LocationServicesEnabled)
             {
+                Location location = new Location();
                 _locationManager.DesiredAccuracy = 1;
                 _locationManager.LocationsUpdated += (object sender, CLLocationsUpdatedEventArgs e) =>
                 {
-
-                    Location location = new Location()
-                    {
-                        Latitude = e.Locations.Last().Coordinate.Latitude,
-                        Longitude = e.Locations.Last().Coordinate.Longitude,
-                        Speed = (int)Math.Round(e.Locations.Last().Speed * 2.23694) // convert to mph
-                        //TODO: need to handle heading direction iOS
-                    };
+                    location.Latitude = e.Locations.Last().Coordinate.Latitude;
+                    location.Longitude = e.Locations.Last().Coordinate.Longitude;
+                    location.Speed = (int)Math.Round(e.Locations.Last().Speed * 2.23694); // convert to mph
                     // fire a custom event
                     LocationUpdatesEvent?.Invoke(this, location);
                 };
+                _locationManager.UpdatedHeading += (object sender, CLHeadingUpdatedEventArgs e) =>
+                {
+                    //location.Heading = (int)e.NewHeading.TrueHeading;
+                    LocationUpdatesEvent?.Invoke(this, location);
+                };
                 _locationManager.StartUpdatingLocation();
+                _locationManager.StartUpdatingHeading();
             }
             return Task.CompletedTask;
         }
