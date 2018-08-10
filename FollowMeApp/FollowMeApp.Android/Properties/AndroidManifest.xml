@@ -1,15 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.companyname.FollowMeApp" android:installLocation="auto">
-	<uses-sdk android:minSdkVersion="24" android:targetSdkVersion="27" />
-	<uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
-	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-	<uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-	<uses-permission android:name="android.permission.INTERNET" />
-	<application android:label="FollowMeApp.Android">
-		<!-- Google Maps V2 API Key here. -->
-		<meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyDM5G0kUvjHJXWUOQLyVYwTOhPpML2PA0o" />
-	</application>
+  <uses-sdk android:minSdkVersion="24" android:targetSdkVersion="27" />
+  <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+  <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+  <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+  <uses-permission android:name="android.permission.INTERNET" />
+  <application android:label="FollowMeApp.Android">
+    <!--Google Maps V2 API Key here.-->
+    <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyDM5G0kUvjHJXWUOQLyVYwTOhPpML2PA0o" />
+    <!--Custom URL Scheme-->
+    <activity android:name="com.followme.android">
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data
+            android:host="followme"
+            android:scheme="newtrip" />
+      </intent-filter>
+    </activity>
+  </application>
 </manifest>

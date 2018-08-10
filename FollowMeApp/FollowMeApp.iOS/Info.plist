@@ -57,5 +57,17 @@
     <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
     <string>Can we use your location at all times?</string>
   </array>
+  <!--URL Scheme-->
+  <key>CFBundleURLTypes</key>
+  <array>
+    <dict>
+      <key>CFBundleURLName</key>
+      <string>follow-me-app</string>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>followme</string>
+      </array>
+    </dict>
+  </array>
 </dict>
 </plist>
