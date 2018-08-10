@@ -1,4 +1,4 @@
-package com.followme.member;
+package com.followme.user;
 
 import static com.followme.util.Release.release;
 
@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import com.followme.util.ConnectionManager;
 
-class MemberDao {
+class UserDao {
 
 	private Connection conn = null;
 	final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
@@ -22,7 +22,7 @@ class MemberDao {
 	 * The constructor makes a connection to database
 	 * @throws SQLException
 	 */
-	protected MemberDao() throws SQLException{
+	protected UserDao() throws SQLException{
 		if(conn == null){
 			conn = ConnectionManager.getInstance().getConnection();
 			if (conn == null){
@@ -31,13 +31,13 @@ class MemberDao {
 		}
 	}
 	
-	public boolean doesExist(String memberId){
+	public boolean doesExist(String id){
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			String sql = "SELECT member_id FROM MemberInfo WHERE member_id=?";
+			String sql  = "SELECT member_id FROM MemberInfo WHERE member_id=?";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString( 1, memberId);
+			pstmt.setString( 1, id);
 			rs = pstmt.executeQuery();
 			return rs.next();
 		}catch (SQLException ex) {
@@ -48,12 +48,12 @@ class MemberDao {
 		return false;
 	}
 	
-	protected void addMember(String memberId,String memberName, String platform){
+	protected void addNewUser(String id, String memberName, String platform) {
 		PreparedStatement pstmt = null;
 		try {
-			String sql = "INSERT INTO MemberInfo VALUES (?,?,?)";
+			String sql = "IN SERT INTO MemberInfo VALUES (?,?,?)";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, memberId);
+			pstmt.setString(1, id);
 			pstmt.setString(2, memberName);
 			pstmt.setString(3, platform);
 			pstmt.executeUpdate();
@@ -64,7 +64,7 @@ class MemberDao {
 		}
 	}
 	
-	protected void updateMemberName(String memberId, String memberName){
+	protected void updateUserName(String memberId,  String memberName){
 		PreparedStatement pstmt = null;
 		try {
 			String sql = "UPDATE MemberInfo SET member_name=? WHERE member_id=?";
