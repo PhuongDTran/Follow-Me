@@ -10,7 +10,7 @@ public class TripController {
 
 	final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-	public static void addNewOrUpdate(String groupId,String memberId, double latitude, double longitude, int heading, int speed, boolean isNew){
+	public static void addOrUpdateMember(String groupId,String memberId, double latitude, double longitude, int heading, int speed, boolean isNew){
 		try{
 			TripDao tripDao = new TripDao();
 			if (isNew){
