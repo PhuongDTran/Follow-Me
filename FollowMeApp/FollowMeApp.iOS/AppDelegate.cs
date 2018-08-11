@@ -26,5 +26,11 @@ namespace FollowMeApp.iOS
             LoadApplication(new App());
             return base.FinishedLaunching(app, options);
         }
+
+        public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
+        {
+            return true;
+            //return base.OpenUrl(app, url, options);
+        }
     }
 }

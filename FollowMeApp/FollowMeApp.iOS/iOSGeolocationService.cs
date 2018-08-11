@@ -62,8 +62,8 @@ namespace FollowMeApp.iOS
                 };
                 _locationManager.UpdatedHeading += (object sender, CLHeadingUpdatedEventArgs e) =>
                 {
-                    //location.Heading = (int)e.NewHeading.TrueHeading;
-                    LocationUpdatesEvent?.Invoke(this, location);
+                    location.Heading = (int)e.NewHeading.TrueHeading;
+                    //LocationUpdatesEvent?.Invoke(this, location);
                 };
                 _locationManager.StartUpdatingLocation();
                 _locationManager.StartUpdatingHeading();

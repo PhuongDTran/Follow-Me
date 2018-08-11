@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.companyname.FollowMeApp" android:installLocation="auto">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="followmeapp.droid" android:installLocation="auto">
   <uses-sdk android:minSdkVersion="24" android:targetSdkVersion="27" />
   <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -12,14 +12,15 @@
     <!--Google Maps V2 API Key here.-->
     <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyDM5G0kUvjHJXWUOQLyVYwTOhPpML2PA0o" />
     <!--Custom URL Scheme-->
-    <activity android:name="com.followme.android">
+    <!--https://docs.microsoft.com/en-us/xamarin/android/platform/app-linking#configure-intent-filter-->
+    <activity android:name=".MainActivity">
       <intent-filter>
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
         <data
-            android:host="followme"
-            android:scheme="newtrip" />
+            android:host="newtrip"
+            android:scheme="followme" />
       </intent-filter>
     </activity>
   </application>

@@ -4,7 +4,7 @@ using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using FollowMeApp.Model;
-
+using System;
 namespace FollowMeApp.Droid
 {
     [Activity(Label = "FollowMeApp", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
@@ -22,12 +22,17 @@ namespace FollowMeApp.Droid
             global::Xamarin.Forms.Forms.Init(this, bundle);
             global::Xamarin.FormsMaps.Init(this, bundle);
             Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, bundle);
-
             GeolocationManager.instance = new AndroidGeolocationService(this);
-           
+            AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+            var data = Intent?.Data?.EncodedAuthority;
+  
             LoadApplication(new App());
         }
 
+        private static void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            Console.WriteLine("caught exception");
+        }
       
         protected override void OnStart()
         {
