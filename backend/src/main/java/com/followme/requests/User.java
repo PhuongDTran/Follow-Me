@@ -3,7 +3,7 @@ package com.followme.requests;
 import lombok.*;
 import com.google.gson.*;
 
-public class Member {
+public class User {
 
 	@Getter private String id;
 	@Getter private String name;
@@ -13,7 +13,7 @@ public class Member {
 	@Getter private int speed;
 	@Getter private String platform;
 	
-	public Member(JsonObject jObject){
+	public User(JsonObject jObject){
 		id = jObject.get("id").getAsString();
 		name = jObject.get("name").getAsString();
 		latitude = jObject.get("lat").getAsDouble();
