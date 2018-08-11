@@ -10,14 +10,14 @@ public class UserController {
 
 	final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-	public static void addMember(String memberId, String memberName,String platform){
+	public static void addOrUpdateUser(String id, String userName,String platform){
 		try{
-			UserDao memberDao = new UserDao();
-			if(!memberDao.doesExist(memberId)){
+			UserDao userDao = new UserDao();
+			if(!userDao.doesExist(id)){
 
-				memberDao.addNewUser(memberId, memberName, platform);
+				userDao.addNewUser(id, userName, platform);
 			}else{
-				memberDao.updateMemberName(memberId, memberName);
+				userDao.updateUserName(id, userName);
 			}
 		}catch(SQLException ex){
 			logger.error("error when creating MemberDao()." + ex.getMessage());

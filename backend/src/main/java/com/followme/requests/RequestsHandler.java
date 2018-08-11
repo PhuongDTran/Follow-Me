@@ -1,8 +1,8 @@
 package com.followme.requests;
 
 import com.followme.group.GroupController;
-import com.followme.member.MemberController;
 import com.followme.trip.TripController;
+import com.followme.user.UserController;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -24,8 +24,8 @@ public class RequestsHandler {
 			
 			//add info to database
 			GroupController.addGroup(groupId, member.getId());
-			MemberController.addMember(member.getId(), member.getName(), member.getPlatform());
-			TripController.addNewOrUpdate(groupId, member.getId(), member.getLatitude(), member.getLongitude(), member.getHeading(), member.getSpeed(), true);
+			UserController.addOrUpdateUser(member.getId(), member.getName(), member.getPlatform());
+			TripController.addOrUpdateMember(groupId, member.getId(), member.getLatitude(), member.getLongitude(), member.getHeading(), member.getSpeed(), true);
 			
 			return groupId;
 			
@@ -35,5 +35,13 @@ public class RequestsHandler {
 			return null;
 		}
 		
+	};
+	
+	public static Route HandleAddingMember = (Request request, Response response) -> {
+		String groupId = request.queryParams("groupid");
+		Gson gson = new GsonBuilder().create();
+		JsonObject json = gson.fromJson(request.body(), JsonObject.class);
+		Member member = new Member(json);
+		return null;
 	};
 }
