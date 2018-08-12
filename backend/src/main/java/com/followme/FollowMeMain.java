@@ -1,6 +1,9 @@
 package com.followme;
 import static spark.Spark.get;
+import static spark.Spark.port;
 import static spark.Spark.post;
+import static spark.Spark.staticFiles;
+import static spark.debug.DebugScreen.enableDebugScreen;
 
 import com.followme.requests.RequestsHandler;
 import com.followme.util.DatabaseConnection;
@@ -13,9 +16,13 @@ public class FollowMeMain {
 		//initialize database connection
 		DatabaseConnection.initialize();
 		
+		//configure Spark
+		port(4567);
+		enableDebugScreen();
+		staticFiles.location("/public");
+		
 		get("/hello/", (req,res) -> "hello");
 		post(Path.Web.GROUPID,   RequestsHandler.HandleGroupIdRequest);
-
 	}
 
 }
