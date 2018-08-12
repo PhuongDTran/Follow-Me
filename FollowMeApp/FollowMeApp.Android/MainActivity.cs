@@ -1,14 +1,18 @@
 ﻿
 using Android;
 using Android.App;
+using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using FollowMeApp.Model;
-using System;
+
 namespace FollowMeApp.Droid
 {
     [Activity(Label = "FollowMeApp", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-
+    [IntentFilter(new[] { Intent.ActionView},
+        Categories = new[] { Intent.CategoryDefault, Intent.CategoryBrowsable },
+        DataScheme = "followme",
+        DataHost = "newtrip")]
 
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
@@ -23,17 +27,12 @@ namespace FollowMeApp.Droid
             global::Xamarin.FormsMaps.Init(this, bundle);
             Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, bundle);
             GeolocationManager.instance = new AndroidGeolocationService(this);
-            AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+ 
             var data = Intent?.Data?.EncodedAuthority;
   
             LoadApplication(new App());
         }
 
-        private static void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            Console.WriteLine("caught exception");
-        }
-      
         protected override void OnStart()
         {
             base.OnStart();
