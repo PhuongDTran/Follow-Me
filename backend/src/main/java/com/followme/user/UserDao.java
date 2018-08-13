@@ -51,7 +51,7 @@ class UserDao {
 	protected void addNewUser(String id, String memberName, String platform) {
 		PreparedStatement pstmt = null;
 		try {
-			String sql = "IN SERT INTO MemberInfo VALUES (?,?,?)";
+			String sql = "INSERT INTO MemberInfo VALUES (?,?,?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
 			pstmt.setString(2, memberName);
