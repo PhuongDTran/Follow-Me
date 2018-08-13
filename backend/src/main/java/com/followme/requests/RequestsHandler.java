@@ -17,15 +17,13 @@ public class RequestsHandler {
 		if( !request.body().isEmpty()){
 			Gson gson = new GsonBuilder().create();
 			JsonObject json = gson.fromJson(request.body(), JsonObject.class);
-			Member member = new Member(json);
+			User user = new User(json);
 			
-			System.out.println(json.toString());
 			String groupId = GroupController.generateGroupId();
 			
 			//add info to database
-			GroupController.addGroup(groupId, member.getId());
-			UserController.addOrUpdateUser(member.getId(), member.getName(), member.getPlatform());
-			TripController.addOrUpdateMember(groupId, member.getId(), member.getLatitude(), member.getLongitude(), member.getHeading(), member.getSpeed(), true);
+			GroupController.addGroup(groupId, user.getId());
+			addOrUpdateUser(groupId, user);
 			
 			return groupId;
 			
@@ -41,7 +39,24 @@ public class RequestsHandler {
 		String groupId = request.queryParams("groupid");
 		Gson gson = new GsonBuilder().create();
 		JsonObject json = gson.fromJson(request.body(), JsonObject.class);
-		Member member = new Member(json);
+		User user = new User(json);
+		
+		addOrUpdateUser(groupId, user);
+		
 		return null;
 	};
+	
+	public static Route HandleUpdatingLocation = (Request request, Response response) -> {
+		String groupId = request.queryParams("groupid");
+		Gson gson = new GsonBuilder().create();
+		JsonObject json = gson.fromJson(request.body(), JsonObject.class);
+		User user = new User(json);
+		TripController.addOrUpdateMember(groupId, user.getId(), user.getLatitude(), user.getLongitude(), user.getHeading(), user.getSpeed(), true);
+		return null;
+	};
+	
+	private static void addOrUpdateUser(String groupId, User user){
+			UserController.addOrUpdateUser(user.getId(), user.getName(), user.getPlatform());
+			TripController.addOrUpdateMember(groupId, user.getId(), user.getLatitude(), user.getLongitude(), user.getHeading(), user.getSpeed(), false);
+	}
 }
