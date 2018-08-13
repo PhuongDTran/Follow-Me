@@ -22,7 +22,7 @@ namespace FollowMeApp.ViewModel
     {
         private readonly IDeviceService _deviceService;
         private readonly INavigationService _navigationService;
-        private DeviceData _deviceData;
+        private Device _deviceData;
         private String _groupId;
         private Location _location;
 
@@ -67,14 +67,16 @@ namespace FollowMeApp.ViewModel
             String groupId = "";
             String url = "http://192.168.4.146:4567/groupid/";
             String contentType = "application/json";
-            JObject json = new JObject();
-            json.Add("id", _deviceData.DeviceID);
-            json.Add("name", _deviceData.DeviceName);
-            json.Add("lat", _location.Latitude);
-            json.Add("lon", _location.Longitude);
-            json.Add("speed", _location.Speed);
-            json.Add("heading", _location.Heading); //TODO: need heading
-            json.Add("platform", _deviceData.Platform);
+            JObject json = new JObject
+            {
+                { "id", _deviceData.DeviceID },
+                { "name", _deviceData.DeviceName },
+                { "lat", _location.Latitude },
+                { "lon", _location.Longitude },
+                { "speed", _location.Speed },
+                { "heading", _location.Heading }, //TODO: need heading
+                { "platform", _deviceData.Platform }
+            };
             HttpClient client = new HttpClient();
             try
             {

@@ -2,7 +2,7 @@
 
 namespace FollowMeApp.Model
 {
-    public class DeviceData
+    public class Device
     {
         public String DeviceID { get; set; }
         public String DeviceName { get; set; }

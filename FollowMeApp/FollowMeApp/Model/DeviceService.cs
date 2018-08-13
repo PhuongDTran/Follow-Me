@@ -5,10 +5,10 @@ namespace FollowMeApp.Model
 {
     public class DeviceService : IDeviceService
     {
-        public void GetDeviceData(Action<DeviceData, Exception> callback)
+        public void GetDeviceData(Action<Device, Exception> callback)
         {
             //https://github.com/jamesmontemagno/DeviceInfoPlugin
-            DeviceData deviceData = new DeviceData()
+            Device deviceData = new Device()
             {
                 DeviceID = CrossDeviceInfo.Current.Id,
                 DeviceName = CrossDeviceInfo.Current.DeviceName,
