@@ -19,7 +19,7 @@ namespace FollowMeApp
         public delegate void AppEventDelegate();
 
         public event AppEventDelegate AppStart;
-        public event AppEventDelegate AppSleep;
+
 		protected override void OnStart ()
 		{
             // Handle when your app starts
