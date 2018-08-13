@@ -18,8 +18,10 @@ namespace FollowMeApp.iOS
 
         public iOSGeolocationService()
         {
-            _locationManager = new CLLocationManager();
-            _locationManager.PausesLocationUpdatesAutomatically = false;
+            _locationManager = new CLLocationManager
+            {
+                PausesLocationUpdatesAutomatically = false
+            };
 
             //iOS 8 has additional permisstion requirements
             if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
