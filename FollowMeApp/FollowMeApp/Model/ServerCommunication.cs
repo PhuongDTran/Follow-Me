@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FollowMeApp.Model
 {
-    public class ServerComminication : IServerCommunication
+    public class ServerCommunication : IServerCommunication
     {
 
         public async Task<string> RequestGroupId(Device device, Location location)

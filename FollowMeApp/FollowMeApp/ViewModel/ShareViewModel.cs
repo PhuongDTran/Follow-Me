@@ -22,7 +22,7 @@ namespace FollowMeApp.ViewModel
     {
         private readonly IDeviceService _deviceService;
         private readonly INavigationService _navigationService;
-        private ServerComminication _serverCommunication;
+        private ServerCommunication _serverCommunication;
         private Device _deviceData;
         private String _groupId;
         private Location _location;
@@ -42,7 +42,7 @@ namespace FollowMeApp.ViewModel
         public ShareViewModel() :
             this(new DeviceService(), null)
         {
-            _serverCommunication = new ServerComminication();
+            _serverCommunication = new ServerCommunication();
             GenerateUrlCommand = new RelayCommand(async() => await OnGenerateUrlCommand(), CanGenerateUrlCommand);
             GeolocationManager.instance.LocationUpdatesEvent += (sender, location) =>
             {
