@@ -22,6 +22,7 @@ namespace FollowMeApp.ViewModel
     {
         private readonly IDeviceService _deviceService;
         private readonly INavigationService _navigationService;
+        private ServerComminication _serverCommunication;
         private Device _deviceData;
         private String _groupId;
         private Location _location;
@@ -41,6 +42,7 @@ namespace FollowMeApp.ViewModel
         public ShareViewModel() :
             this(new DeviceService(), null)
         {
+            _serverCommunication = new ServerComminication();
             GenerateUrlCommand = new RelayCommand(async() => await OnGenerateUrlCommand(), CanGenerateUrlCommand);
             GeolocationManager.instance.LocationUpdatesEvent += (sender, location) =>
             {
@@ -64,43 +66,7 @@ namespace FollowMeApp.ViewModel
 
         private async Task OnGenerateUrlCommand()
         {
-            String groupId = "";
-            String url = "http://192.168.4.146:4567/groupid/";
-            String contentType = "application/json";
-            JObject json = new JObject
-            {
-                { "id", _deviceData.DeviceID },
-                { "name", _deviceData.DeviceName },
-                { "lat", _location.Latitude },
-                { "lon", _location.Longitude },
-                { "speed", _location.Speed },
-                { "heading", _location.Heading }, //TODO: need heading
-                { "platform", _deviceData.Platform }
-            };
-            HttpClient client = new HttpClient();
-            try
-            {
-                var response = await client.PostAsync(url, new StringContent(json.ToString(), Encoding.UTF8, contentType));
-                groupId = await response.Content.ReadAsStringAsync();
-                Console.WriteLine("Responsed Group Id:" + groupId);
-            }
-            catch (ArgumentNullException ex)
-            {
-                Console.WriteLine("The request was null. ", ex.Message);
-            }
-            catch (InvalidOperationException ex)
-            {
-                Console.WriteLine("Already sent by the HttpClient instance.", ex.Message);
-            }
-            catch (HttpRequestException ex)
-            {
-                Console.WriteLine("Underlying issue:network connectivity, DNS failure, or timeout.", ex.Message);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            GroupId = groupId;
+            GroupId = await _serverCommunication.RequestGroupId(_deviceData, _location);
         }
   
         private bool CanGenerateUrlCommand()
