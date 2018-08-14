@@ -35,4 +35,15 @@ public class GroupController {
 		
 		return groupId;
 	}
+	
+	public static String getLeaderId(String groupId){
+		String leaderId = "";
+		try{
+			GroupDao groupDao = new GroupDao();
+			leaderId = groupDao.getLeaderId(groupId);
+		}catch(SQLException ex){
+			logger.error("getLeaderId() error." + ex.getMessage());
+		}
+		return leaderId;
+	}
 }

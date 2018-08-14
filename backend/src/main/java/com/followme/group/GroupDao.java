@@ -73,6 +73,29 @@ class GroupDao {
 		}
 	}
 	
+	/*
+	 * get id of the group leader
+	 */
+	protected String getLeaderId(String groupId){
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String leaderId = "";
+		try {
+			String sql = "SELECT leader_id FROM GroupInfo WHERE group_id=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, groupId);
+			rs = pstmt.executeQuery();
+			if( rs.next()) {
+				leaderId = rs.getString("leader_id");
+			}
+		}catch (SQLException ex) {
+			logger.error("getLeaderId() failed. " + ex.getMessage());
+		}finally {
+			release(pstmt,rs);
+		}
+		return leaderId;
+	}
+	
 	/**
 	 * close connection to database
 	 */
