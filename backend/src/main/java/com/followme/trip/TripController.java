@@ -22,5 +22,16 @@ public class TripController {
 			logger.error("error when creating TripDao()." + ex.getMessage());
 		}
 	}
+	
+	public static Location getLocation( String groupId, String memberId) {
+		Location location = null;
+		try {
+			TripDao tripDao = new TripDao();
+			location = tripDao.getLocation(groupId, memberId);
+		} catch(SQLException ex){
+			logger.error("error when creating getLocation()." + ex.getMessage());
+		}
+		return location;
+	}
 
 }

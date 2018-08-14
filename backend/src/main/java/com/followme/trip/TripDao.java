@@ -3,6 +3,7 @@ package com.followme.trip;
 import java.lang.invoke.MethodHandles;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.slf4j.Logger;
@@ -62,5 +63,29 @@ class TripDao {
 		}catch (SQLException ex){
 			logger.error("update() failed." + ex.getMessage());
 		}
+	}
+	
+	protected Location getLocation( String groupId, String memberId) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Location location = null;
+		try {
+			String sql = "SELECT latitude,longitude,speed,heading FROM TripInfo "
+					+ "WHERE group_id=? AND member_id=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, groupId);
+			pstmt.setString(2, memberId);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				double lat = rs.getDouble("latitude");
+				double lon = rs.getDouble("longitude");
+				int speed = rs.getInt("speed");
+				int heading = rs.getInt("heading");
+				location = new Location(lat, lon, speed, heading);
+			}
+		}catch (SQLException ex){
+			logger.error("getLocation() failed." + ex.getMessage());
+		}
+		return location;
 	}
 }
