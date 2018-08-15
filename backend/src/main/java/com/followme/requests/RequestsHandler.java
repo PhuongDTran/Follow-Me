@@ -1,12 +1,16 @@
 package com.followme.requests;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.followme.group.GroupController;
+import com.followme.trip.Location;
 import com.followme.trip.TripController;
 import com.followme.user.UserController;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-
+import com.followme.util.JsonUtil;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -52,8 +56,21 @@ public class RequestsHandler {
 		JsonObject json = gson.fromJson(request.body(), JsonObject.class);
 		User user = new User(json);
 		TripController.addOrUpdateMember(groupId, user.getId(), user.getLatitude(), user.getLongitude(), user.getHeading(), user.getSpeed(), true);
-		return null;
+		return getLeaderLocation(groupId);
 	};
+	
+	private static String getLeaderLocation( String groupId){
+		String leaderId = GroupController.getLeaderId(groupId);
+		if (leaderId != ""){
+			Location location = TripController.getLocation(groupId, leaderId);
+			if( location != null) {
+				Map<String, Location> locationMap = new HashMap<String,Location>();
+				locationMap.put(leaderId, location);
+				return JsonUtil.dataToJson(locationMap);
+			}
+		}
+		return null;
+	}
 	
 	private static void addOrUpdateUser(String groupId, User user){
 			UserController.addOrUpdateUser(user.getId(), user.getName(), user.getPlatform());
