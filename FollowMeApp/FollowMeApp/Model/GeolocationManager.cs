@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FollowMeApp.Model
 {
-    public class GeolocationManager
+    public sealed class GeolocationManager
     {
         public static IGeolocationService instance;
 
