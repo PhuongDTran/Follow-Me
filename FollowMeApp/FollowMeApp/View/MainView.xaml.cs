@@ -23,6 +23,8 @@ namespace FollowMeApp.View
             {
                 MyLocation.IsVisible = false;
             }
+            
+            
         }
 
         private void OnMyLocationTapped(object sender, EventArgs e)
@@ -42,6 +44,17 @@ namespace FollowMeApp.View
             if (position != null)
             {
                 MainMap.MoveToRegion(MapSpan.FromCenterAndRadius(position, Distance.FromMiles(1)));
+            }
+
+            var leaderLocation = _mainVM.LeaderLocation;
+            if (leaderLocation != null)
+            {
+                Pin pin = new Pin
+                {
+                    Position = new Position(leaderLocation.Latitude, leaderLocation.Longitude),
+                    Label = "neighbors"
+                };
+                MainMap.Pins.Add(pin);
             }
         }
     }

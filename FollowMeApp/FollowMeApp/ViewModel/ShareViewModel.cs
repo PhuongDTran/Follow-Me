@@ -22,7 +22,6 @@ namespace FollowMeApp.ViewModel
     {
         private readonly IDeviceService _deviceService;
         private readonly INavigationService _navigationService;
-        private ServerCommunication _serverCommunication;
         private Device _deviceData;
         private String _groupId;
         private Location _location;
@@ -38,19 +37,18 @@ namespace FollowMeApp.ViewModel
                 Set(ref _groupId, value);
             }
         }
-        
+
         public ShareViewModel() :
             this(new DeviceService(), null)
         {
-            _serverCommunication = new ServerCommunication();
-            GenerateUrlCommand = new RelayCommand(async() => await OnGenerateUrlCommand(), CanGenerateUrlCommand);
+            GenerateUrlCommand = new RelayCommand(async () => await OnGenerateUrlCommand(), CanGenerateUrlCommand);
             GeolocationManager.instance.LocationUpdatesEvent += (sender, location) =>
             {
                 _location = location;
             };
         }
-        
-        protected ShareViewModel( IDeviceService deviceService, INavigationService navigationService)
+
+        protected ShareViewModel(IDeviceService deviceService, INavigationService navigationService)
         {
             _deviceService = deviceService;
             _navigationService = navigationService;
@@ -66,9 +64,13 @@ namespace FollowMeApp.ViewModel
 
         private async Task OnGenerateUrlCommand()
         {
-            GroupId = await _serverCommunication.RequestGroupId(_deviceData, _location);
+            var communicator = ServerCommunicationManager.instance;
+            if (communicator.GroupId == null)
+            {
+                GroupId = await ServerCommunicationManager.instance.RequestGroupIdAsync(_deviceData, _location);
+            }
         }
-  
+
         private bool CanGenerateUrlCommand()
         {
             return true;

@@ -30,6 +30,20 @@ namespace FollowMeApp.ViewModel
 
         private readonly INavigationService _navigationService;
         private Position _userCurrentPosition;
+        private Location _location;
+        private Location _leaderLocation;
+        
+        public Location LeaderLocation
+        {
+            get
+            {
+                return _leaderLocation;
+            }
+            set
+            {
+                Set(ref _leaderLocation, value);
+            }
+        }
 
         public Position UserCurrentPosition
         {
@@ -83,15 +97,32 @@ namespace FollowMeApp.ViewModel
         protected MainViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
-            GeolocationManager.instance.LocationUpdatesEvent += (object sender, Location location) => 
+            GeolocationManager.instance.LocationUpdatesEvent += (object sender, Location location) =>
             {
                 UserCurrentPosition = new Position(location.Latitude, location.Longitude);
+                _location = location;
             };
-
+            
             //listen for AppStart event and run the code very early when app started
             ((App)Application.Current).AppStart += async () =>
             {
                 await GeolocationManager.instance.StartUpdatingLocationAsync();
+            };
+
+            ServerCommunicationManager.instance.OnGroupIdAssigned += async (s, e) =>
+            {
+                if (ServerCommunicationManager.instance.GroupId != null)
+                {
+                    Location LeaderLocation = await ServerCommunicationManager.instance.SendMemberInfo(new Model.Device(), _location);
+                }
+            };
+
+            ((App)Application.Current).AppResume += async () =>
+            {
+                if (ServerCommunicationManager.instance.GroupId != null)
+                {
+                    Location LeaderLocation = await ServerCommunicationManager.instance.SendMemberInfo(new Model.Device(), _location);
+                }
             };
         }
     }

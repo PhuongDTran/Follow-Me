@@ -7,7 +7,10 @@ namespace FollowMeApp.Model
 {
     public interface IServerCommunication
     {
-        Task<String> RequestGroupId(Device device, Location location);
-
+        event EventHandler OnGroupIdAssigned;
+        String GroupId { get; set; }   
+        Task<String> RequestGroupIdAsync(Device device, Location location);
+        Task<Location> SendMemberInfo(Device device, Location location);
+        Task SendLocationAsync(string memberId, Location location);
     }
 }
