@@ -22,7 +22,8 @@ public class FollowMeMain {
 		staticFiles.location("/public");
 		
 		get("/hello/", (req,res) -> "hello");
-		post(Path.Web.GROUPID,   RequestsHandler.HandleGroupIdRequest);
+		post(Path.Web.GROUPID,			RequestsHandler.HandleGroupIdRequest);
+		post(Path.Web.TRIP,				RequestsHandler.HandleAddingMember);
 	}
 
 }
