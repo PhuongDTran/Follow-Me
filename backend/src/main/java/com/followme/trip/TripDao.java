@@ -81,7 +81,7 @@ class TripDao {
 				double lon = rs.getDouble("longitude");
 				int speed = rs.getInt("speed");
 				int heading = rs.getInt("heading");
-				location = new Location(lat, lon, speed, heading);
+				location = new Location(memberId, lat, lon, speed, heading);
 			}
 		}catch (SQLException ex){
 			logger.error("getLocation() failed." + ex.getMessage());

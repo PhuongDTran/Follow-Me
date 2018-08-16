@@ -10,6 +10,7 @@ import com.followme.user.UserController;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.mysql.jdbc.Util;
 import com.followme.util.JsonUtil;
 import spark.Request;
 import spark.Response;
@@ -47,7 +48,7 @@ public class RequestsHandler {
 		
 		addOrUpdateUser(groupId, user);
 		
-		return null;
+		return JsonUtil.dataToJson( getLeaderLocation(groupId));
 	};
 	
 	public static Route HandleUpdatingLocation = (Request request, Response response) -> {
@@ -56,20 +57,16 @@ public class RequestsHandler {
 		JsonObject json = gson.fromJson(request.body(), JsonObject.class);
 		User user = new User(json);
 		TripController.addOrUpdateMember(groupId, user.getId(), user.getLatitude(), user.getLongitude(), user.getHeading(), user.getSpeed(), true);
-		return getLeaderLocation(groupId);
+		return null; 
 	};
 	
-	private static String getLeaderLocation( String groupId){
+	private static Location getLeaderLocation( String groupId){
 		String leaderId = GroupController.getLeaderId(groupId);
+		Location location = null;
 		if (leaderId != ""){
-			Location location = TripController.getLocation(groupId, leaderId);
-			if( location != null) {
-				Map<String, Location> locationMap = new HashMap<String,Location>();
-				locationMap.put(leaderId, location);
-				return JsonUtil.dataToJson(locationMap);
-			}
+			location = TripController.getLocation(groupId, leaderId);
 		}
-		return null;
+		return location;
 	}
 	
 	private static void addOrUpdateUser(String groupId, User user){
