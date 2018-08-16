@@ -109,19 +109,17 @@ namespace FollowMeApp.ViewModel
                 await GeolocationManager.instance.StartUpdatingLocationAsync();
             };
 
-            ServerCommunicationManager.instance.OnGroupIdAssigned += async (s, e) =>
+            ServerCommunicator.Instance.PropertyChanged += async (s, e) =>
             {
-                if (ServerCommunicationManager.instance.GroupId != null)
+                if(e.PropertyName == nameof(ServerCommunicator.Instance.GroupId))
                 {
-                    Location LeaderLocation = await ServerCommunicationManager.instance.SendMemberInfo(new Model.Device(), _location);
-                }
-            };
-
-            ((App)Application.Current).AppResume += async () =>
-            {
-                if (ServerCommunicationManager.instance.GroupId != null)
-                {
-                    Location LeaderLocation = await ServerCommunicationManager.instance.SendMemberInfo(new Model.Device(), _location);
+                    var deviceService = new DeviceService();
+                    Model.Device deviceData=null;
+                    deviceService.GetDeviceData((device, error) =>
+                   {
+                       deviceData = device;
+                   });
+                    LeaderLocation = await ServerCommunicator.Instance.SendMemberInfo(deviceData, _location);
                 }
             };
         }

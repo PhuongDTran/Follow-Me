@@ -18,7 +18,7 @@ namespace FollowMeApp.View
 			InitializeComponent();
             _shareView = new ShareView();
             _mainVM = (MainViewModel)BindingContext;
-            _mainVM.PropertyChanged += OnUserCurrentPositionChange;
+            _mainVM.PropertyChanged += OnPropertyChange;
             if (Device.RuntimePlatform == Device.Android)
             {
                 MyLocation.IsVisible = false;
@@ -38,20 +38,18 @@ namespace FollowMeApp.View
         }
 
 
-        private void OnUserCurrentPositionChange(object sender, PropertyChangedEventArgs e)
+        private void OnPropertyChange(object sender, PropertyChangedEventArgs e)
         {
-            var position = _mainVM.UserCurrentPosition;
-            if (position != null)
+            if (e.PropertyName == nameof(_mainVM.UserCurrentPosition))
             {
-                MainMap.MoveToRegion(MapSpan.FromCenterAndRadius(position, Distance.FromMiles(1)));
+                MainMap.MoveToRegion(MapSpan.FromCenterAndRadius(_mainVM.UserCurrentPosition, Distance.FromMiles(1)));
             }
 
-            var leaderLocation = _mainVM.LeaderLocation;
-            if (leaderLocation != null)
+            if (e.PropertyName == nameof(_mainVM.LeaderLocation))
             {
                 Pin pin = new Pin
                 {
-                    Position = new Position(leaderLocation.Latitude, leaderLocation.Longitude),
+                    Position = new Position( _mainVM.LeaderLocation.Latitude, _mainVM.LeaderLocation.Longitude),
                     Label = "neighbors"
                 };
                 MainMap.Pins.Add(pin);
