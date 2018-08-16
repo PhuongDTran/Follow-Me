@@ -1,16 +1,42 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace FollowMeApp.Model
 {
-    public class ServerCommunication : IServerCommunication
+    public sealed class ServerCommunicator : IServerCommunicator
     {
-        public event EventHandler OnGroupIdAssigned;
+        
+        #region singleton pattern
+        // Explicit static constructor to tell C# compiler
+        // not to mark type as beforefieldinit
+        static ServerCommunicator()
+        {
+        }
+
+        private ServerCommunicator(){ }
+
+        public static IServerCommunicator Instance { get; } = new ServerCommunicator();
+        #endregion
+
         private string _groupId;
+
+        #region  PropertyChange Event
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged(
+           [System.Runtime.CompilerServices.CallerMemberName] string propertyName="")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        }
+        #endregion
+
+        #region Properties
         public string GroupId
         {
             get
@@ -20,9 +46,12 @@ namespace FollowMeApp.Model
             set
             {
                 _groupId = value;
-                OnGroupIdAssigned?.Invoke(this, EventArgs.Empty);
+                NotifyPropertyChanged();
             }
         }
+        #endregion
+
+
         public async Task<string> RequestGroupIdAsync(Device device, Location location)
         {
             string groupId = "";
@@ -82,8 +111,18 @@ namespace FollowMeApp.Model
             try
             {
                 var response = await client.PostAsync(url, new StringContent(json.ToString(), Encoding.UTF8, contentType));
-                var groupId = await response.Content.ReadAsStringAsync();
-                Console.WriteLine("Responsed Group Id:" + groupId);
+                var content = await response.Content.ReadAsStringAsync();
+                JObject jContent = (JObject)JsonConvert.DeserializeObject(content);
+
+                //TODO: what to do with id???
+                Location leaderLocation = new Location
+                {
+                    Latitude = (double)jContent.GetValue("latitude"),
+                    Longitude = (double)jContent.GetValue("longitude"),
+                    Heading = (int)jContent.GetValue("heading"),
+                    Speed = (int)jContent.GetValue("speed")
+                };
+                return leaderLocation;
             }
             catch (ArgumentNullException ex)
             {
@@ -104,9 +143,9 @@ namespace FollowMeApp.Model
             return null;
         }
 
-        public async Task SendLocationAsync( string memberId, Location location)
-        {
-
-        }
+        //public Task SendLocationAsync( string memberId, Location location)
+        //{
+        //    Task.CompletedTask;
+        //}
     }
 }
