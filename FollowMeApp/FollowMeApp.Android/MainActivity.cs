@@ -26,14 +26,16 @@ namespace FollowMeApp.Droid
             global::Xamarin.Forms.Forms.Init(this, bundle);
             global::Xamarin.FormsMaps.Init(this, bundle);
             Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, bundle);
-            GeolocationManager.instance = new AndroidGeolocationService(this);
 
-            ServerCommunicationManager.instance = new ServerCommunication();
-
-            var groupId = Intent?.Data?.GetQueryParameter("groupid");
-            if ( groupId != null && ServerCommunicationManager.instance.GroupId == null)
+            if (GeolocationManager.instance == null)
             {
-                ServerCommunicationManager.instance.GroupId = groupId;
+                GeolocationManager.instance = new AndroidGeolocationService(this);
+            }
+           
+            var groupId = Intent?.Data?.GetQueryParameter("groupid");
+            if ( groupId != null)
+            {
+                ServerCommunicator.Instance.GroupId = groupId;
             }
 
             LoadApplication(new App());
