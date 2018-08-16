@@ -17,7 +17,7 @@ namespace FollowMeApp.View
             _shareVM = (ShareViewModel)BindingContext;
         }
 
-        private void OnGenerateUrl(Object sender, EventArgs e)
+        private void OnGenerateUrl(object sender, EventArgs e)
         {
             _shareVM.GenerateUrlCommand.Execute(null);
             _shareVM.PropertyChanged += (s, changedEvent) =>

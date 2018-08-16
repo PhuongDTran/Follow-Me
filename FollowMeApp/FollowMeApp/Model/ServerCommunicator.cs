@@ -114,7 +114,7 @@ namespace FollowMeApp.Model
                 var content = await response.Content.ReadAsStringAsync();
                 JObject jContent = (JObject)JsonConvert.DeserializeObject(content);
 
-                //TODO: what to do with id???
+                //TODO: what to do with id sent from server???
                 Location leaderLocation = new Location
                 {
                     Latitude = (double)jContent.GetValue("latitude"),
