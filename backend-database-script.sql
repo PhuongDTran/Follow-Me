@@ -12,13 +12,15 @@ create table MemberInfo( member_id varchar(50) not null,
                             platform varchar(10),
                             primary key (member_id));
 
-create table TripInfo(group_id varchar(20) not null,
+create table TripInfo(trip_id int auto_increment not null,
+							group_id varchar(20) not null,
                             member_id varchar(50) not null,
                             latitude double,
                             longitude double,
                             heading int(1),
                             speed int(1),
-                            primary key(group_id, member_id),
+                            location_updated_at datetime,
+                            primary key(trip_id),
                             foreign key (group_id) references GroupInfo(group_id),
                             foreign key (member_id) references MemberInfo(member_id));
 
