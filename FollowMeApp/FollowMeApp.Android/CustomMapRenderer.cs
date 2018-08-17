@@ -14,10 +14,10 @@ using Android.Graphics;
 [assembly: ExportRenderer(typeof(CustomMap), typeof(CustomMapRenderer))]
 namespace FollowMeApp.Droid
 {
-    public class CustomMapRenderer : MapRenderer, GoogleMap.IInfoWindowAdapter
+    public class CustomMapRenderer : MapRenderer
     {
-        IList<Pin> Pins;
-
+        IList<Pin> _pins;
+        
         public CustomMapRenderer(Context context) : base(context)
         {
         }
@@ -34,7 +34,7 @@ namespace FollowMeApp.Droid
             if (e.NewElement != null)
             {
                 var formsMap = (CustomMap)e.NewElement;
-                Pins = formsMap.Pins;
+                _pins = formsMap.Pins;
                 Control.GetMapAsync(this);
             }
         }
@@ -42,9 +42,8 @@ namespace FollowMeApp.Droid
         protected override void OnMapReady(GoogleMap map)
         {
             base.OnMapReady(map);
-
+            
             NativeMap.InfoWindowClick += OnInfoWindowClick;
-            NativeMap.SetInfoWindowAdapter(this);
         }
 
         protected override MarkerOptions CreateMarker(Pin pin)
@@ -68,20 +67,10 @@ namespace FollowMeApp.Droid
             }
         }
 
-        public Android.Views.View GetInfoContents(Marker marker)
-        {
-            return null;
-        }
-
-        public Android.Views.View GetInfoWindow(Marker marker)
-        {
-            return null;
-        }
-
         Pin GetCustomPin(Marker annotation)
         {
             var position = new Position(annotation.Position.Latitude, annotation.Position.Longitude);
-            foreach (var pin in Pins)
+            foreach (var pin in _pins)
             {
                 if (pin.Position == position)
                 {
