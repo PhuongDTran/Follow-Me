@@ -1,12 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:FollowMeApp"
+             xmlns:maps="clr-namespace:FollowMeApp.View" 
              x:Class="FollowMeApp.View.MainView"
              xmlns:VM="clr-namespace:FollowMeApp.ViewModel"
-             xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
              BindingContext="{Binding Source={StaticResource Locator}, Path=MainVM}">
-
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -27,7 +25,7 @@
                 Clicked="DisplaySharingMethodsPopup"/>
         <Grid x:Name="MapGrid" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3">
             <!--Map component used in both Android and iOS-->
-            <maps:Map
+            <maps:CustomMap
                 x:Name="MainMap"
                 IsShowingUser="true"
                 MapType="Street"
