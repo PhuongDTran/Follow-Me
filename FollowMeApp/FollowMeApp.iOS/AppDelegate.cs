@@ -21,8 +21,10 @@ namespace FollowMeApp.iOS
             Rg.Plugins.Popup.Popup.Init();
             global::Xamarin.Forms.Forms.Init();
             global::Xamarin.FormsMaps.Init();
-            GeolocationManager.instance = new iOSGeolocationService();
-            
+            if (GeolocationManager.instance == null)
+            {
+                GeolocationManager.instance = new iOSGeolocationService();
+            }
             LoadApplication(new App());
             return base.FinishedLaunching(app, options);
         }
