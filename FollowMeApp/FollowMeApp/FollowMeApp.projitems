@@ -27,6 +27,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Model\ServerCommunicator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModel\ShareViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)View\CustomMap.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)View\PublishedData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)View\ShareView.xaml.cs">
       <DependentUpon>ShareView.xaml</DependentUpon>
       <SubType>Code</SubType>

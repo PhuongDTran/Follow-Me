@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using Android.Content;
+﻿using Android.Content;
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
-using Android.Widget;
+using Android.Graphics;
+using FollowMeApp.Droid;
+using FollowMeApp.View;
+using System;
+using System.Collections.Generic;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Xamarin.Forms.Maps.Android;
-using FollowMeApp.View;
-using FollowMeApp.Droid;
-using Android.Graphics;
 
 [assembly: ExportRenderer(typeof(CustomMap), typeof(CustomMapRenderer))]
 namespace FollowMeApp.Droid
@@ -48,13 +47,25 @@ namespace FollowMeApp.Droid
 
         protected override MarkerOptions CreateMarker(Pin pin)
         {
+            //create an overlay circle, and add to map
+            var circleOptions = new CircleOptions();
+            circleOptions.InvokeCenter(new LatLng(pin.Position.Latitude,pin.Position.Longitude));
+            circleOptions.InvokeRadius(PublishedData.PinOverlayRadius);
+            circleOptions.InvokeFillColor(0X66FF0000);
+            circleOptions.InvokeStrokeColor(0X66FF0000);
+            circleOptions.InvokeStrokeWidth(0);
+            NativeMap.AddCircle(circleOptions);
+
+            // marker,or pin.
             var marker = new MarkerOptions();
             marker.SetPosition(new LatLng(pin.Position.Latitude, pin.Position.Longitude));
+            marker.Anchor(0.5f, 0.5f);// set anchor to to middle of icon
             marker.SetTitle(pin.Label);
             marker.SetSnippet(pin.Address);
             Bitmap imageBitmap = BitmapFactory.DecodeResource(Resources, Resource.Drawable.pin);
-            Bitmap resizedIcon = Bitmap.CreateScaledBitmap(imageBitmap, 40, 40, false);
+            Bitmap resizedIcon = Bitmap.CreateScaledBitmap(imageBitmap, 50, 50, false);
             marker.SetIcon(BitmapDescriptorFactory.FromBitmap(resizedIcon));
+
             return marker;
         }
       
