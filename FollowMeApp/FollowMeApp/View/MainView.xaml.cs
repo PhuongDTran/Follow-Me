@@ -1,6 +1,7 @@
 ﻿using FollowMeApp.ViewModel;
 using Rg.Plugins.Popup.Services;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -47,10 +48,11 @@ namespace FollowMeApp.View
 
             if (e.PropertyName == nameof(_mainVM.LeaderLocation))
             {
-                Pin pin = new Pin
+                var pin = new Pin
                 {
-                    Position = new Position( _mainVM.LeaderLocation.Latitude, _mainVM.LeaderLocation.Longitude),
-                    Label = "neighbors"
+                    Type = PinType.Place,
+                    Position = new Position(_mainVM.LeaderLocation.Latitude, _mainVM.LeaderLocation.Longitude),
+                    Label = "Leader"
                 };
                 MainMap.Pins.Add(pin);
             }
