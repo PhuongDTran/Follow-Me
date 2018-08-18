@@ -1,23 +1,14 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Views;
+﻿using FollowMeApp.Model;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using FollowMeApp.Model;
-using System.Windows.Input;
-using Xamarin.Forms.Maps;
+using GalaSoft.MvvmLight.Views;
 using System;
-using Newtonsoft.Json.Linq;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace FollowMeApp.ViewModel
 {
-    /// <summary>
-    /// This class contains properties that the main View can data bind to.
-    /// <para>
-    /// See http://www.mvvmlight.net
-    /// </para>
-    /// </summary>
+
     public class ShareViewModel : ViewModelBase
     {
         private readonly IDeviceService _deviceService;
