@@ -49,6 +49,8 @@ namespace FollowMeApp.Model
                 NotifyPropertyChanged();
             }
         }
+
+        public string LeaderId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         #endregion
 
 
@@ -141,6 +143,46 @@ namespace FollowMeApp.Model
                 Console.WriteLine(ex.Message);
             }
             return null;
+        }
+
+        public async Task<string> GetMemberIdAsync(string groupId)
+        {
+            string url = "http://192.168.4.146:4567/member/?groupid=" + groupId;
+
+            HttpClient client = new HttpClient();
+            try
+            {
+                var response = await client.GetAsync(url);
+                var content = await response.Content.ReadAsStringAsync();
+                return content;
+            }
+            catch (ArgumentNullException ex)
+            {
+                Console.WriteLine("The request was null. ", ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                Console.WriteLine("Already sent by the HttpClient instance.", ex.Message);
+            }
+            catch (HttpRequestException ex)
+            {
+                Console.WriteLine("Underlying issue:network connectivity, DNS failure, or timeout.", ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+
+            public Task SendLocationAsync(string memberId, Location location)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task GetLocationAsync(string memberId)
+        {
+            throw new NotImplementedException();
         }
 
         //public Task SendLocationAsync( string memberId, Location location)

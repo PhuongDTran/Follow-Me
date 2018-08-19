@@ -8,9 +8,12 @@ namespace FollowMeApp.Model
 {
     public interface IServerCommunicator : INotifyPropertyChanged
     {
-        string GroupId { get; set; }   
+        string GroupId { get; set; }
+        string LeaderId { get; set; }
         Task<string> RequestGroupIdAsync(Device device, Location location);
         Task<Location> SendMemberInfo(Device device, Location location);
-        //Task SendLocationAsync(string memberId, Location location);
+        Task<string> GetMemberIdAsync(string groupId);
+        Task SendLocationAsync(string memberId, Location location);
+        Task GetLocationAsync(string memberId);
     }
 }
