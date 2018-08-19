@@ -24,8 +24,6 @@ namespace FollowMeApp.View
             {
                 MyLocation.IsVisible = false;
             }
-            
-            
         }
 
         private void OnMyLocationTapped(object sender, EventArgs e)
@@ -41,9 +39,10 @@ namespace FollowMeApp.View
 
         private void OnPropertyChange(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(_mainVM.UserCurrentPosition))
+            if (e.PropertyName == nameof(_mainVM.MyLocation))
             {
-                MainMap.MoveToRegion(MapSpan.FromCenterAndRadius(_mainVM.UserCurrentPosition, Distance.FromMiles(1)));
+                var position = new Position(_mainVM.MyLocation.Latitude, _mainVM.MyLocation.Latitude);
+                MainMap.MoveToRegion(MapSpan.FromCenterAndRadius(position, Distance.FromMiles(1)));
             }
 
             if (e.PropertyName == nameof(_mainVM.LeaderLocation))
