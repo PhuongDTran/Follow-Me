@@ -1,11 +1,10 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace FollowMeApp.Model
 {
@@ -184,10 +183,5 @@ namespace FollowMeApp.Model
         {
             throw new NotImplementedException();
         }
-
-        //public Task SendLocationAsync( string memberId, Location location)
-        //{
-        //    Task.CompletedTask;
-        //}
     }
 }
