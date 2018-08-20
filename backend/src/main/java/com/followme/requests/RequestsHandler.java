@@ -47,8 +47,8 @@ public class RequestsHandler {
 		User user = new User(json);
 		
 		addOrUpdateUser(groupId, user);
-		
-		return JsonUtil.dataToJson( getLeaderLocation(groupId));
+		return GroupController.getLeaderId(groupId);
+		//return JsonUtil.dataToJson( getLeaderLocation(groupId));
 	};
 	
 	public static Route HandleUpdatingLocation = (Request request, Response response) -> {
