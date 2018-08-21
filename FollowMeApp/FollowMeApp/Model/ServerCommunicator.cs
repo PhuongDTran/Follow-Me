@@ -56,7 +56,7 @@ namespace FollowMeApp.Model
         public async Task<string> RequestGroupIdAsync(Device device, Location location)
         {
             string groupId = "";
-            string url = "http://192.168.4.146:4567/groupid/";
+            string url = "http://192.168.4.146:4567/newgroup/";
             string contentType = "application/json";
             JObject json = new JObject
             {
