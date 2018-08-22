@@ -1,17 +1,14 @@
 package com.followme.requests;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.followme.group.GroupController;
 import com.followme.trip.Location;
 import com.followme.trip.TripController;
 import com.followme.user.UserController;
+import com.followme.util.JsonUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import com.mysql.jdbc.Util;
-import com.followme.util.JsonUtil;
+
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -48,7 +45,6 @@ public class RequestsHandler {
 		
 		addOrUpdateUser(groupId, user);
 		return GroupController.getLeaderId(groupId);
-		//return JsonUtil.dataToJson( getLeaderLocation(groupId));
 	};
 	
 	public static Route HandleUpdatingLocation = (Request request, Response response) -> {
@@ -60,13 +56,19 @@ public class RequestsHandler {
 		return null; 
 	};
 	
-	private static Location getLeaderLocation( String groupId){
-		String leaderId = GroupController.getLeaderId(groupId);
-		Location location = null;
-		if (leaderId != ""){
-			location = TripController.getLocation(groupId, leaderId);
+	public static Route HandleGettingLocation = (Request request, Response response) -> {
+		String groupId = request.queryParams("groupid");
+		String memberId = request.queryParams("memberid");
+		Location location = getLocation(groupId, memberId);
+		return JsonUtil.dataToJson(location);
+	};
+	
+	
+	private static Location getLocation( String groupId, String memberId){
+		if (groupId != null && memberId != null) {
+			return TripController.getLocation(groupId, memberId);
 		}
-		return location;
+		return null;
 	}
 	
 	private static void addOrUpdateUser(String groupId, User user){
