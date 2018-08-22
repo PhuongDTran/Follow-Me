@@ -24,6 +24,7 @@ public class FollowMeMain {
 		get("/hello/", (req,res) -> "hello");
 		post(Path.Web.NEWGROUP,			RequestsHandler.HandleGroupIdRequest);
 		post(Path.Web.TRIP,				RequestsHandler.HandleAddingMember);
+		get(Path.Web.TRIP, "application/json" ,RequestsHandler.HandleGettingLocation);
 	}
 
 }
