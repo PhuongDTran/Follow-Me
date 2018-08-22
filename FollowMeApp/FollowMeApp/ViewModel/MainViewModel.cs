@@ -18,7 +18,7 @@ namespace FollowMeApp.ViewModel
 
         #region Properties
 
-        public IDictionary<string,Location> Members
+        public IDictionary<string, Location> Members
         {
             get
             {
@@ -89,12 +89,12 @@ namespace FollowMeApp.ViewModel
         protected MainViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
-           
+
             GeolocationManager.instance.LocationUpdatesEvent += (object sender, Location location) =>
             {
-                MyLocation = location;   
+                MyLocation = location;
             };
-            
+
             //listen for AppStart event and run the code very early when app started
             ((App)Application.Current).AppStart += async () =>
             {
@@ -103,16 +103,17 @@ namespace FollowMeApp.ViewModel
 
             ServerCommunicator.Instance.PropertyChanged += async (s, e) =>
             {
-                if(e.PropertyName == nameof(ServerCommunicator.Instance.GroupId))
+                if (e.PropertyName == nameof(ServerCommunicator.Instance.GroupId))
                 {
                     //TODO: deviceService created in MainVM and ShareVM.
                     var deviceService = new DeviceService();
-                    Model.Device deviceData=null;
+                    Model.Device deviceData = null;
                     deviceService.GetDeviceData((device, error) =>
                    {
                        deviceData = device;
                    });
-                   LeaderLocation = await ServerCommunicator.Instance.SendMemberInfo(deviceData, _myLocation);
+                    var leaderId = await ServerCommunicator.Instance.SendMemberInfo(deviceData, _myLocation);
+                    LeaderLocation = await ServerCommunicator.Instance.GetLocationAsync(leaderId);
                 }
             };
 
