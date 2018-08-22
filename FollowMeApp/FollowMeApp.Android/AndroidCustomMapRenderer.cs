@@ -10,14 +10,14 @@ using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Xamarin.Forms.Maps.Android;
 
-[assembly: ExportRenderer(typeof(CustomMap), typeof(CustomMapRenderer))]
+[assembly: ExportRenderer(typeof(CustomMap), typeof(AndroidCustomMapRenderer))]
 namespace FollowMeApp.Droid
 {
-    public class CustomMapRenderer : MapRenderer
+    public class AndroidCustomMapRenderer : MapRenderer
     {
         IList<Pin> _pins;
         
-        public CustomMapRenderer(Context context) : base(context)
+        public AndroidCustomMapRenderer(Context context) : base(context)
         {
         }
 
