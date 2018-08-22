@@ -1,8 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using Java.Nio.FileNio;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.ComponentModel;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,7 +12,7 @@ namespace FollowMeApp.Model
 {
     public sealed class ServerCommunicator : IServerCommunicator
     {
-        
+
         #region singleton pattern
         // Explicit static constructor to tell C# compiler
         // not to mark type as beforefieldinit
@@ -18,7 +20,7 @@ namespace FollowMeApp.Model
         {
         }
 
-        private ServerCommunicator(){ }
+        private ServerCommunicator() { }
 
         public static IServerCommunicator Instance { get; } = new ServerCommunicator();
         #endregion
@@ -28,7 +30,7 @@ namespace FollowMeApp.Model
         #region  PropertyChange Event
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged(
-           [System.Runtime.CompilerServices.CallerMemberName] string propertyName="")
+           [System.Runtime.CompilerServices.CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
@@ -94,7 +96,7 @@ namespace FollowMeApp.Model
             return groupId;
         }
 
-        public async Task<Location> SendMemberInfo( Device device, Location location)
+        public async Task<string> SendMemberInfo(Device device, Location location)
         {
             string url = "http://192.168.4.146:4567/trip/?groupid=" + GroupId;
             string contentType = "application/json";
@@ -112,7 +114,10 @@ namespace FollowMeApp.Model
             try
             {
                 var response = await client.PostAsync(url, new StringContent(json.ToString(), Encoding.UTF8, contentType));
+                response.EnsureSuccessStatusCode();
                 var content = await response.Content.ReadAsStringAsync();
+
+                /*
                 JObject jContent = (JObject)JsonConvert.DeserializeObject(content);
 
                 //TODO: what to do with id sent from server???
@@ -122,8 +127,8 @@ namespace FollowMeApp.Model
                     Longitude = (double)jContent.GetValue("longitude"),
                     Heading = (int)jContent.GetValue("heading"),
                     Speed = (int)jContent.GetValue("speed")
-                };
-                return leaderLocation;
+                };*/
+                return content;
             }
             catch (ArgumentNullException ex)
             {
@@ -174,14 +179,55 @@ namespace FollowMeApp.Model
             return null;
         }
 
-            public Task SendLocationAsync(string memberId, Location location)
+        public Task SendLocationAsync(string memberId, Location location)
         {
             throw new NotImplementedException();
         }
 
-        public Task GetLocationAsync(string memberId)
+        public async Task<Location> GetLocationAsync(string memberId)
         {
-            throw new NotImplementedException();
+            string url = String.Format("http://192.168.4.146:4567/trip/?groupid={0}&memberid={1}", GroupId, memberId);
+            
+            HttpClient client = new HttpClient();
+            try
+            {
+                var response = await client.GetAsync(url);
+                var content = await response.Content.ReadAsStringAsync();
+
+                JObject jContent = (JObject)JsonConvert.DeserializeObject(content);
+
+                //TODO: what to do with id sent from server???
+                Location location = new Location
+                {
+                    Latitude = (double)jContent.GetValue("latitude"),
+                    Longitude = (double)jContent.GetValue("longitude"),
+                    Heading = (int)jContent.GetValue("heading"),
+                    Speed = (int)jContent.GetValue("speed")
+                };
+                return location;
+            }
+            catch (COMException ex)
+            {
+                Console.WriteLine("The request was null. ", ex.Message);
+            }
+            catch (AccessDeniedException ex)
+            {
+                Console.WriteLine("Already sent by the HttpClient instance.", ex.Message);
+            }
+            catch (OutOfMemoryException ex)
+            {
+                Console.WriteLine("Underlying issue:network connectivity, DNS failure, or timeout.", ex.Message);
+            }
+            catch (ObjectDisposedException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            catch( Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
         }
+
     }
 }
