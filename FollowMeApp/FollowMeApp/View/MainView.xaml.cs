@@ -41,7 +41,7 @@ namespace FollowMeApp.View
         {
             if (e.PropertyName == nameof(_mainVM.MyLocation))
             {
-                var position = new Position(_mainVM.MyLocation.Latitude, _mainVM.MyLocation.Latitude);
+                var position = new Position(_mainVM.MyLocation.Latitude, _mainVM.MyLocation.Longitude);
                 MainMap.MoveToRegion(MapSpan.FromCenterAndRadius(position, Distance.FromMiles(1)));
             }
 
