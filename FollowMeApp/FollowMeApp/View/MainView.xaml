@@ -27,7 +27,7 @@
             <!--Map component used in both Android and iOS-->
             <maps:CustomMap
                 x:Name="MainMap"
-                IsShowingUser="true"
+                
                 MapType="Street"
                 HasZoomEnabled="True"/>
             

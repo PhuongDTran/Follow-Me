@@ -13,8 +13,14 @@ namespace FollowMeApp
 		public App ()
 		{
 			InitializeComponent();
+            //if CrossPermissions.Current.CheckPermissionStatus(Permission.Location) {
             MainPage = new MainView();
-		}
+            //} else
+            //{
+            //    CrossPermissions.Current.RequestPermission(Permission.Location)
+            //    MainPage = new SplashView();
+            //}
+        }
 
         public delegate void AppEventDelegate();
         public event AppEventDelegate AppStart;

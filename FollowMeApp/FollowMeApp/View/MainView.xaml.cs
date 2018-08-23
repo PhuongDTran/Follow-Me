@@ -24,6 +24,9 @@ namespace FollowMeApp.View
             {
                 MyLocation.IsVisible = false;
             }
+            //if CrossPermissions.Current.CheckPermissionStatus(Permission.Location) {
+            //    this.MainMap.IsShowingUser = true
+            //}
         }
 
         private void OnMyLocationTapped(object sender, EventArgs e)
