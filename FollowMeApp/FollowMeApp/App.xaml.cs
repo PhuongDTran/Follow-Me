@@ -24,8 +24,10 @@ namespace FollowMeApp
 
         public delegate void AppEventDelegate();
         public event AppEventDelegate AppStart;
+        public event AppEventDelegate AppResume;
+        public event AppEventDelegate AppSleep;
 
-		protected override void OnStart ()
+        protected override void OnStart ()
 		{
             // Handle when your app starts
 
@@ -33,16 +35,16 @@ namespace FollowMeApp
             AppStart?.Invoke();
         }
 
-		protected async override void OnSleep ()
+		protected override void OnSleep ()
 		{
             // Handle when your app sleeps
-            await GeolocationManager.instance.StopUpdatingLocationAsync();
+            AppSleep?.Invoke();
 		}
 
 		protected  override void OnResume ()
 		{
             // Handle when your app resumes
-            //await GeolocationManager.instance.StartUpdatingLocationAsync();
+            AppResume.Invoke();
         }
 	}
 }

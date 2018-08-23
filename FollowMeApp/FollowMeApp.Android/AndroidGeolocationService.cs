@@ -11,7 +11,7 @@ namespace FollowMeApp.Droid
     {
         private IGeolocationListener _geolocationListener;
         private FusedLocationProviderClient _fusedLocationProviderClient;
-        private MainActivity _mainActivity;
+        private readonly MainActivity _mainActivity;
         public event EventHandler<Location> LocationUpdatesEvent;
 
         public AndroidGeolocationService(MainActivity mainActivity)

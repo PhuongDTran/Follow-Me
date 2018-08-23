@@ -14,12 +14,13 @@ namespace FollowMeApp.ViewModel
 
     public class MainViewModel : ViewModelBase
     {
-
+        #region Fields
         private readonly INavigationService _navigationService;
         private Location _myLocation;
         private Location _leaderLocation;
         private bool _isShowingLocation = false;
         private IDictionary<string, Location> _members;
+        #endregion
 
         #region Properties
 
@@ -87,8 +88,8 @@ namespace FollowMeApp.ViewModel
             }
         }
         #endregion
-        public ICommand CurrentLocationCommand { get; private set; }
 
+        #region Constructors
         public MainViewModel() :
            this(null)
         {
@@ -99,7 +100,7 @@ namespace FollowMeApp.ViewModel
             //  INavigationService instances to be passed in. This is just for making the basic test work.
 
         }
-
+        
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
@@ -107,22 +108,32 @@ namespace FollowMeApp.ViewModel
         {
             _navigationService = navigationService;
 
-            GeolocationManager.instance.LocationUpdatesEvent += (object sender, Location location) =>
-            {
-                MyLocation = location;
-            };
+            //current location updates
+            GeolocationManager.instance.LocationUpdatesEvent += OnLocationUpdates;
 
-            //listen for AppStart event and run the code very early when app started
-            ((App)Application.Current).AppStart += OnAppStart;
-
+            //Event handlers when app starts, sleeps, or resumes
+            ((App)Application.Current).AppStart += OnForegroundWork;
+            ((App)Application.Current).AppSleep += OnBackgroundWok;
+            ((App)Application.Current).AppResume += OnForegroundWork;
+           
             //listen for any propertis changed in ServerCommunicator
             ServerCommunicator.Instance.PropertyChanged += OnServerCommunicatorPropertyChanged;
-
         }
-
+        #endregion
 
         #region Event Subscribers
-        private async void OnAppStart()
+
+        private void OnLocationUpdates(object sender, Location location)
+        {
+                MyLocation = location;
+        }
+
+        private async void OnBackgroundWok()
+        {
+            await GeolocationManager.instance.StopUpdatingLocationAsync();
+        }
+
+        private async void OnForegroundWork()
         {
             try
             {
@@ -171,6 +182,6 @@ namespace FollowMeApp.ViewModel
                 LeaderLocation = await ServerCommunicator.Instance.GetLocationAsync(leaderId);
             }
         }
+        #endregion
     }
-    #endregion
 }
