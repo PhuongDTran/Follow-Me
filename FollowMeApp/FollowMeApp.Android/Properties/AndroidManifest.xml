@@ -8,7 +8,7 @@
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 	<uses-permission android:name="android.permission.INTERNET" />
-	<application android:label="FollowMeApp.Android">
+	<application android:label="Follow Me">
 		<!--Google Maps V2 API Key here.-->
 		<meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyDM5G0kUvjHJXWUOQLyVYwTOhPpML2PA0o" />
 	</application>
