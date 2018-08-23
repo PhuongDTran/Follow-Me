@@ -4,6 +4,10 @@ using GalaSoft.MvvmLight.Views;
 using System.Collections.Generic;
 using System.Windows.Input;
 using Xamarin.Forms;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
+using System;
+using System.ComponentModel;
 
 namespace FollowMeApp.ViewModel
 {
@@ -14,9 +18,22 @@ namespace FollowMeApp.ViewModel
         private readonly INavigationService _navigationService;
         private Location _myLocation;
         private Location _leaderLocation;
+        private bool _isShowingLocation = false;
         private IDictionary<string, Location> _members;
 
         #region Properties
+
+        public bool IsShowingLocation
+        {
+            get
+            {
+                return _isShowingLocation;
+            }
+            private set
+            {
+                Set(ref _isShowingLocation, value);
+            }
+        }
 
         public IDictionary<string, Location> Members
         {
@@ -96,27 +113,64 @@ namespace FollowMeApp.ViewModel
             };
 
             //listen for AppStart event and run the code very early when app started
-            ((App)Application.Current).AppStart += async () =>
-            {
-                await GeolocationManager.instance.StartUpdatingLocationAsync();
-            };
+            ((App)Application.Current).AppStart += OnAppStart;
 
-            ServerCommunicator.Instance.PropertyChanged += async (s, e) =>
-            {
-                if (e.PropertyName == nameof(ServerCommunicator.Instance.GroupId))
-                {
-                    //TODO: deviceService created in MainVM and ShareVM.
-                    var deviceService = new DeviceService();
-                    Model.Device deviceData = null;
-                    deviceService.GetDeviceData((device, error) =>
-                   {
-                       deviceData = device;
-                   });
-                    var leaderId = await ServerCommunicator.Instance.SendMemberInfo(deviceData, _myLocation);
-                    LeaderLocation = await ServerCommunicator.Instance.GetLocationAsync(leaderId);
-                }
-            };
+            //listen for any propertis changed in ServerCommunicator
+            ServerCommunicator.Instance.PropertyChanged += OnServerCommunicatorPropertyChanged;
 
         }
+
+
+        #region Event Subscribers
+        private async void OnAppStart()
+        {
+            try
+            {
+                var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
+                if (status != PermissionStatus.Granted)
+                {
+                    //if (await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(Permission.Location))
+                    //{
+                    //    await DisplayAlert("Need location", "Gunna need that location", "OK");
+                    //}
+
+                    var results = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Location);
+                    //Best practice to always check that the key exists
+                    if (results.ContainsKey(Permission.Location))
+                        status = results[Permission.Location];
+                }
+
+                if (status == PermissionStatus.Granted)
+                {
+                    await GeolocationManager.instance.StartUpdatingLocationAsync();
+                    IsShowingLocation = true;
+                }
+                else if (status != PermissionStatus.Unknown)
+                {
+                    //await DisplayAlert("Location Denied", "Can not continue, try again.", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex);
+            }
+        }
+
+        private async void OnServerCommunicatorPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(ServerCommunicator.Instance.GroupId))
+            {
+                //TODO: deviceService created in MainVM and ShareVM.
+                var deviceService = new DeviceService();
+                Model.Device deviceData = null;
+                deviceService.GetDeviceData((device, error) =>
+                {
+                    deviceData = device;
+                });
+                var leaderId = await ServerCommunicator.Instance.SendMemberInfo(deviceData, _myLocation);
+                LeaderLocation = await ServerCommunicator.Instance.GetLocationAsync(leaderId);
+            }
+        }
     }
+    #endregion
 }

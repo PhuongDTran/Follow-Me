@@ -6,10 +6,9 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.App;
-using Android.Support.Design.Widget;
-using Android.Widget;
-using Android.Util;
+
 using FollowMeApp.Model;
+using Plugin.Permissions;
 
 namespace FollowMeApp.Droid
 {
@@ -21,12 +20,6 @@ namespace FollowMeApp.Droid
 
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity, ActivityCompat.IOnRequestPermissionsResultCallback
     {
-        //Id to identify location permissions request.
-        static readonly int REQUEST_LOCATION = 0;
-        //permissions required to get location.
-        static readonly string[] PERMISSIONS_LOCATION = { Manifest.Permission.AccessCoarseLocation, Manifest.Permission.AccessFineLocation };
-        static readonly string TAG = "MainActivity";
-
         protected override void OnCreate(Bundle bundle)
         {
             TabLayoutResource = Resource.Layout.Tabbar;
@@ -56,38 +49,13 @@ namespace FollowMeApp.Droid
         protected override void OnStart()
         {
             base.OnStart();
-            RequestLocationPermissions();
-
         }
         
-        void RequestLocationPermissions()
+        //Callback received when a permissions request has been completed.
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
-            if( ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessCoarseLocation) != (int)Permission.Granted
-                || ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation) != (int)Permission.Granted)
-            {
-                ActivityCompat.RequestPermissions(this, PERMISSIONS_LOCATION, REQUEST_LOCATION);
-            }
-        }
-        
-     	//Callback received when a permissions request has been completed.
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
-        {
-            
-            if(requestCode == REQUEST_LOCATION)
-            {
-                if(grantResults.Length == 2 && grantResults[0] == Permission.Granted && grantResults[1] == Permission.Granted)
-                {
-                    Log.Info(TAG, "Location permission has now been granted.");
-                }
-                else
-                {
-                    Log.Info(TAG, "Location permission was NOT granted.");
-                }
-            }
-            else
-            {
-                base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-            }
+            PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
 

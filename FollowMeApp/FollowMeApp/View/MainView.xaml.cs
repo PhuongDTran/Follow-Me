@@ -7,6 +7,7 @@ using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 
+
 namespace FollowMeApp.View
 {
     public partial class MainView : ContentPage
@@ -19,14 +20,13 @@ namespace FollowMeApp.View
 			InitializeComponent();
             _shareView = new ShareView();
             _mainVM = (MainViewModel)BindingContext;
-            _mainVM.PropertyChanged += OnPropertyChange;
+            _mainVM.PropertyChanged += OnMainViewModelPropertyChanged;
             if (Device.RuntimePlatform == Device.Android)
             {
                 MyLocation.IsVisible = false;
             }
-            //if CrossPermissions.Current.CheckPermissionStatus(Permission.Location) {
-            //    this.MainMap.IsShowingUser = true
-            //}
+            
+             
         }
 
         private void OnMyLocationTapped(object sender, EventArgs e)
@@ -40,7 +40,7 @@ namespace FollowMeApp.View
         }
 
 
-        private void OnPropertyChange(object sender, PropertyChangedEventArgs e)
+        private void OnMainViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(_mainVM.MyLocation))
             {
@@ -57,6 +57,11 @@ namespace FollowMeApp.View
                     Label = "Leader"
                 };
                 MainMap.Pins.Add(pin);
+            }
+
+            if(e.PropertyName == nameof(_mainVM.IsShowingLocation))
+            {
+                MainMap.IsShowingUser = true;
             }
         }
     }
