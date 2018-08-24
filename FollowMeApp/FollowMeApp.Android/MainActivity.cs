@@ -24,31 +24,46 @@ namespace FollowMeApp.Droid
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity, ActivityCompat.IOnRequestPermissionsResultCallback
     {
         internal static readonly string CHANNEL_ID = "my_notification_channel";
-
+        internal static readonly string TAG = "MainActivity";
         protected override void OnCreate(Bundle bundle)
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
             base.OnCreate(bundle);
 
-            //plugins intialized
+            #region plugins intialized
             Rg.Plugins.Popup.Popup.Init(this,bundle);
             Xamarin.Forms.Forms.Init(this, bundle);
             Xamarin.FormsMaps.Init(this, bundle);
             Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, bundle);
+            #endregion
 
+            #region Geolocation service
             if (GeolocationManager.instance == null)
             {
                 GeolocationManager.instance = new AndroidGeolocationService(this);
             }
-           
+            #endregion
+
+            #region url scheme
             var groupId = Intent?.Data?.GetQueryParameter("groupid");
             if ( groupId != null)
             {
                 ServerCommunicator.Instance.GroupId = groupId;
-                
+            }
+            #endregion
+
+            #region Firebase Cloud Messaging
+            if (Intent.Extras != null)
+            {
+                foreach (var key in Intent.Extras.KeySet())
+                {
+                    var value = Intent.Extras.GetString(key);
+                    Log.Debug(TAG, "Key: {0} Value: {1}", key, value);
+                }
             }
             CreateNotificationChannel();
+            #endregion
 
             LoadApplication(new App());
         }

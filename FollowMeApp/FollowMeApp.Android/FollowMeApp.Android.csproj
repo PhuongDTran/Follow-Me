@@ -114,6 +114,7 @@
     <Compile Include="AndroidGeolocationService.cs" />
     <Compile Include="AndroidCustomMapRenderer.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="MyFirebaseIIDService.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
