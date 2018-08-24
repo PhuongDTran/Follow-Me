@@ -6,7 +6,10 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.App;
-
+using Android.Gms.Common;
+using Firebase.Messaging;
+using Firebase.Iid;
+using Android.Util;
 using FollowMeApp.Model;
 using Plugin.Permissions;
 
@@ -44,11 +47,6 @@ namespace FollowMeApp.Droid
                 
             }
             LoadApplication(new App());
-        }
-
-        protected override void OnStart()
-        {
-            base.OnStart();
         }
         
         //Callback received when a permissions request has been completed.
