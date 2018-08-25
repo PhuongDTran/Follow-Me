@@ -9,6 +9,7 @@ create table GroupInfo( group_id varchar(20) not null,
                             
 create table MemberInfo( member_id varchar(50) not null,
 							member_name varchar(30),
+                            token varchar(200),
                             platform varchar(10),
                             primary key (member_id));
 
