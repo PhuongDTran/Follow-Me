@@ -1,4 +1,4 @@
-package com.followme.user;
+package com.followme.member;
 
 import static com.followme.util.Release.release;
 
@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import com.followme.util.ConnectionManager;
 
-class UserDao {
+class MemberDao {
 
 	private Connection conn = null;
 	final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
@@ -22,7 +22,7 @@ class UserDao {
 	 * The constructor makes a connection to database
 	 * @throws SQLException
 	 */
-	protected UserDao() throws SQLException{
+	protected MemberDao() throws SQLException{
 		if(conn == null){
 			conn = ConnectionManager.getInstance().getConnection();
 			if (conn == null){
@@ -48,7 +48,7 @@ class UserDao {
 		return false;
 	}
 	
-	protected void addNewUser(String id, String memberName, String platform) {
+	protected void addNewMember(String id, String memberName, String platform) {
 		PreparedStatement pstmt = null;
 		try {
 			String sql = "INSERT INTO MemberInfo VALUES (?,?,?)";
@@ -77,7 +77,7 @@ class UserDao {
 			release(pstmt);
 		}
 	}
-	protected void updateUserName(String memberId,  String memberName){
+	protected void updateName(String memberId,  String memberName){
 		PreparedStatement pstmt = null;
 		try {
 			String sql = "UPDATE MemberInfo SET member_name=? WHERE member_id=?";

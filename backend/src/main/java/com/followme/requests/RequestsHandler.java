@@ -1,9 +1,9 @@
 package com.followme.requests;
 
 import com.followme.group.GroupController;
+import com.followme.member.MemberController;
 import com.followme.trip.Location;
 import com.followme.trip.TripController;
-import com.followme.user.UserController;
 import com.followme.util.JsonUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -72,7 +72,7 @@ public class RequestsHandler {
 	}
 	
 	private static void addOrUpdateUser(String groupId, User user){
-			UserController.addOrUpdateUser(user.getId(), user.getName(), user.getPlatform());
+			MemberController.addOrUpdateUser(user.getId(), user.getName(), user.getPlatform());
 			TripController.addOrUpdateMember(groupId, user.getId(), user.getLatitude(), user.getLongitude(), user.getHeading(), user.getSpeed(), false);
 	}
 }

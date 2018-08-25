@@ -1,4 +1,4 @@
-package com.followme.user;
+package com.followme.member;
 
 import java.lang.invoke.MethodHandles;
 import java.sql.SQLException;
@@ -6,18 +6,18 @@ import java.sql.SQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class UserController {
+public class MemberController {
 
 	final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-	public static void addOrUpdateUser(String id, String userName,String platform){
+	public static void addOrUpdateUser(String id, String name, String platform){
 		try{
-			UserDao userDao = new UserDao();
-			if(!userDao.doesExist(id)){
+			MemberDao memberDao = new MemberDao();
+			if(!memberDao.doesExist(id)){
 
-				userDao.addNewUser(id, userName, platform);
+				memberDao.addNewMember(id, name, platform);
 			}else{
-				userDao.updateUserName(id, userName);
+				memberDao.updateName(id, name);
 			}
 		}catch(SQLException ex){
 			logger.error("error when creating MemberDao()." + ex.getMessage());
@@ -26,9 +26,9 @@ public class UserController {
 	
 	public static void updateToken(String id, String token){
 		try{
-			UserDao userDao = new UserDao();
-			if(!userDao.doesExist(id)){
-				userDao.updateToken(id, token);
+			MemberDao memberDao = new MemberDao();
+			if(!memberDao.doesExist(id)){
+				memberDao.updateToken(id, token);
 			}
 		}catch(SQLException ex){
 			logger.error("error when creating MemberDao()." + ex.getMessage());
