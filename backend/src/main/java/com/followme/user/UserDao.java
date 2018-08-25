@@ -63,7 +63,20 @@ class UserDao {
 			release(pstmt);
 		}
 	}
-	
+	protected void updateToken( String memberId, String token){
+		PreparedStatement pstmt = null;
+		try {
+			String sql = "UPDATE MemberInfo SET token=? WHERE member_id=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, token);
+			pstmt.setString(2, memberId);
+			pstmt.executeUpdate();
+		}catch (SQLException ex){
+			logger.error("updateToken() failed." + ex.getMessage());
+		}finally {
+			release(pstmt);
+		}
+	}
 	protected void updateUserName(String memberId,  String memberName){
 		PreparedStatement pstmt = null;
 		try {

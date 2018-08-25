@@ -23,4 +23,15 @@ public class UserController {
 			logger.error("error when creating MemberDao()." + ex.getMessage());
 		}
 	}
+	
+	public static void updateToken(String id, String token){
+		try{
+			UserDao userDao = new UserDao();
+			if(!userDao.doesExist(id)){
+				userDao.updateToken(id, token);
+			}
+		}catch(SQLException ex){
+			logger.error("error when creating MemberDao()." + ex.getMessage());
+		}
+	}
 }
