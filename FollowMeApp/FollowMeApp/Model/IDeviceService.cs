@@ -6,6 +6,6 @@ namespace FollowMeApp.Model
 {
     public interface IDeviceService
     {
-        void GetDeviceData(Action<Device, Exception> callback);
+        Device GetDeviceData();
     }
 }
