@@ -26,6 +26,7 @@ namespace FollowMeApp.Model
         #endregion
 
         private string _groupId;
+        private static Device _device = new DeviceService().GetDeviceData();
 
         #region  PropertyChange Event
         public event PropertyChangedEventHandler PropertyChanged;
@@ -55,20 +56,20 @@ namespace FollowMeApp.Model
         #endregion
 
 
-        public async Task<string> RequestGroupIdAsync(Device device, Location location)
+        public async Task<string> RequestGroupIdAsync(Location location)
         {
             string groupId = "";
             string url = "http://192.168.4.146:4567/newgroup/";
             string contentType = "application/json";
             JObject json = new JObject
             {
-                { "id", device.DeviceID },
-                { "name", device.DeviceName },
+                { "id", _device.DeviceID },
+                { "name", _device.DeviceName },
                 { "lat", location.Latitude },
                 { "lon", location.Longitude },
                 { "speed", location.Speed },
                 { "heading", location.Heading }, //TODO: need heading
-                { "platform", device.Platform }
+                { "platform", _device.Platform }
             };
             HttpClient client = new HttpClient();
             try
@@ -96,19 +97,19 @@ namespace FollowMeApp.Model
             return groupId;
         }
 
-        public async Task<string> SendMemberInfo(Device device, Location location)
+        public async Task<string> SendMemberInfo(Location location)
         {
             string url = "http://192.168.4.146:4567/trip/?groupid=" + GroupId;
             string contentType = "application/json";
             JObject json = new JObject
             {
-                { "id", device.DeviceID },
-                { "name", device.DeviceName },
+                { "id", _device.DeviceID },
+                { "name", _device.DeviceName },
                 { "lat", location.Latitude },
                 { "lon", location.Longitude },
                 { "speed", location.Speed },
                 { "heading", location.Heading }, //TODO: need heading
-                { "platform", device.Platform }
+                { "platform", _device.Platform }
             };
             HttpClient client = new HttpClient();
             try

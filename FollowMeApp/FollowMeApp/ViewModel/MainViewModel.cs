@@ -171,14 +171,7 @@ namespace FollowMeApp.ViewModel
         {
             if (e.PropertyName == nameof(ServerCommunicator.Instance.GroupId))
             {
-                //TODO: deviceService created in MainVM and ShareVM.
-                var deviceService = new DeviceService();
-                Model.Device deviceData = null;
-                deviceService.GetDeviceData((device, error) =>
-                {
-                    deviceData = device;
-                });
-                var leaderId = await ServerCommunicator.Instance.SendMemberInfo(deviceData, _myLocation);
+                var leaderId = await ServerCommunicator.Instance.SendMemberInfo(_myLocation);
                 LeaderLocation = await ServerCommunicator.Instance.GetLocationAsync(leaderId);
             }
         }

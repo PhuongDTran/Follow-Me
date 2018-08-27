@@ -10,8 +10,8 @@ namespace FollowMeApp.Model
     {
         string GroupId { get; set; }
         string LeaderId { get; set; }
-        Task<string> RequestGroupIdAsync(Device device, Location location);
-        Task<string> SendMemberInfo(Device device, Location location);
+        Task<string> RequestGroupIdAsync(Location location);
+        Task<string> SendMemberInfo(Location location);
         Task<string> GetMemberIdAsync(string groupId);
         Task SendLocationAsync(string memberId, Location location);
         Task<Location> GetLocationAsync(string memberId);

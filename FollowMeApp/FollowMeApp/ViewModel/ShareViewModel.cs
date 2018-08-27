@@ -13,7 +13,6 @@ namespace FollowMeApp.ViewModel
     {
         private readonly IDeviceService _deviceService;
         private readonly INavigationService _navigationService;
-        private Device _deviceData;
         private String _groupId;
         private Location _location;
 
@@ -41,13 +40,7 @@ namespace FollowMeApp.ViewModel
 
         protected ShareViewModel(IDeviceService deviceService, INavigationService navigationService)
         {
-            _deviceService = deviceService;
             _navigationService = navigationService;
-            _deviceService.GetDeviceData(
-                (deviceData, error) =>
-                {
-                    _deviceData = deviceData;
-                });
         }
 
         #region Commands
@@ -55,7 +48,7 @@ namespace FollowMeApp.ViewModel
 
         private async Task OnGenerateUrlCommand()
         {
-            GroupId = await ServerCommunicator.Instance.RequestGroupIdAsync(_deviceData, _location);
+            GroupId = await ServerCommunicator.Instance.RequestGroupIdAsync(_location);
         }
 
         private bool CanGenerateUrlCommand()
