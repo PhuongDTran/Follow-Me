@@ -1,7 +1,6 @@
-﻿using System;
-using Android.App;
-using Firebase.Iid;
+﻿using Android.App;
 using Android.Util;
+using Firebase.Iid;
 
 namespace FollowMeApp.Droid
 {

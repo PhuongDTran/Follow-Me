@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FollowMeApp.Model
+﻿namespace FollowMeApp.Model
 {
     public interface IDeviceService
     {
