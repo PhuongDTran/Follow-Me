@@ -135,6 +135,11 @@ namespace FollowMeApp.ViewModel
 
         private async void OnForegroundWork()
         {
+            #region Send Device Info
+            await ServerCommunicator.Instance.SendMemberInfo();
+            #endregion
+
+            #region Location Permissions
             try
             {
                 var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
@@ -150,7 +155,6 @@ namespace FollowMeApp.ViewModel
                     if (results.ContainsKey(Permission.Location))
                         status = results[Permission.Location];
                 }
-
                 if (status == PermissionStatus.Granted)
                 {
                     await GeolocationManager.instance.StartUpdatingLocationAsync();
@@ -165,14 +169,18 @@ namespace FollowMeApp.ViewModel
             {
                 Console.WriteLine("Error: " + ex);
             }
+            #endregion
         }
 
         private async void OnServerCommunicatorPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(ServerCommunicator.Instance.GroupId))
             {
-                var leaderId = await ServerCommunicator.Instance.SendMemberInfo(_myLocation);
-                LeaderLocation = await ServerCommunicator.Instance.GetLocationAsync(leaderId);
+                var leaderId = await ServerCommunicator.Instance.GetLeaderIdAsync();
+                if (leaderId != null)
+                {
+                    LeaderLocation = await ServerCommunicator.Instance.GetLocationAsync(leaderId);
+                }
             }
         }
         #endregion
