@@ -38,17 +38,17 @@ public class RequestsHandler {
 	};
 	
 	public static Route HandleAddingMember = (Request request, Response response) -> {
-		String groupId = request.queryParams("groupid");
 		Gson gson = new GsonBuilder().create();
 		JsonObject json = gson.fromJson(request.body(), JsonObject.class);
-		User user = new User(json);
-		
-		addOrUpdateUser(groupId, user);
-		return GroupController.getLeaderId(groupId);
+		String id = json.get("id").getAsString();
+		String name = json.get("name").getAsString();
+		String platform = json.get("platform").getAsString();
+		MemberController.addOrUpdateUser(id, name, platform);
+		return response.status();
 	};
 	
 	public static Route HandleUpdatingLocation = (Request request, Response response) -> {
-		String groupId = request.queryParams("groupid");
+		String groupId = request.queryParams("group");
 		Gson gson = new GsonBuilder().create();
 		JsonObject json = gson.fromJson(request.body(), JsonObject.class);
 		User user = new User(json);
@@ -56,9 +56,15 @@ public class RequestsHandler {
 		return null; 
 	};
 	
+	public static Route HandleGettingLeaderId = (Request request, Response response) -> {
+		String groupId = request.queryParams("group");
+		String leaderId = GroupController.getLeaderId(groupId);
+		return leaderId;
+	};
+	
 	public static Route HandleGettingLocation = (Request request, Response response) -> {
-		String groupId = request.queryParams("groupid");
-		String memberId = request.queryParams("memberid");
+		String groupId = request.queryParams("group");
+		String memberId = request.queryParams("member");
 		Location location = getLocation(groupId, memberId);
 		return JsonUtil.dataToJson(location);
 	};

@@ -1,5 +1,4 @@
-﻿using Java.Nio.FileNio;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.ComponentModel;
@@ -59,7 +58,7 @@ namespace FollowMeApp.Model
         public async Task<string> RequestGroupIdAsync(Location location)
         {
             string groupId = "";
-            string url = "http://192.168.4.146:4567/newgroup/";
+            string url = "http://192.168.4.146:4567/group/";
             string contentType = "application/json";
             JObject json = new JObject
             {
@@ -97,18 +96,32 @@ namespace FollowMeApp.Model
             return groupId;
         }
 
-        public async Task<string> SendMemberInfo(Location location)
+        public async Task<string> GetLeaderIdAsync()
         {
-            string url = "http://192.168.4.146:4567/trip/?groupid=" + GroupId;
+            string url = "http://192.168.4.146:4567/leader/?group=" + GroupId;
+            HttpClient client = new HttpClient();
+            HttpResponseMessage response = await client.GetAsync(url);
+            if (response.IsSuccessStatusCode)
+            {
+                var leaderId = await response.Content.ReadAsStringAsync();
+                return leaderId;
+            }
+            return null;
+        }
+
+        /// <summary>
+        ///  Send Member Info to app server: device id, device name, platform.
+        /// </summary>
+        /// <param name="location"></param>
+        /// <returns></returns>
+        public async Task SendMemberInfo()
+        {
+            string url = "http://192.168.4.146:4567/member/";
             string contentType = "application/json";
             JObject json = new JObject
             {
                 { "id", _device.DeviceID },
                 { "name", _device.DeviceName },
-                { "lat", location.Latitude },
-                { "lon", location.Longitude },
-                { "speed", location.Speed },
-                { "heading", location.Heading }, //TODO: need heading
                 { "platform", _device.Platform }
             };
             HttpClient client = new HttpClient();
@@ -116,20 +129,6 @@ namespace FollowMeApp.Model
             {
                 var response = await client.PostAsync(url, new StringContent(json.ToString(), Encoding.UTF8, contentType));
                 response.EnsureSuccessStatusCode();
-                var content = await response.Content.ReadAsStringAsync();
-
-                /*
-                JObject jContent = (JObject)JsonConvert.DeserializeObject(content);
-
-                //TODO: what to do with id sent from server???
-                Location leaderLocation = new Location
-                {
-                    Latitude = (double)jContent.GetValue("latitude"),
-                    Longitude = (double)jContent.GetValue("longitude"),
-                    Heading = (int)jContent.GetValue("heading"),
-                    Speed = (int)jContent.GetValue("speed")
-                };*/
-                return content;
             }
             catch (ArgumentNullException ex)
             {
@@ -147,7 +146,6 @@ namespace FollowMeApp.Model
             {
                 Console.WriteLine(ex.Message);
             }
-            return null;
         }
 
         public async Task<string> GetMemberIdAsync(string groupId)
@@ -187,8 +185,8 @@ namespace FollowMeApp.Model
 
         public async Task<Location> GetLocationAsync(string memberId)
         {
-            string url = String.Format("http://192.168.4.146:4567/trip/?groupid={0}&memberid={1}", GroupId, memberId);
-            
+            string url = String.Format("http://192.168.4.146:4567/trip/?group={0}&member={1}", GroupId, memberId);
+
             HttpClient client = new HttpClient();
             try
             {
@@ -211,10 +209,6 @@ namespace FollowMeApp.Model
             {
                 Console.WriteLine("The request was null. ", ex.Message);
             }
-            catch (AccessDeniedException ex)
-            {
-                Console.WriteLine("Already sent by the HttpClient instance.", ex.Message);
-            }
             catch (OutOfMemoryException ex)
             {
                 Console.WriteLine("Underlying issue:network connectivity, DNS failure, or timeout.", ex.Message);
@@ -223,7 +217,7 @@ namespace FollowMeApp.Model
             {
                 Console.WriteLine(ex.Message);
             }
-            catch( Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
