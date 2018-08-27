@@ -6,5 +6,6 @@ public class Path {
 	public static class Web{
 		@Getter public static final String NEWGROUP = "/newgroup/";
 		@Getter public static final String TRIP = "/trip/";
+		@Getter public static final String TOKEN = "/token/";
 	}
 }
