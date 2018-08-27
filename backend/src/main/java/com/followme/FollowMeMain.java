@@ -22,9 +22,10 @@ public class FollowMeMain {
 		staticFiles.location("/public");
 		
 		get("/hello/", (req,res) -> "hello");
-		post(Path.Web.NEWGROUP,			RequestsHandler.HandleGroupIdRequest);
-		post(Path.Web.TRIP,				RequestsHandler.HandleAddingMember);
-		get(Path.Web.TRIP, "application/json" ,RequestsHandler.HandleGettingLocation);
+		post(Path.Web.GROUP,					RequestsHandler.HandleGroupIdRequest);
+		get(Path.Web.TRIP, 	"application/json" ,RequestsHandler.HandleGettingLocation);
+		post(Path.Web.MEMBER, 					RequestsHandler.HandleAddingMember);
+		get(Path.Web.LEADER, 					RequestsHandler.HandleGettingLeaderId);	
 	}
 
 }
