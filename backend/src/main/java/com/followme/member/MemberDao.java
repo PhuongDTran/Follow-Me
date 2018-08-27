@@ -51,14 +51,14 @@ class MemberDao {
 	protected void addNewMember(String id, String memberName, String platform) {
 		PreparedStatement pstmt = null;
 		try {
-			String sql = "INSERT INTO MemberInfo VALUES (?,?,?)";
+			String sql = "INSERT INTO MemberInfo(member_id,member_name,platform) VALUES (?,?,?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
 			pstmt.setString(2, memberName);
 			pstmt.setString(3, platform);
 			pstmt.executeUpdate();
 		}catch (SQLException ex) {
-			logger.error("addMember() failed. " + ex.getMessage());
+			logger.error("addNewMember() failed. " + ex.getMessage());
 		}finally {
 			release(pstmt);
 		}
