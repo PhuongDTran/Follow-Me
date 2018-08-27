@@ -49,25 +49,23 @@
 	<array>
 		<string>location</string>
 	</array>
-  <array>
-    <key>NSLocationAlwaysUsageDescription</key>
-    <string>Can we use your location at all times?</string>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string>Can we use your location when your app is being used?</string>
-    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-    <string>Can we use your location at all times?</string>
-  </array>
-  <!--URL Scheme-->
-  <key>CFBundleURLTypes</key>
-  <array>
-    <dict>
-      <key>CFBundleURLName</key>
-      <string>follow-me-app</string>
-      <key>CFBundleURLSchemes</key>
-      <array>
-        <string>followme</string>
-      </array>
-    </dict>
-  </array>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Can we use your location at all times?</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Can we use your location when your app is being used?</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Can we use your location at all times?</string>
+  <!--URL scheme-->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>newtrip</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>followme</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>
