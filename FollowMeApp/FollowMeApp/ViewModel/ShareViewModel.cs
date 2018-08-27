@@ -11,7 +11,6 @@ namespace FollowMeApp.ViewModel
 
     public class ShareViewModel : ViewModelBase
     {
-        private readonly IDeviceService _deviceService;
         private readonly INavigationService _navigationService;
         private String _groupId;
         private Location _location;
