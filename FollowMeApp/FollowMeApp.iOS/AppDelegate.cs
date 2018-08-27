@@ -1,5 +1,6 @@
 ﻿using Foundation;
 using UIKit;
+using System;
 using FollowMeApp.Model;
 namespace FollowMeApp.iOS
 {
@@ -31,6 +32,8 @@ namespace FollowMeApp.iOS
 
         public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
         {
+            Console.WriteLine(url);
+            Console.WriteLine(url.AbsoluteUrl);
             return true;
             //return base.OpenUrl(app, url, options);
         }
