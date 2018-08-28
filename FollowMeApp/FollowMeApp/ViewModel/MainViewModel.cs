@@ -176,6 +176,7 @@ namespace FollowMeApp.ViewModel
         {
             if (e.PropertyName == nameof(ServerCommunicator.Instance.GroupID))
             {
+                await ServerCommunicator.Instance.SendLocationAsync(MyLocation);
                 var leaderId = await ServerCommunicator.Instance.GetLeaderIdAsync();
                 if (leaderId != null)
                 {

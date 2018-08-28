@@ -178,9 +178,39 @@ namespace FollowMeApp.Model
             return null;
         }
 
-        public Task SendLocationAsync(string memberId, Location location)
+        public async Task SendLocationAsync(Location location)
         {
-            throw new NotImplementedException();
+            string url = String.Format("http://192.168.4.146:4567/trip/?group={0}&member={1}", GroupID, _device.DeviceID);
+            string contentType = "application/json";
+            JObject json = new JObject
+            {
+                { "lat", location.Latitude },
+                { "lon", location.Longitude },
+                { "speed", location.Speed },
+                { "heading", location.Heading }
+            };
+            HttpClient client = new HttpClient();
+            try
+            {
+                var response = await client.PostAsync(url, new StringContent(json.ToString(), Encoding.UTF8, contentType));
+                response.EnsureSuccessStatusCode();
+            }
+            catch (ArgumentNullException ex)
+            {
+                Console.WriteLine("The request was null. ", ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                Console.WriteLine("Already sent by the HttpClient instance.", ex.Message);
+            }
+            catch (HttpRequestException ex)
+            {
+                Console.WriteLine("Underlying issue:network connectivity, DNS failure, or timeout.", ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         public async Task<Location> GetLocationAsync(string memberId)
