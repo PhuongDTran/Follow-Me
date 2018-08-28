@@ -49,10 +49,15 @@ public class RequestsHandler {
 	
 	public static Route HandleUpdatingLocation = (Request request, Response response) -> {
 		String groupId = request.queryParams("group");
+		String memberId = request.queryParams("member");
 		Gson gson = new GsonBuilder().create();
 		JsonObject json = gson.fromJson(request.body(), JsonObject.class);
-		User user = new User(json);
-		TripController.addOrUpdateMember(groupId, user.getId(), user.getLatitude(), user.getLongitude(), user.getHeading(), user.getSpeed(), true);
+		double latitude = json.get("lat").getAsDouble();
+		double longitude = json.get("lon").getAsDouble();
+		int speed = json.get("speed").getAsInt();
+		int heading = json.get("heading").getAsInt();
+		TripController.updateLocation(groupId, memberId, latitude, longitude, heading,speed);
+		
 		return null; 
 	};
 	
@@ -79,6 +84,6 @@ public class RequestsHandler {
 	
 	private static void addOrUpdateUser(String groupId, User user){
 			MemberController.addOrUpdateUser(user.getId(), user.getName(), user.getPlatform());
-			TripController.addOrUpdateMember(groupId, user.getId(), user.getLatitude(), user.getLongitude(), user.getHeading(), user.getSpeed(), false);
+			TripController.updateLocation(groupId, user.getId(), user.getLatitude(), user.getLongitude(), user.getHeading(), user.getSpeed());
 	}
 }

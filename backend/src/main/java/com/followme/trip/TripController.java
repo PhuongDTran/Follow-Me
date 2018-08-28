@@ -10,13 +10,18 @@ public class TripController {
 
 	final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-	public static void addOrUpdateMember(String groupId,String memberId, double latitude, double longitude, int heading, int speed, boolean updateLocationOnly){
+	/*
+	 * update location.<br> 
+	 * If the member for a specific group does not exist, that member will be added along with location info.<br>
+	 * If the member already exists, only location info updated 
+	 */
+	public static void updateLocation(String groupId,String memberId, double latitude, double longitude, int heading, int speed){
 		try{
 			TripDao tripDao = new TripDao();
-			if (!updateLocationOnly){
-				tripDao.addTrip(groupId, memberId, latitude, longitude, heading, speed);
-			} else{
+			if (tripDao.doesExist(groupId, memberId)){
 				tripDao.update(groupId, memberId, latitude, longitude, heading, speed);
+			} else{
+				tripDao.addMemberToTrip(groupId, memberId, latitude, longitude, heading, speed);
 			}
 		}catch(SQLException ex){
 			logger.error("error when creating TripDao()." + ex.getMessage());

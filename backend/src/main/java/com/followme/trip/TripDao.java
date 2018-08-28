@@ -5,10 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +32,24 @@ class TripDao {
 		}
 	}
 	
-	protected void addTrip(String groupId, String memberId, double latitude, double longitude, int heading, int speed){
+	protected boolean doesExist( String groupId, String memberId){
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			
+			String sql = "SELECT * FROM TripInfo WHERE group_id =? AND member_id=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, groupId);
+			pstmt.setString(2, memberId);
+			rs = pstmt.executeQuery();
+			return rs.next() ? true : false;
+		}catch (SQLException ex){
+			logger.error("addTrip() failed." + ex.getMessage());
+		}
+		return false;
+	}
+	
+	protected void addMemberToTrip(String groupId, String memberId, double latitude, double longitude, int heading, int speed){
 		PreparedStatement pstmt = null;
 		try {
 			String sql = "INSERT INTO TripInfo VALUES(null, ?, ?, ?, ?, ?, ?,?)";
@@ -48,7 +63,7 @@ class TripDao {
 			pstmt.setString(7, LocalDateTime.now().format(formatter));
 			pstmt.executeUpdate();
 		}catch (SQLException ex){
-			logger.error("addTrip() failed." + ex.getMessage());
+			logger.error("addMemberToTrip() failed." + ex.getMessage());
 		}
 	}
 	
