@@ -174,7 +174,7 @@ namespace FollowMeApp.ViewModel
 
         private async void OnServerCommunicatorPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(ServerCommunicator.Instance.GroupId))
+            if (e.PropertyName == nameof(ServerCommunicator.Instance.GroupID))
             {
                 var leaderId = await ServerCommunicator.Instance.GetLeaderIdAsync();
                 if (leaderId != null)

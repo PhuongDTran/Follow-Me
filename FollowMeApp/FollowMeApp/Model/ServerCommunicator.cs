@@ -38,7 +38,7 @@ namespace FollowMeApp.Model
         #endregion
 
         #region Properties
-        public string GroupId
+        public string GroupID
         {
             get
             {
@@ -98,7 +98,7 @@ namespace FollowMeApp.Model
 
         public async Task<string> GetLeaderIdAsync()
         {
-            string url = "http://192.168.4.146:4567/leader/?group=" + GroupId;
+            string url = "http://192.168.4.146:4567/leader/?group=" + GroupID;
             HttpClient client = new HttpClient();
             HttpResponseMessage response = await client.GetAsync(url);
             if (response.IsSuccessStatusCode)
@@ -185,7 +185,7 @@ namespace FollowMeApp.Model
 
         public async Task<Location> GetLocationAsync(string memberId)
         {
-            string url = String.Format("http://192.168.4.146:4567/trip/?group={0}&member={1}", GroupId, memberId);
+            string url = String.Format("http://192.168.4.146:4567/trip/?group={0}&member={1}", GroupID, memberId);
 
             HttpClient client = new HttpClient();
             try

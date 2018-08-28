@@ -49,7 +49,7 @@ namespace FollowMeApp.Droid
             var groupId = Intent?.Data?.GetQueryParameter("groupid");
             if ( groupId != null)
             {
-                ServerCommunicator.Instance.GroupId = groupId;
+                ServerCommunicator.Instance.GroupID = groupId;
             }
             #endregion
 
