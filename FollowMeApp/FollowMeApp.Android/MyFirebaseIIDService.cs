@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.Util;
 using Firebase.Iid;
+using FollowMeApp.Model;
 
 namespace FollowMeApp.Droid
 {
@@ -9,6 +10,9 @@ namespace FollowMeApp.Droid
     [IntentFilter(new[] { "com.google.firebase.INSTANCE_ID_EVENT" })]
     public class MyFirebaseIIDService : FirebaseInstanceIdService
     {
+        /// <summary>
+        /// This Class is not run on Main Thread
+        /// </summary>
         const string TAG = "MyFirebaseIIDService";
         public override void OnTokenRefresh()
         {
@@ -18,7 +22,7 @@ namespace FollowMeApp.Droid
         }
         void SendRegistrationToServer(string token)
         {
-            // Add custom implementation, as needed.
+           ServerCommunicator.Instance.SendTokenAsync(token);   
         }
     }
 }

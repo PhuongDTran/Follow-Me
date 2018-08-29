@@ -26,7 +26,9 @@ public class FollowMeMain {
 		get(Path.Web.TRIP, 	"application/json" ,RequestsHandler.HandleGettingLocation);
 		post(Path.Web.TRIP,						RequestsHandler.HandleUpdatingLocation);
 		post(Path.Web.MEMBER, 					RequestsHandler.HandleAddingMember);
-		get(Path.Web.LEADER, 					RequestsHandler.HandleGettingLeaderId);	
+		get(Path.Web.LEADER, 					RequestsHandler.HandleGettingLeaderId);
+		post(Path.Web.TOKEN, 					RequestsHandler.HandleUpdatingToken);
+		get(Path.Web.TOKEN, RequestsHandler.Test);
 	}
 
 }

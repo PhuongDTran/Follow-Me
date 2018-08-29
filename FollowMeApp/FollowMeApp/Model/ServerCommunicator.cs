@@ -54,6 +54,40 @@ namespace FollowMeApp.Model
         public string LeaderId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         #endregion
 
+        public async Task SendTokenAsync(String token)
+        {
+            string url = "http://192.168.4.146:4567/token/?member=" + _device.DeviceID;
+            string contentType = "application/json";
+            JObject json = new JObject
+            {
+                { "token", token }
+            };
+            HttpClient client = new HttpClient();
+            try
+            {
+                var response = await client.PostAsync(url, new StringContent(json.ToString(), Encoding.UTF8, contentType));
+                if (!response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine("Error sending push token:", response.ReasonPhrase);
+                }
+            }
+            catch (ArgumentNullException ex)
+            {
+                Console.WriteLine("The request was null. ", ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                Console.WriteLine("Already sent by the HttpClient instance.", ex.Message);
+            }
+            catch (HttpRequestException ex)
+            {
+                Console.WriteLine("Underlying issue:network connectivity, DNS failure, or timeout.", ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
 
         public async Task<string> RequestGroupIdAsync(Location location)
         {

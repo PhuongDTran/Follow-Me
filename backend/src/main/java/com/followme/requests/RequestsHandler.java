@@ -37,6 +37,19 @@ public class RequestsHandler {
 		
 	};
 	
+	public static Route Test = (Request request, Response response) -> {
+		return "hello";
+	};
+	
+	public static Route HandleUpdatingToken = (Request request, Response response) -> {
+		String memberId = request.queryParams("member");
+		Gson gson = new GsonBuilder().create();
+		JsonObject json = gson.fromJson(request.body(), JsonObject.class);
+		String token = json.get("token").getAsString();
+		MemberController.updateToken(memberId, token);
+		return "ok";
+	};
+	
 	public static Route HandleAddingMember = (Request request, Response response) -> {
 		Gson gson = new GsonBuilder().create();
 		JsonObject json = gson.fromJson(request.body(), JsonObject.class);
