@@ -7,6 +7,7 @@ import static spark.debug.DebugScreen.enableDebugScreen;
 
 import com.followme.requests.RequestsHandler;
 import com.followme.util.DatabaseConnection;
+import com.followme.util.FirebaseSetup;
 import com.followme.util.Path;
 
 public class FollowMeMain {
@@ -15,6 +16,9 @@ public class FollowMeMain {
 		
 		//initialize database connection
 		DatabaseConnection.initialize();
+		
+		//initialize Firebase SDK
+		FirebaseSetup.initialize();
 		
 		//configure Spark
 		port(4567);

@@ -12,7 +12,7 @@ import com.google.gson.JsonObject;
 import spark.Request;
 import spark.Response;
 import spark.Route;
-
+import com.google.firebase;
 public class RequestsHandler {
 
 	public static Route HandleGroupIdRequest = (Request request, Response response) -> {

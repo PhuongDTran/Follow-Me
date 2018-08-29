@@ -1,1 +1,5 @@
 /target/
+
+#sensitive credentials
+
+firebase-service-account-key.json
