@@ -27,7 +27,7 @@ public class MemberController {
 	public static void updateToken(String id, String token){
 		try{
 			MemberDao memberDao = new MemberDao();
-			if(!memberDao.doesExist(id)){
+			if(memberDao.doesExist(id)){
 				memberDao.updateToken(id, token);
 			}
 		}catch(SQLException ex){
