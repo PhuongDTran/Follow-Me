@@ -32,9 +32,9 @@ public class FirebaseSetup {
 			FirebaseApp.initializeApp(options);
 			
 		} catch(FileNotFoundException ex){
-			logger.debug(ex.getMessage());
+			logger.error(ex.getMessage());
 		} catch(IOException ex){
-			logger.debug(ex.getMessage());
+			logger.error(ex.getMessage());
 		}
 	}
 
