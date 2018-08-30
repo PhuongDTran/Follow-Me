@@ -8,6 +8,7 @@ using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using System;
 using System.ComponentModel;
+using System.Threading.Tasks;
 
 namespace FollowMeApp.ViewModel
 {
@@ -100,7 +101,7 @@ namespace FollowMeApp.ViewModel
             //  INavigationService instances to be passed in. This is just for making the basic test work.
 
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
@@ -115,7 +116,7 @@ namespace FollowMeApp.ViewModel
             ((App)Application.Current).AppStart += OnForegroundWork;
             ((App)Application.Current).AppSleep += OnBackgroundWok;
             ((App)Application.Current).AppResume += OnForegroundWork;
-           
+
             //listen for any propertis changed in ServerCommunicator
             ServerCommunicator.Instance.PropertyChanged += OnServerCommunicatorPropertyChanged;
         }
@@ -123,9 +124,12 @@ namespace FollowMeApp.ViewModel
 
         #region Event Subscribers
 
-        private void OnLocationUpdates(object sender, Location location)
+        private async void OnLocationUpdates(object sender, Location location)
         {
-                MyLocation = location;
+            MyLocation = location;
+            if(ServerCommunicator.Instance.GroupID != null) { 
+                await ServerCommunicator.Instance.SendLocationAsync(MyLocation);
+            }
         }
 
         private async void OnBackgroundWok()
