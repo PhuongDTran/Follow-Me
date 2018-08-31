@@ -30,8 +30,11 @@ namespace FollowMeApp.Model
         /// <returns></returns>
         public int CompareTo(Location other)
         {
+            if (other == null) return -1;
+
             if (Latitude == other.Latitude && Longitude == other.Longitude)
                 return 0;
+
             return -1;
         }
 
