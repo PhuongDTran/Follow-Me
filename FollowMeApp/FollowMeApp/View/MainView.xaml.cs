@@ -3,10 +3,10 @@ using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using Xamarin.Essentials;
+using FollowMeApp.Model;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
-
+using Device = Xamarin.Forms.Device;
 
 namespace FollowMeApp.View
 {
@@ -59,7 +59,21 @@ namespace FollowMeApp.View
                 MainMap.Pins.Add(pin);
             }
 
-            if(e.PropertyName == nameof(_mainVM.IsShowingLocation))
+            if (e.PropertyName == nameof(_mainVM.Members))
+            {
+                foreach( KeyValuePair<string,Location> entry in _mainVM.Members)
+                {
+                    var pin = new Pin
+                    {
+                        Type = PinType.Place,
+                        Position = new Position(entry.Value.Latitude, entry.Value.Longitude),
+                        Label = entry.Key
+                    };
+                    MainMap.Pins.Add(pin);
+                }
+            }
+
+            if (e.PropertyName == nameof(_mainVM.IsShowingLocation))
             {
                 MainMap.IsShowingUser = true;
             }

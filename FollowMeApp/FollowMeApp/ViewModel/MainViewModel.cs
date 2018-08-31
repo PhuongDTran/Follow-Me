@@ -7,6 +7,7 @@ using Xamarin.Forms;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using System;
+using GalaSoft.MvvmLight.Messaging;
 using System.ComponentModel;
 using System.Threading.Tasks;
 
@@ -114,11 +115,23 @@ namespace FollowMeApp.ViewModel
 
             //Event handlers when app starts, sleeps, or resumes
             ((App)Application.Current).AppStart += OnForegroundWork;
-            ((App)Application.Current).AppSleep += OnBackgroundWok;
+            ((App)Application.Current).AppSleep += OnBackgroundWork;
             ((App)Application.Current).AppResume += OnForegroundWork;
 
             //listen for any propertis changed in ServerCommunicator
             ServerCommunicator.Instance.PropertyChanged += OnServerCommunicatorPropertyChanged;
+
+            Messenger.Default.Register<string>(this, "new_location", async(arg) =>
+              {
+                  Location location = await ServerCommunicator.Instance.GetLocationAsync(arg);
+                  if (Members == null)
+                  {
+                      Members = new Dictionary<string, Location>();
+
+                  }
+                  Members.Add(arg, location);
+                  RaisePropertyChanged("Members");
+              });
         }
         #endregion
 
@@ -132,7 +145,7 @@ namespace FollowMeApp.ViewModel
             }
         }
 
-        private async void OnBackgroundWok()
+        private async void OnBackgroundWork()
         {
             await GeolocationManager.instance.StopUpdatingLocationAsync();
         }

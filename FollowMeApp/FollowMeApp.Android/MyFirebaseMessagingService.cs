@@ -4,6 +4,8 @@ using Android.Util;
 using System.Collections.Generic;
 using Firebase.Messaging;
 using FollowMeApp.Model;
+using Xamarin.Forms;
+using GalaSoft.MvvmLight.Messaging;
 namespace FollowMeApp.Droid
 {
 
@@ -19,6 +21,7 @@ namespace FollowMeApp.Droid
             IDictionary<string,string> data = message.Data;
             if (data.TryGetValue("member", out string value))
             {
+                Messenger.Default.Send(value, "new_location");
                 Log.Debug(TAG, "message content:" + value);
             }
         }
