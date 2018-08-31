@@ -1,6 +1,8 @@
-﻿namespace FollowMeApp.Model
+﻿using System;
+
+namespace FollowMeApp.Model
 {
-    public class Location
+    public class Location : IComparable<Location>
     {
         public Location() { }
 
@@ -18,6 +20,20 @@
         public int Speed { get; set; }
 
         public int Heading { get; set; }
+
+        /// <summary>
+        /// Has been customized.
+        /// <b>Return 0</b> if two Location objects have equally Latitude and Longitude, respectively.
+        /// <b>Return -1</b> if either Latitude or Longitude is not equal.
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public int CompareTo(Location other)
+        {
+            if (Latitude == other.Latitude && Longitude == other.Longitude)
+                return 0;
+            return -1;
+        }
 
         public override string ToString()
         {
