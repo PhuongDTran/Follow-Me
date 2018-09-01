@@ -47,7 +47,8 @@ namespace FollowMeApp.ViewModel
 
         private async Task OnGenerateUrlCommand()
         {
-            GroupId = await ServerCommunicator.Instance.RequestGroupIdAsync(_location);
+            await ServerCommunicator.Instance.RequestGroupIdAsync(_location);
+            GroupId = ServerCommunicator.Instance.GroupID;
         }
 
         private bool CanGenerateUrlCommand()
