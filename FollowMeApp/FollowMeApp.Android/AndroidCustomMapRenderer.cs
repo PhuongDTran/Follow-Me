@@ -3,6 +3,7 @@ using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
 using Android.Graphics;
 using FollowMeApp.Droid;
+using FollowMeApp.Model;
 using FollowMeApp.View;
 using System;
 using System.Collections.Generic;
