@@ -170,9 +170,9 @@ namespace FollowMeApp.ViewModel
             }
         }
 
-        private async void OnBackgroundWork()
+        private void OnBackgroundWork()
         {
-            await GeolocationManager.instance.StopUpdatingLocationAsync();
+            //await GeolocationManager.instance.StopUpdatingLocationAsync();
         }
 
         private async void OnForegroundWork()

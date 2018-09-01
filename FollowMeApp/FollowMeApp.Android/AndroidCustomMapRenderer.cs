@@ -34,28 +34,40 @@ namespace FollowMeApp.Droid
             if (e.NewElement != null)
             {
                 var formsMap = (CustomMap)e.NewElement;
+                formsMap.PinsCleared += FormsMap_PinsCleared;
                 _pins = formsMap.Pins;
                 Control.GetMapAsync(this);
+            }
+        }
+
+        private void FormsMap_PinsCleared(object sender, IList<CirclePin> pins)
+        {
+            foreach(var pin in pins)
+            {
+                (pin.Overlay as Circle).Remove();
             }
         }
 
         protected override void OnMapReady(GoogleMap map)
         {
             base.OnMapReady(map);
-            
             NativeMap.InfoWindowClick += OnInfoWindowClick;
         }
 
         protected override MarkerOptions CreateMarker(Pin pin)
         {
-            //create an overlay circle, and add to map
-            var circleOptions = new CircleOptions();
-            circleOptions.InvokeCenter(new LatLng(pin.Position.Latitude,pin.Position.Longitude));
-            circleOptions.InvokeRadius(PublishedData.PinOverlayRadius);
-            circleOptions.InvokeFillColor(0X66FF0000);
-            circleOptions.InvokeStrokeColor(0X66FF0000);
-            circleOptions.InvokeStrokeWidth(0);
-            NativeMap.AddCircle(circleOptions);
+            if (pin is CirclePin)
+            {
+                //create an overlay circle, and add to map
+                var circleOptions = new CircleOptions();
+                circleOptions.InvokeCenter(new LatLng(pin.Position.Latitude, pin.Position.Longitude));
+                circleOptions.InvokeRadius(PublishedData.PinOverlayRadius);
+                circleOptions.InvokeFillColor(0X66FF0000);
+                circleOptions.InvokeStrokeColor(0X66FF0000);
+                circleOptions.InvokeStrokeWidth(0);
+                Circle circle = NativeMap.AddCircle(circleOptions);
+                (pin as CirclePin).Overlay = circle;
+            }
 
             // marker,or pin.
             var marker = new MarkerOptions();

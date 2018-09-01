@@ -50,21 +50,24 @@ namespace FollowMeApp.View
 
             if (e.PropertyName == nameof(_mainVM.LeaderLocation))
             {
+                var leaderPosition = new Position(_mainVM.LeaderLocation.Latitude, _mainVM.LeaderLocation.Longitude);
                 var pin = new Pin
                 {
                     Type = PinType.Place,
-                    Position = new Position(_mainVM.LeaderLocation.Latitude, _mainVM.LeaderLocation.Longitude),
+                    Position = leaderPosition,
                     Label = "Leader"
                 };
+                MainMap.IsShowingUser = true;
                 MainMap.Pins.Add(pin);
+                MainMap.MoveToRegion(MapSpan.FromCenterAndRadius(leaderPosition, Distance.FromMiles(1)));
             }
 
             if (e.PropertyName == nameof(_mainVM.Members))
             {
-                MainMap.Pins.Clear();
+                MainMap.ClearCirclePins();
                 foreach (KeyValuePair<string, Location> entry in _mainVM.Members)
                 {
-                    var pin = new Pin
+                    var pin = new CirclePin
                     {
                         Type = PinType.Place,
                         Position = new Position(entry.Value.Latitude, entry.Value.Longitude),
