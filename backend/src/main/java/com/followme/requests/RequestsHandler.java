@@ -1,6 +1,8 @@
 package com.followme.requests;
 
 import java.lang.invoke.MethodHandles;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +28,11 @@ public class RequestsHandler {
 
 	final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
+	// <groupid : leaderid>
+	private static Map<String,String> groups = new HashMap<String,String>();
+	// <leaderid : token>
+	private static Map<String,String> leaders = new HashMap<String,String>();
+	
 	public static Route HandleGroupIdRequest = (Request request, Response response) -> {
 		if( !request.body().isEmpty()){
 			Gson gson = new GsonBuilder().create();
@@ -87,15 +94,16 @@ public class RequestsHandler {
 
 	//https://firebase.google.com/docs/cloud-messaging/admin/send-messages
 	private static void sendMessageToLeader(String groupId, String payload ){
-		String leaderId = GroupController.getLeaderId(groupId);
+		String leaderId = getLeaderId(groups, groupId);
+		
 		if ( !leaderId.equals(payload)){
-			String leaderToken = MessagingController.getRegistrationToken(leaderId);
+			String leaderToken = GetLeaderToken(leaders, leaderId);
+			
 			Message message = Message.builder()
 					.putData("member", payload)
 					.setToken(leaderToken)
 					.build();
-			try {
-				// Send a message to the device corresponding to the provided registration token.
+			try{
 				String response = FirebaseMessaging.getInstance().send(message);
 				// Response is a message ID string.
 				System.out.println("Successfully sent message: " + response);
@@ -104,10 +112,11 @@ public class RequestsHandler {
 			}
 		}
 	}
-
+	
 	public static Route HandleGettingLeaderId = (Request request, Response response) -> {
 		String groupId = request.queryParams("group");
 		String leaderId = GroupController.getLeaderId(groupId);
+		groups.put(groupId, leaderId);
 		return leaderId;
 	};
 
@@ -130,4 +139,39 @@ public class RequestsHandler {
 		MemberController.addOrUpdateUser(user.getId(), user.getName(), user.getPlatform());
 		TripController.updateLocation(groupId, user.getId(), user.getLatitude(), user.getLongitude(), user.getHeading(), user.getSpeed());
 	}
+	
+	/**
+	 * get leader id from <b>groups</b> map given the key <b>groupId</b></br>
+	 * If <b>groupId</b> hasn't been added, execute a database query to get a corresponding leaderId
+	 * add it to <b>groups</b> map for later use
+	 * @return leaderId  
+	 **/
+	private static String getLeaderId(Map<String,String> groups, String groupId){
+		String leaderId;
+		if(groups.containsKey(groupId)){
+			leaderId = groups.get(groupId);
+		}else {
+			leaderId = GroupController.getLeaderId(groupId);
+			groups.put(groupId, leaderId);
+		}
+		return leaderId;
+	}
+	
+	/**
+	 * get leader token from <b>leaders</b> map given the key <b>leaderId</b></br>
+	 * If <b>leaderId</b> hasn't been added, execute a database query to get a corresponding token
+	 * add it to <b>groups</b> map for later use
+	 * @return leaderToken  
+	 **/
+	private static String GetLeaderToken(Map<String,String> leaders, String leaderId){
+		String leaderToken;
+		if(leaders.containsKey(leaderId)){
+			leaderToken = leaders.get(leaderId);
+		}else {
+			leaderToken = MessagingController.getRegistrationToken(leaderId);
+			leaders.put(leaderId,leaderToken);
+		}
+		return leaderToken;
+	}
+
 }
