@@ -118,30 +118,55 @@ namespace FollowMeApp.ViewModel
             ((App)Application.Current).AppSleep += OnBackgroundWork;
             ((App)Application.Current).AppResume += OnForegroundWork;
 
-            //listen for any propertis changed in ServerCommunicator
-            ServerCommunicator.Instance.PropertyChanged += OnServerCommunicatorPropertyChanged;
-
-            Messenger.Default.Register<string>(this, "new_location", async(arg) =>
+            Messenger.Default.Register<string>(this, PublishedData.MemberLocationNotification, async(memberId) =>
               {
-                  Location location = await ServerCommunicator.Instance.GetLocationAsync(arg);
+                  Location location = await ServerCommunicator.Instance.GetLocationAsync(memberId);
                   if (Members == null)
                   {
                       Members = new Dictionary<string, Location>();
-
                   }
-                  Members.Add(arg, location);
-                  RaisePropertyChanged("Members");
+                  if (Members.Keys.Contains(memberId))
+                  {
+                      Members[memberId] = location;
+                  }
+                  else
+                  {
+                      Members.Add(memberId, location);
+                  }
+                  Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+                  {
+                      //must execute on Main Thread.
+                      //Otherwise, would throw "Java.Lang.IllegalStateException: Not on the main thread"
+                      RaisePropertyChanged("Members");
+                  });
+                 
               });
+
+            Messenger.Default.Register<string>(this, PublishedData.GroupIdNotification, async (arg) => 
+            {
+                await ServerCommunicator.Instance.SendLocationAsync(MyLocation);
+                var leaderId = await ServerCommunicator.Instance.GetLeaderIdAsync();
+                if (leaderId != null)
+                {
+                    LeaderLocation = await ServerCommunicator.Instance.GetLocationAsync(leaderId);
+                }
+
+            });
         }
         #endregion
 
+        
         #region Event Subscribers
 
         private async void OnLocationUpdates(object sender, Location location)
         {
-            MyLocation = location;
-            if(ServerCommunicator.Instance.GroupID != null) { 
-                await ServerCommunicator.Instance.SendLocationAsync(MyLocation);
+            if ( (MyLocation == null) || (MyLocation.CompareTo(location) != 0) )
+            {
+                MyLocation = location;
+                if (ServerCommunicator.Instance.GroupID != null)
+                {
+                    await ServerCommunicator.Instance.SendLocationAsync(MyLocation);
+                }
             }
         }
 
@@ -152,10 +177,8 @@ namespace FollowMeApp.ViewModel
 
         private async void OnForegroundWork()
         {
-            #region Send Device Info
             await ServerCommunicator.Instance.SendMemberInfo();
-            #endregion
-
+         
             #region Location Permissions
             try
             {
@@ -187,19 +210,6 @@ namespace FollowMeApp.ViewModel
                 Console.WriteLine("Error: " + ex);
             }
             #endregion
-        }
-
-        private async void OnServerCommunicatorPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(ServerCommunicator.Instance.GroupID))
-            {
-                await ServerCommunicator.Instance.SendLocationAsync(MyLocation);
-                var leaderId = await ServerCommunicator.Instance.GetLeaderIdAsync();
-                if (leaderId != null)
-                {
-                    LeaderLocation = await ServerCommunicator.Instance.GetLocationAsync(leaderId);
-                }
-            }
         }
         #endregion
     }

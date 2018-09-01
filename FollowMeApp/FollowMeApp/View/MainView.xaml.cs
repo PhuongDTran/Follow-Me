@@ -61,7 +61,8 @@ namespace FollowMeApp.View
 
             if (e.PropertyName == nameof(_mainVM.Members))
             {
-                foreach( KeyValuePair<string,Location> entry in _mainVM.Members)
+                MainMap.Pins.Clear();
+                foreach (KeyValuePair<string, Location> entry in _mainVM.Members)
                 {
                     var pin = new Pin
                     {
@@ -69,7 +70,12 @@ namespace FollowMeApp.View
                         Position = new Position(entry.Value.Latitude, entry.Value.Longitude),
                         Label = entry.Key
                     };
-                    MainMap.Pins.Add(pin);
+                    Device.BeginInvokeOnMainThread(() => {
+                        //must execute on Main Thread.
+                        //Otherwise, would throw "Java.Lang.IllegalStateException: Not on the main thread"
+                        MainMap.Pins.Add(pin);
+                    });
+                    
                 }
             }
 

@@ -1,17 +1,14 @@
-﻿
-using Android;
-using Android.App;
+﻿using Android.App;
 using Android.Content;
 using Android.Content.PM;
+using Android.Gms.Common;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.App;
-using Android.Gms.Common;
-using Firebase.Messaging;
-using Firebase.Iid;
 using Android.Util;
 using FollowMeApp.Model;
 using Plugin.Permissions;
+using Messenger = GalaSoft.MvvmLight.Messaging.Messenger;
 
 namespace FollowMeApp.Droid
 {
@@ -50,6 +47,7 @@ namespace FollowMeApp.Droid
             if ( groupId != null)
             {
                 ServerCommunicator.Instance.GroupID = groupId;
+                Messenger.Default.Send("",PublishedData.GroupIdNotification);
             }
             #endregion
 

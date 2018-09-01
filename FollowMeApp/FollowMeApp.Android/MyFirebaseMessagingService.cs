@@ -1,11 +1,10 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.Util;
-using System.Collections.Generic;
 using Firebase.Messaging;
 using FollowMeApp.Model;
-using Xamarin.Forms;
 using GalaSoft.MvvmLight.Messaging;
+using System.Collections.Generic;
 namespace FollowMeApp.Droid
 {
 
@@ -17,11 +16,11 @@ namespace FollowMeApp.Droid
         
         public override void OnMessageReceived(RemoteMessage message)
         {
-            Log.Debug(TAG, "From: " + message.From);
             IDictionary<string,string> data = message.Data;
             if (data.TryGetValue("member", out string value))
             {
-                Messenger.Default.Send(value, "new_location");
+                Messenger.Default.Send(value, PublishedData.MemberLocationNotification);
+
                 Log.Debug(TAG, "message content:" + value);
             }
         }
