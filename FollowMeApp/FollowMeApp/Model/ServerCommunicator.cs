@@ -24,34 +24,17 @@ namespace FollowMeApp.Model
         public static IServerCommunicator Instance { get; } = new ServerCommunicator();
         #endregion
 
-        private string _groupId;
         private static Device _device = new DeviceService().GetDeviceData();
-
-        #region  PropertyChange Event
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged(
-           [System.Runtime.CompilerServices.CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
-        }
-        #endregion
 
         #region Properties
         public string GroupID
         {
             get
             {
-                return _groupId;
+                return "IfJTQuuskxmJX7Qulx9j";
             }
-            set
-            {
-                _groupId = value;
-                NotifyPropertyChanged();
-            }
+            set { }
         }
-
-        public string LeaderId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         #endregion
 
         public async Task SendTokenAsync(String token)
@@ -89,7 +72,13 @@ namespace FollowMeApp.Model
             }
         }
 
-        public async Task<string> RequestGroupIdAsync(Location location)
+        /// <summary>
+        /// Requested group id is assigned to <b>GroupID</b> property of ServerCommunicator class.
+        /// do an assignment after calling this function to get GroupID value.
+        /// </summary>
+        /// <param name="location"></param>
+        /// <returns></returns>
+        public async Task RequestGroupIdAsync(Location location)
         {
             string groupId = "";
             string url = "http://192.168.4.146:4567/group/";
@@ -127,7 +116,7 @@ namespace FollowMeApp.Model
             {
                 Console.WriteLine(ex.Message);
             }
-            return groupId;
+            GroupID = groupId;
         }
 
         public async Task<string> GetLeaderIdAsync()
@@ -144,7 +133,7 @@ namespace FollowMeApp.Model
         }
 
         /// <summary>
-        ///  Send Member Info to app server: device id, device name, platform.
+        ///  Device Information(device id, device name, platform) is used as Member Info sent to app server
         /// </summary>
         /// <param name="location"></param>
         /// <returns></returns>

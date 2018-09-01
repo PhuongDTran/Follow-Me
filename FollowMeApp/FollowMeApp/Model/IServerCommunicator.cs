@@ -6,11 +6,10 @@ using System.ComponentModel;
 
 namespace FollowMeApp.Model
 {
-    public interface IServerCommunicator : INotifyPropertyChanged
+    public interface IServerCommunicator
     {
         string GroupID { get; set; }
-        string LeaderId { get; set; }
-        Task<string> RequestGroupIdAsync(Location location);
+        Task RequestGroupIdAsync(Location location);
         Task<string> GetLeaderIdAsync();
         Task SendMemberInfo();
         Task<string> GetMemberIdAsync(string groupId);
