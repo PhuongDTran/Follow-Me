@@ -13,15 +13,24 @@ namespace FollowMeApp.Droid
     public class MyFirebaseMessagingService : FirebaseMessagingService
     {
         const string TAG = "MyFirebaseMsgService";
-        
+
         public override void OnMessageReceived(RemoteMessage message)
         {
-            IDictionary<string,string> data = message.Data;
-            if (data.TryGetValue("member", out string value))
+            IDictionary<string, string> data = message.Data;
+            //topic message: message.From would get "/topics/topicname". for instance, "/topics/track_leader"
+            if (message.From.Contains("track_leader"))
             {
-                Messenger.Default.Send(value, PublishedData.MemberLocationNotification);
-
-                Log.Debug(TAG, "message content:" + value);
+                if (data.TryGetValue("leader", out string leaderId))
+                    Messenger.Default.Send(leaderId, PublishedData.GroupIdNotification);
+            }
+            //single device message
+            else
+            {
+                if (data.TryGetValue("member", out string memberId))
+                {
+                    Messenger.Default.Send(memberId, PublishedData.MemberLocationNotification);
+                    Log.Debug(TAG, "message content:" + memberId);
+                }
             }
         }
     }

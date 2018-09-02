@@ -142,10 +142,10 @@ namespace FollowMeApp.ViewModel
                  
               });
 
-            Messenger.Default.Register<string>(this, PublishedData.GroupIdNotification, async (arg) => 
+            Messenger.Default.Register<string>(this, PublishedData.GroupIdNotification, async (leaderId) => 
             {
                 await ServerCommunicator.Instance.SendLocationAsync(MyLocation);
-                var leaderId = await ServerCommunicator.Instance.GetLeaderIdAsync();
+                //var leaderId = await ServerCommunicator.Instance.GetLeaderIdAsync();
                 if (leaderId != null)
                 {
                     LeaderLocation = await ServerCommunicator.Instance.GetLocationAsync(leaderId);

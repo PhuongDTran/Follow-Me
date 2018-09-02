@@ -51,15 +51,19 @@ namespace FollowMeApp.View
             if (e.PropertyName == nameof(_mainVM.LeaderLocation))
             {
                 var leaderPosition = new Position(_mainVM.LeaderLocation.Latitude, _mainVM.LeaderLocation.Longitude);
-                var pin = new Pin
+                var pin = new CirclePin
                 {
                     Type = PinType.Place,
                     Position = leaderPosition,
                     Label = "Leader"
                 };
-                MainMap.IsShowingUser = true;
-                MainMap.Pins.Add(pin);
-                MainMap.MoveToRegion(MapSpan.FromCenterAndRadius(leaderPosition, Distance.FromMiles(1)));
+                Device.BeginInvokeOnMainThread(() => {
+                    //must execute on Main Thread.
+                    //Otherwise, would throw "Java.Lang.IllegalStateException: Not on the main thread"
+                    MainMap.IsShowingUser = true;
+                    MainMap.Pins.Add(pin);
+                    MainMap.MoveToRegion(MapSpan.FromCenterAndRadius(leaderPosition, Distance.FromMiles(1)));
+                });
             }
 
             if (e.PropertyName == nameof(_mainVM.Members))

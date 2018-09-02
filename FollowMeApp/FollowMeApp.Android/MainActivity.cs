@@ -6,6 +6,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.App;
 using Android.Util;
+using Firebase.Messaging;
 using FollowMeApp.Model;
 using Plugin.Permissions;
 using Messenger = GalaSoft.MvvmLight.Messaging.Messenger;
@@ -46,8 +47,8 @@ namespace FollowMeApp.Droid
             var groupId = Intent?.Data?.GetQueryParameter("groupid");
             if ( groupId != null)
             {
+                SubscribeToATopic("track_leader");
                 ServerCommunicator.Instance.GroupID = groupId;
-                Messenger.Default.Send("",PublishedData.GroupIdNotification);
             }
             #endregion
 
@@ -123,6 +124,12 @@ namespace FollowMeApp.Droid
 
             var notificationManager = (NotificationManager)GetSystemService(Android.Content.Context.NotificationService);
             notificationManager.CreateNotificationChannel(channel);
+        }
+
+        void SubscribeToATopic(string topic)
+        {
+            FirebaseMessaging.Instance.SubscribeToTopic(topic);
+            Log.Debug(TAG, "Subscribed to topic messaging");
         }
 
         public override void OnBackPressed()
