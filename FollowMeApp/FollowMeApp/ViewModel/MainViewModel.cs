@@ -122,17 +122,13 @@ namespace FollowMeApp.ViewModel
               {
                   Location location = await ServerCommunicator.Instance.GetLocationAsync(memberId);
                   if (Members == null)
-                  {
                       Members = new Dictionary<string, Location>();
-                  }
+
                   if (Members.Keys.Contains(memberId))
-                  {
                       Members[memberId] = location;
-                  }
                   else
-                  {
                       Members.Add(memberId, location);
-                  }
+
                   Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
                   {
                       //must execute on Main Thread.
@@ -142,15 +138,10 @@ namespace FollowMeApp.ViewModel
                  
               });
 
-            Messenger.Default.Register<string>(this, PublishedData.GroupIdNotification, async (leaderId) => 
+            Messenger.Default.Register<string>(this, PublishedData.GroupIdNotification, async (leaderId) =>
             {
-                await ServerCommunicator.Instance.SendLocationAsync(MyLocation);
-                //var leaderId = await ServerCommunicator.Instance.GetLeaderIdAsync();
                 if (leaderId != null)
-                {
                     LeaderLocation = await ServerCommunicator.Instance.GetLocationAsync(leaderId);
-                }
-
             });
         }
         #endregion
