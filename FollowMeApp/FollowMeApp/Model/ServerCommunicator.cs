@@ -248,7 +248,6 @@ namespace FollowMeApp.Model
 
                 JObject jContent = (JObject)JsonConvert.DeserializeObject(content);
 
-                //TODO: what to do with id sent from server???
                 Location location = new Location
                 {
                     Latitude = (double)jContent.GetValue("latitude"),

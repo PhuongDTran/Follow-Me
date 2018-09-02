@@ -21,7 +21,6 @@ namespace FollowMeApp.ViewModel
         private Location _myLocation;
         private Location _leaderLocation;
         private bool _isShowingLocation = false;
-        private IDictionary<string, Location> _members;
         #endregion
 
         #region Properties
@@ -38,17 +37,7 @@ namespace FollowMeApp.ViewModel
             }
         }
 
-        public IDictionary<string, Location> Members
-        {
-            get
-            {
-                return _members;
-            }
-            private set
-            {
-                Set(ref _members, value);
-            }
-        }
+        public IDictionary<string, Location> Members { get; set; }
 
         public Location MyLocation
         {

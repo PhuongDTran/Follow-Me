@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
+using Android.Util;
 using System.Collections.Specialized;
 using Xamarin.Forms.Maps.Android;
 
@@ -37,26 +38,33 @@ namespace FollowMeApp.Droid
             if (e.NewElement != null)
             {
                 var formsMap = (CustomMap)e.NewElement;
+                formsMap.PinsCleared -= FormsMap_PinsCleared;
                 formsMap.PinsCleared += FormsMap_PinsCleared;
                 _pins = formsMap.Pins;
                 _routeCoordinates = formsMap.RouteCoordinates;
+                _routeCoordinates.CollectionChanged -= _routeCoordinates_CollectionChanged;
+                _routeCoordinates.CollectionChanged += _routeCoordinates_CollectionChanged;
                 Control.GetMapAsync(this);
             }
         }
 
         private void FormsMap_PinsCleared(object sender, IList<CirclePin> pins)
         {
-            foreach(var pin in pins)
+            foreach (var pin in pins)
             {
-                (pin.Overlay as Circle).Remove();
+                if (pin.Overlay != null)
+                    (pin.Overlay as Circle).Remove();
+                else
+                    Log.Debug("render", "null pin");
             }
         }
 
         protected override void OnMapReady(GoogleMap map)
         {
             base.OnMapReady(map);
+            NativeMap = map;
             NativeMap.InfoWindowClick += OnInfoWindowClick;
-            _routeCoordinates.CollectionChanged += _routeCoordinates_CollectionChanged;
+            
         }
 
         private void _routeCoordinates_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -65,11 +73,29 @@ namespace FollowMeApp.Droid
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
                 var latestPosition = _routeCoordinates[_routeCoordinates.Count - 1];
-                var polylineOptions = new PolylineOptions();
-                polylineOptions.InvokeColor(0x66FF0000);
-                polylineOptions.Add(new LatLng(latestPosition.Latitude, latestPosition.Longitude));
-                Polyline polyline = NativeMap.AddPolyline(polylineOptions);
+                if(_routeCoordinates.Count > 1)
+                {
+                    var polylineOptions = new PolylineOptions();
+                    polylineOptions.InvokeColor(0x66FF0000);
+                    foreach( var position in _routeCoordinates)
+                        polylineOptions.Add(new LatLng(position.Latitude, position.Longitude));
+
+                    if (NativeMap == null)
+                    {
+                        Log.Debug("custom", "render");
+                    }
+                    else
+                    {
+                        Polyline polyline = NativeMap.AddPolyline(polylineOptions);
+                    }
+                }
+                
             }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
         }
 
         protected override MarkerOptions CreateMarker(Pin pin)

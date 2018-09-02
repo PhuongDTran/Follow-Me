@@ -51,6 +51,7 @@ namespace FollowMeApp.View
             if (e.PropertyName == nameof(_mainVM.LeaderLocation))
             {
                 MainMap.ClearCirclePins();
+
                 var leaderPosition = new Position(_mainVM.LeaderLocation.Latitude, _mainVM.LeaderLocation.Longitude);
                 MainMap.RouteCoordinates.Add(leaderPosition);
 
@@ -60,14 +61,9 @@ namespace FollowMeApp.View
                     Position = leaderPosition,
                     Label = "Leader"
                 };
-
-                Device.BeginInvokeOnMainThread(() => {
-                    //must execute on Main Thread.
-                    //Otherwise, would throw "Java.Lang.IllegalStateException: Not on the main thread"
-                    MainMap.IsShowingUser = true;
-                    MainMap.Pins.Add(pin);
-                    MainMap.MoveToRegion(MapSpan.FromCenterAndRadius(leaderPosition, Distance.FromMiles(1)));
-                });
+                MainMap.IsShowingUser = true;
+                MainMap.Pins.Add(pin);
+                MainMap.MoveToRegion(MapSpan.FromCenterAndRadius(leaderPosition, Distance.FromMiles(1)));
             }
 
             if (e.PropertyName == nameof(_mainVM.Members))
@@ -81,12 +77,7 @@ namespace FollowMeApp.View
                         Position = new Position(entry.Value.Latitude, entry.Value.Longitude),
                         Label = entry.Key
                     };
-                    Device.BeginInvokeOnMainThread(() => {
-                        //must execute on Main Thread.
-                        //Otherwise, would throw "Java.Lang.IllegalStateException: Not on the main thread"
-                        MainMap.Pins.Add(pin);
-                    });
-                    
+                    MainMap.Pins.Add(pin);
                 }
             }
 
