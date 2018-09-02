@@ -6,9 +6,11 @@ using FollowMeApp.Droid;
 using FollowMeApp.Model;
 using FollowMeApp.View;
 using System;
+using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
+using System.Collections.Specialized;
 using Xamarin.Forms.Maps.Android;
 
 [assembly: ExportRenderer(typeof(CustomMap), typeof(AndroidCustomMapRenderer))]
@@ -17,6 +19,7 @@ namespace FollowMeApp.Droid
     public class AndroidCustomMapRenderer : MapRenderer
     {
         IList<Pin> _pins;
+        ObservableCollection<Position> _routeCoordinates;
         
         public AndroidCustomMapRenderer(Context context) : base(context)
         {
@@ -36,6 +39,7 @@ namespace FollowMeApp.Droid
                 var formsMap = (CustomMap)e.NewElement;
                 formsMap.PinsCleared += FormsMap_PinsCleared;
                 _pins = formsMap.Pins;
+                _routeCoordinates = formsMap.RouteCoordinates;
                 Control.GetMapAsync(this);
             }
         }
@@ -52,6 +56,20 @@ namespace FollowMeApp.Droid
         {
             base.OnMapReady(map);
             NativeMap.InfoWindowClick += OnInfoWindowClick;
+            _routeCoordinates.CollectionChanged += _routeCoordinates_CollectionChanged;
+        }
+
+        private void _routeCoordinates_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            //highlighting route
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                var latestPosition = _routeCoordinates[_routeCoordinates.Count - 1];
+                var polylineOptions = new PolylineOptions();
+                polylineOptions.InvokeColor(0x66FF0000);
+                polylineOptions.Add(new LatLng(latestPosition.Latitude, latestPosition.Longitude));
+                Polyline polyline = NativeMap.AddPolyline(polylineOptions);
+            }
         }
 
         protected override MarkerOptions CreateMarker(Pin pin)

@@ -50,13 +50,17 @@ namespace FollowMeApp.View
 
             if (e.PropertyName == nameof(_mainVM.LeaderLocation))
             {
+                MainMap.ClearCirclePins();
                 var leaderPosition = new Position(_mainVM.LeaderLocation.Latitude, _mainVM.LeaderLocation.Longitude);
+                MainMap.RouteCoordinates.Add(leaderPosition);
+
                 var pin = new CirclePin
                 {
                     Type = PinType.Place,
                     Position = leaderPosition,
                     Label = "Leader"
                 };
+
                 Device.BeginInvokeOnMainThread(() => {
                     //must execute on Main Thread.
                     //Otherwise, would throw "Java.Lang.IllegalStateException: Not on the main thread"
