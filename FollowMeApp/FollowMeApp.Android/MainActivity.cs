@@ -51,8 +51,7 @@ namespace FollowMeApp.Droid
                 ServerCommunicator.Instance.GroupID = groupId;
             }
             #endregion
-
-            #region Firebase Cloud Messaging
+            //TODO: do i need this intent extra???
             if (Intent.Extras != null)
             {
                 foreach (var key in Intent.Extras.KeySet())
@@ -62,7 +61,6 @@ namespace FollowMeApp.Droid
                 }
             }
             CreateNotificationChannel();
-            #endregion
 
             LoadApplication(new App());
         }
