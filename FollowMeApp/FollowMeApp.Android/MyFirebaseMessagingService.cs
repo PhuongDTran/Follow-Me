@@ -22,6 +22,7 @@ namespace FollowMeApp.Droid
             {
                 if (data.TryGetValue("leader", out string leaderId))
                     Messenger.Default.Send(leaderId, PublishedData.GroupIdNotification);
+                Log.Debug(TAG, "Leader has moved");
             }
             //single device message
             else
