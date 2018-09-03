@@ -10,6 +10,7 @@ using System;
 using GalaSoft.MvvmLight.Messaging;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using Device = Xamarin.Forms.Device;
 
 namespace FollowMeApp.ViewModel
 {
@@ -110,27 +111,25 @@ namespace FollowMeApp.ViewModel
             Messenger.Default.Register<string>(this, PublishedData.MemberLocationNotification, async(memberId) =>
               {
                   Location location = await ServerCommunicator.Instance.GetLocationAsync(memberId);
-                  if (Members == null)
-                      Members = new Dictionary<string, Location>();
-
-                  if (Members.Keys.Contains(memberId))
-                      Members[memberId] = location;
-                  else
-                      Members.Add(memberId, location);
-
-                  Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+                  Device.BeginInvokeOnMainThread(() =>
                   {
-                      //must execute on Main Thread.
-                      //Otherwise, would throw "Java.Lang.IllegalStateException: Not on the main thread"
+                      if (Members == null) Members = new Dictionary<string, Location>();
+
+                      if (Members.Keys.Contains(memberId)) Members[memberId] = location;
+                      else Members.Add(memberId, location);
                       RaisePropertyChanged("Members");
                   });
-                 
               });
 
             Messenger.Default.Register<string>(this, PublishedData.GroupIdNotification, async (leaderId) =>
             {
-                if (leaderId != null)
-                    LeaderLocation = await ServerCommunicator.Instance.GetLocationAsync(leaderId);
+                if (leaderId != null) { 
+                    var location = await ServerCommunicator.Instance.GetLocationAsync(leaderId);
+                    Device.BeginInvokeOnMainThread(() =>
+                   {
+                       LeaderLocation = location;
+                   });
+                }
             });
         }
         #endregion
