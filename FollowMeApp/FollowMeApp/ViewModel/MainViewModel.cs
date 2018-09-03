@@ -108,7 +108,7 @@ namespace FollowMeApp.ViewModel
             ((App)Application.Current).AppSleep += OnBackgroundWork;
             ((App)Application.Current).AppResume += OnForegroundWork;
 
-            Messenger.Default.Register<string>(this, PublishedData.MemberLocationNotification, async(memberId) =>
+            Messenger.Default.Register<string>(this, PublishedData.MemberLocationNotification, async (memberId) =>
               {
                   Location location = await ServerCommunicator.Instance.GetLocationAsync(memberId);
                   Device.BeginInvokeOnMainThread(() =>
@@ -123,7 +123,8 @@ namespace FollowMeApp.ViewModel
 
             Messenger.Default.Register<string>(this, PublishedData.GroupIdNotification, async (leaderId) =>
             {
-                if (leaderId != null) { 
+                if (leaderId != null)
+                {
                     var location = await ServerCommunicator.Instance.GetLocationAsync(leaderId);
                     Device.BeginInvokeOnMainThread(() =>
                    {
@@ -134,18 +135,24 @@ namespace FollowMeApp.ViewModel
         }
         #endregion
 
-        
+
         #region Event Subscribers
 
         private async void OnLocationUpdates(object sender, Location location)
         {
-            if ( (MyLocation == null) || (MyLocation.CompareTo(location) != 0) )
+            //Hover on customized "CompareTo" to see how two locations compared.
+            if ((MyLocation == null) || (MyLocation.CompareTo(location) != 0))
             {
-                MyLocation = location;
+                Device.BeginInvokeOnMainThread(() =>
+                { 
+                  MyLocation = location;
+                });
                 if (ServerCommunicator.Instance.GroupID != null)
                 {
-                    await ServerCommunicator.Instance.SendLocationAsync(MyLocation);
+                    //TODO: why SendLocationAsync(MyLocation) throwing exception
+                    await ServerCommunicator.Instance.SendLocationAsync(location);
                 }
+
             }
         }
 
@@ -157,7 +164,7 @@ namespace FollowMeApp.ViewModel
         private async void OnForegroundWork()
         {
             await ServerCommunicator.Instance.SendMemberInfo();
-         
+
             #region Location Permissions
             try
             {
@@ -177,7 +184,10 @@ namespace FollowMeApp.ViewModel
                 if (status == PermissionStatus.Granted)
                 {
                     await GeolocationManager.instance.StartUpdatingLocationAsync();
-                    IsShowingLocation = true;
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        IsShowingLocation = true;
+                    });
                 }
                 else if (status != PermissionStatus.Unknown)
                 {
