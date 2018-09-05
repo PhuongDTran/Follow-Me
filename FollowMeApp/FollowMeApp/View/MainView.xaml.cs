@@ -50,6 +50,7 @@ namespace FollowMeApp.View
 
             if (e.PropertyName == nameof(_mainVM.LeaderLocation))
             {
+                MainMap.IsShowingUser = true;
                 MainMap.ClearCirclePins();
 
                 var leaderPosition = new Position(_mainVM.LeaderLocation.Latitude, _mainVM.LeaderLocation.Longitude);
@@ -61,7 +62,6 @@ namespace FollowMeApp.View
                     Position = leaderPosition,
                     Label = "Leader"
                 };
-                MainMap.IsShowingUser = true;
                 MainMap.Pins.Add(pin);
                 MainMap.MoveToRegion(MapSpan.FromCenterAndRadius(leaderPosition, Distance.FromMiles(1)));
             }
