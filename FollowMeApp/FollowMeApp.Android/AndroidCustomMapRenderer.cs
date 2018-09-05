@@ -19,6 +19,7 @@ namespace FollowMeApp.Droid
 {
     public class AndroidCustomMapRenderer : MapRenderer
     {
+        private readonly string TAG = "CustomMapRenderer";
         IList<Pin> _pins;
         ObservableCollection<Position> _routeCoordinates;
         
@@ -44,7 +45,8 @@ namespace FollowMeApp.Droid
                 _routeCoordinates = formsMap.RouteCoordinates;
                 _routeCoordinates.CollectionChanged -= _routeCoordinates_CollectionChanged;
                 _routeCoordinates.CollectionChanged += _routeCoordinates_CollectionChanged;
-                Control.GetMapAsync(this);
+                if(NativeMap == null)
+                    Control.GetMapAsync(this);
             }
         }
 
@@ -55,7 +57,7 @@ namespace FollowMeApp.Droid
                 if (pin.Overlay != null)
                     (pin.Overlay as Circle).Remove();
                 else
-                    Log.Debug("render", "null pin");
+                    Log.Debug(TAG, "removing overlay is null ");
             }
         }
 
@@ -82,10 +84,11 @@ namespace FollowMeApp.Droid
 
                     if (NativeMap == null)
                     {
-                        Log.Debug("custom", "render");
+                        Log.Debug(TAG, "null Native Map");
                     }
                     else
                     {
+                        Log.Debug(TAG, "Native Map is not null");
                         Polyline polyline = NativeMap.AddPolyline(polylineOptions);
                     }
                 }
