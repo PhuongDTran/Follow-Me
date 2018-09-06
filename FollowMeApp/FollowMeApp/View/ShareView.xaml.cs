@@ -23,6 +23,7 @@ namespace FollowMeApp.View
             _shareVM.PropertyChanged += (s, changedEvent) =>
             {
                 DisplayAlert("Test", _shareVM.GroupId, "ok");
+                Console.WriteLine("URL scheme: followme://newtrip?groupid=" + _shareVM.GroupId);
             };
         }
         
