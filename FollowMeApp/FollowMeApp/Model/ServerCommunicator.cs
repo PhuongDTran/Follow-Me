@@ -27,14 +27,7 @@ namespace FollowMeApp.Model
         private static Device _device = new DeviceService().GetDeviceData();
 
         #region Properties
-        public string GroupID
-        {
-            get
-            {
-                return "IfJTQuuskxmJX7Qulx9j";
-            }
-            set { }
-        }
+        public string GroupID { get; set; }
         #endregion
 
         public async Task SendTokenAsync(String token)
