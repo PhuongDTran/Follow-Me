@@ -71,13 +71,16 @@ namespace FollowMeApp.View
                 MainMap.ClearCirclePins();
                 foreach (KeyValuePair<string, Location> entry in _mainVM.Members)
                 {
-                    var pin = new CirclePin
+                    if (entry.Value != null)
                     {
-                        Type = PinType.Place,
-                        Position = new Position(entry.Value.Latitude, entry.Value.Longitude),
-                        Label = entry.Key
-                    };
-                    MainMap.Pins.Add(pin);
+                        var pin = new CirclePin
+                        {
+                            Type = PinType.Place,
+                            Position = new Position(entry.Value.Latitude, entry.Value.Longitude),
+                            Label = entry.Key
+                        };
+                        MainMap.Pins.Add(pin);
+                    }
                 }
             }
 
