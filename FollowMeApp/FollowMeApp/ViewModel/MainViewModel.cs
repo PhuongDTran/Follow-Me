@@ -113,10 +113,14 @@ namespace FollowMeApp.ViewModel
                   Location location = await ServerCommunicator.Instance.GetLocationAsync(memberId);
                   Device.BeginInvokeOnMainThread(() =>
                   {
-                      if (Members == null) Members = new Dictionary<string, Location>();
+                      if (Members == null)
+                          Members = new Dictionary<string, Location>();
 
-                      if (Members.Keys.Contains(memberId)) Members[memberId] = location;
-                      else Members.Add(memberId, location);
+                      if (Members.Keys.Contains(memberId))
+                          Members[memberId] = location;
+                      else
+                          Members.Add(memberId, location);
+
                       RaisePropertyChanged("Members");
                   });
               });
