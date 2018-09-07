@@ -19,10 +19,13 @@ namespace FollowMeApp.View
         /// </summary>
         public void ClearCirclePins()
         {
-            var circlePins = new CirclePin[Pins.Count];
-            Pins.CopyTo(circlePins, 0);
-            Pins.Clear();
-            PinsCleared?.Invoke(this, circlePins);
+            if (Pins.Count > 0)
+            {
+                var circlePins = new CirclePin[Pins.Count];
+                Pins.CopyTo(circlePins, 0);
+                Pins.Clear();
+                PinsCleared?.Invoke(this, circlePins);
+            }
         }
     }
 }
