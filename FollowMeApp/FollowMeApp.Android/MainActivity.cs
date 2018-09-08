@@ -45,10 +45,12 @@ namespace FollowMeApp.Droid
 
             #region url scheme
             var groupId = Intent?.Data?.GetQueryParameter("groupid");
-            if ( groupId != null)
+            var leaderId = Intent?.Data?.GetQueryParameter("leaderid");
+            if ( groupId != null && leaderId != null)
             {
                 SubscribeToATopic("track_leader");
                 ServerCommunicator.Instance.GroupID = groupId;
+                Messenger.Default.Send(leaderId, PublishedData.GroupIdNotification);
             }
             #endregion
             //TODO: do i need this intent extra???
