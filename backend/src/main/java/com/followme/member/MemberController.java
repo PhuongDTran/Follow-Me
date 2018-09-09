@@ -24,6 +24,16 @@ public class MemberController {
 		}
 	}
 	
+	public static String getToken(String memberId){
+		try{
+			MemberDao memberDao = new MemberDao();
+			return memberDao.getToken(memberId);
+		}catch(SQLException ex){
+			logger.error("error when creating MemberDao()." + ex.getMessage());
+		}
+		return null;
+	}
+	
 	public static void updateToken(String id, String token){
 		try{
 			MemberDao memberDao = new MemberDao();

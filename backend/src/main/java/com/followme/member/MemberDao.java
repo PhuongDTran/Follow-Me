@@ -63,7 +63,8 @@ class MemberDao {
 			release(pstmt);
 		}
 	}
-	protected void updateToken( String memberId, String token){
+	
+	protected void updateToken(String memberId, String token){
 		PreparedStatement pstmt = null;
 		try {
 			String sql = "UPDATE MemberInfo SET token=? WHERE member_id=?";
@@ -77,6 +78,26 @@ class MemberDao {
 			release(pstmt);
 		}
 	}
+
+	protected String getToken( String memberId){
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			String sql = "SELECT token FROM MemberInfo WHERE member_id=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, memberId);
+			rs = pstmt.executeQuery();
+			if(rs.next()){
+				return rs.getString("token");
+			}
+		}catch (SQLException ex){
+			logger.error("getToken() failed." + ex.getMessage());
+		}finally {
+			release(pstmt,rs);
+		}
+		return null;
+	}
+	
 	protected void updateName(String memberId,  String memberName){
 		PreparedStatement pstmt = null;
 		try {
