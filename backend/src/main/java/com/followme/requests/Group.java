@@ -4,36 +4,41 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 public class Group {
 
 	@Getter @Setter private String leaderId;
 	private Map<String,String> members;
-	
+
 	public Group(){
 		members = new HashMap<String,String>();
 	}
-	
-	public void addRegistrationToken(String memberId, String token){
-			members.put(memberId, token);
+
+	public boolean doesContain(String memberId){
+		return members.containsKey(memberId);
 	}
-	
-	public Set<String> getMembers(){
-		return members.keySet();
+
+	public void addToken(String memberId, String token){
+		members.put(memberId, token);
 	}
-	
-	public List<String> getRegistrationToken(){
+
+	public List<String> getMemberTokens(){
 		List<String> tokens = new ArrayList<String>();
-		tokens.addAll(members.values());
+		for(String id : members.keySet()) {
+			if (!id.equals(leaderId)) {
+				tokens.add(members.get(id));
+			}
+		}
 		return tokens;
 	}
+
+	public String getLeaderToken(){
+		return members.get(leaderId);
+	}
 	
-	public String getRegistrationToken(String memberId){
-		if(members.containsKey(memberId)){
-			return members.get(memberId);
-		}
-		return null;
+	public String getToken(String memberId){
+		return members.get(memberId);
 	}
 }
