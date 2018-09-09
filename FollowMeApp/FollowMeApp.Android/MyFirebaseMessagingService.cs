@@ -17,21 +17,16 @@ namespace FollowMeApp.Droid
         public override void OnMessageReceived(RemoteMessage message)
         {
             IDictionary<string, string> data = message.Data;
-            //topic message: message.From would get "/topics/topicname". for instance, "/topics/track_leader"
-            if (message.From.Contains("track_leader"))
+
+            if (data.TryGetValue("leader", out string leaderId))
             {
-                if (data.TryGetValue("leader", out string leaderId))
-                    Messenger.Default.Send(leaderId, PublishedData.GroupIdNotification);
+                Messenger.Default.Send(leaderId, PublishedData.GroupIdNotification);
                 Log.Debug(TAG, "Leader has moved");
             }
-            //single device message
-            else
+            else if (data.TryGetValue("member", out string memberId))
             {
-                if (data.TryGetValue("member", out string memberId))
-                {
-                    Messenger.Default.Send(memberId, PublishedData.MemberLocationNotification);
-                    Log.Debug(TAG, "message content:" + memberId);
-                }
+                Messenger.Default.Send(memberId, PublishedData.MemberLocationNotification);
+                Log.Debug(TAG, "message content:" + memberId);
             }
         }
     }
