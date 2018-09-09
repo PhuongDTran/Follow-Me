@@ -16,7 +16,6 @@ import com.followme.util.JsonUtil;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
-import com.google.firebase.messaging.Notification;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -42,7 +41,9 @@ public class RequestsHandler {
 
 			Group group = new Group();
 			group.setLeaderId(user.getId());
-			String groupId = GroupController.generateGroupId();
+			//String groupId = GroupController.generateGroupId();
+			//TODO" static group id to test, change it later
+			String groupId = "phuong";
 			groups.put(groupId, group);
 
 			//add info to database
@@ -101,21 +102,20 @@ public class RequestsHandler {
 		TripController.updateLocation(groupId, sendingMember, latitude, longitude, heading,speed);
 		
 		if( sendingMember.equals( groups.get(groupId).getLeaderId())){
-			notifyMembers(groupId, sendingMember);
+			notifyToMembers(groupId, sendingMember);
 		}else{
-			notifyLeader(groupId, sendingMember);
+			notifyToLeader(groupId, sendingMember);
 		}
 		
 		return ""; 
 	};
 
 	//https://firebase.google.com/docs/cloud-messaging/admin/send-messages
-	private static void notifyLeader(String groupId, String payload ){
+	private static void notifyToLeader(String groupId, String payload ){
 		String leaderToken = groups.get(groupId).getLeaderToken();
 
 		Message message = Message.builder()
 				.putData("member", payload)
-				.setNotification(new Notification("title", "body"))
 				.setToken(leaderToken)
 				.build();
 		try{
@@ -127,13 +127,12 @@ public class RequestsHandler {
 	}
 
 
-	private static void notifyMembers(String groupId,String payload) {
+	private static void notifyToMembers(String groupId,String payload) {
 		List<String> tokens = groups.get(groupId).getMemberTokens();
 		for( String token : tokens){
 			if(token != null){
 				Message message = Message.builder()
 						.putData("leader", payload)
-						.setNotification(new Notification("Location", "body"))
 						.setToken(token)
 						.build();
 				try{
