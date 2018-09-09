@@ -2,6 +2,7 @@ package com.followme.requests;
 
 import java.lang.invoke.MethodHandles;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -9,13 +10,13 @@ import org.slf4j.LoggerFactory;
 
 import com.followme.group.GroupController;
 import com.followme.member.MemberController;
-import com.followme.messaging.MessagingController;
 import com.followme.trip.Location;
 import com.followme.trip.TripController;
 import com.followme.util.JsonUtil;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
+import com.google.firebase.messaging.Notification;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -29,9 +30,9 @@ public class RequestsHandler {
 	final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	// <groupid : leaderid>
-	private static Map<String,String> groups = new HashMap<String,String>();
+	private static Map<String,Group> groups = new HashMap<String,Group>();
 	// <leaderid : token>
-	private static Map<String,String> leaders = new HashMap<String,String>();
+	//private static Map<String,String> leaders = new HashMap<String,String>();
 
 	public static Route HandleGroupIdRequest = (Request request, Response response) -> {
 		if( !request.body().isEmpty()){
@@ -39,7 +40,10 @@ public class RequestsHandler {
 			JsonObject json = gson.fromJson(request.body(), JsonObject.class);
 			User user = new User(json);
 
+			Group group = new Group();
+			group.setLeaderId(user.getId());
 			String groupId = GroupController.generateGroupId();
+			groups.put(groupId, group);
 
 			//add info to database
 			GroupController.addGroup(groupId, user.getId());
@@ -81,119 +85,90 @@ public class RequestsHandler {
 	public static Route HandleUpdatingLocation = (Request request, Response response) -> {
 		String groupId = request.queryParams("group");
 		String sendingMember = request.queryParams("member");
+
+		if ( !groups.get(groupId).doesContain(sendingMember) || groups.get(groupId).getToken(sendingMember) == null) {
+			String token = MemberController.getToken(sendingMember);
+			groups.get(groupId).addToken(sendingMember, token);
+		}
+
 		Gson gson = new GsonBuilder().create();
 		JsonObject json = gson.fromJson(request.body(), JsonObject.class);
 		double latitude = json.get("lat").getAsDouble();
 		double longitude = json.get("lon").getAsDouble();
 		int speed = json.get("speed").getAsInt();
 		int heading = json.get("heading").getAsInt();
+
 		TripController.updateLocation(groupId, sendingMember, latitude, longitude, heading,speed);
-		if(sendingMember.equals(getLeaderId(groupId))){
-			sendMessageToMembers(groupId, sendingMember);
+		
+		if( sendingMember.equals( groups.get(groupId).getLeaderId())){
+			notifyMembers(groupId, sendingMember);
 		}else{
-			sendMessageToLeader(groupId, sendingMember);
+			notifyLeader(groupId, sendingMember);
 		}
+		
 		return ""; 
 	};
 
 	//https://firebase.google.com/docs/cloud-messaging/admin/send-messages
-	private static void sendMessageToLeader(String groupId, String payload ){
-		String leaderId = getLeaderId(groupId);
+	private static void notifyLeader(String groupId, String payload ){
+		String leaderToken = groups.get(groupId).getLeaderToken();
 
-		if ( !leaderId.equals(payload)){
-			String leaderToken = GetLeaderToken(leaderId);
-
-			Message message = Message.builder()
-					.putData("member", payload)
-					.setToken(leaderToken)
-					.build();
-			try{
-				String response = FirebaseMessaging.getInstance().send(message);
-				// Response is a message ID string.
-				System.out.println("Successfully sent message: " + response);
-			} catch (FirebaseMessagingException e) {
-				logger.error("Firebase Single Device Messaging failed." + e.getMessage());
-			}
-		}
-	}
-
-	private static void sendMessageToMembers(String groupId, String payload) {
-		// The topic name can be optionally prefixed with "/topics/".
-		String topic = "track_leader";
-
-		// See documentation on defining a message payload.
 		Message message = Message.builder()
-				.putData("leader", payload)
-				.setTopic(topic)
+				.putData("member", payload)
+				.setNotification(new Notification("title", "body"))
+				.setToken(leaderToken)
 				.build();
 		try{
-			String response = FirebaseMessaging.getInstance().send(message);
-			// Response is a message ID string.
-			System.out.println("Successfully sent message: " + response);
-		}catch (FirebaseMessagingException e) {
-			logger.error("Firebase Topic Messaging failed." + e.getMessage());
-		}
-	}
-
-		public static Route HandleGettingLeaderId = (Request request, Response response) -> {
-			String groupId = request.queryParams("group");
-			String leaderId = GroupController.getLeaderId(groupId);
-			groups.put(groupId, leaderId);
-			return leaderId;
-		};
-
-		public static Route HandleGettingLocation = (Request request, Response response) -> {
-			String groupId = request.queryParams("group");
-			String memberId = request.queryParams("member");
-			Location location = getLocation(groupId, memberId);
-			return JsonUtil.dataToJson(location);
-		};
-
-
-		private static Location getLocation( String groupId, String memberId){
-			if (groupId != null && memberId != null) {
-				return TripController.getLocation(groupId, memberId);
-			}
-			return null;
-		}
-
-		private static void addOrUpdateUser(String groupId, User user){
-			MemberController.addOrUpdateUser(user.getId(), user.getName(), user.getPlatform());
-			TripController.updateLocation(groupId, user.getId(), user.getLatitude(), user.getLongitude(), user.getHeading(), user.getSpeed());
-		}
-
-		/**
-		 * get leader id from <b>groups</b> map given the key <b>groupId</b></br>
-		 * If <b>groupId</b> hasn't been added, execute a database query to get a corresponding leaderId
-		 * add it to <b>groups</b> map for later use
-		 * @return leaderId  
-		 **/
-		private static String getLeaderId(String groupId){
-			String leaderId;
-			if(groups.containsKey(groupId)){
-				leaderId = groups.get(groupId);
-			}else {
-				leaderId = GroupController.getLeaderId(groupId);
-				groups.put(groupId, leaderId);
-			}
-			return leaderId;
-		}
-
-		/**
-		 * get leader token from <b>leaders</b> map given the key <b>leaderId</b></br>
-		 * If <b>leaderId</b> hasn't been added, execute a database query to get a corresponding token
-		 * add it to <b>groups</b> map for later use
-		 * @return leaderToken  
-		 **/
-		private static String GetLeaderToken(String leaderId){
-			String leaderToken;
-			if(leaders.containsKey(leaderId)){
-				leaderToken = leaders.get(leaderId);
-			}else {
-				leaderToken = MessagingController.getRegistrationToken(leaderId);
-				leaders.put(leaderId,leaderToken);
-			}
-			return leaderToken;
+			FirebaseMessaging.getInstance().send(message);
+		} catch (FirebaseMessagingException e) {
+			logger.error("Firebase Single Device Messaging failed." + e.getMessage());
 		}
 
 	}
+
+
+	private static void notifyMembers(String groupId,String payload) {
+		List<String> tokens = groups.get(groupId).getMemberTokens();
+		for( String token : tokens){
+			if(token != null){
+				Message message = Message.builder()
+						.putData("leader", payload)
+						.setNotification(new Notification("Location", "body"))
+						.setToken(token)
+						.build();
+				try{
+					FirebaseMessaging.getInstance().send(message);
+				}catch (FirebaseMessagingException e) {
+					logger.error("Firebase Topic Messaging failed." + e.getMessage());
+				}
+			}
+		}
+	}
+
+	public static Route HandleGettingLeaderId = (Request request, Response response) -> {
+		String groupId = request.queryParams("group");
+		String leaderId = GroupController.getLeaderId(groupId);
+
+		return leaderId;
+	};
+
+	public static Route HandleGettingLocation = (Request request, Response response) -> {
+		String groupId = request.queryParams("group");
+		String memberId = request.queryParams("member");
+		Location location = getLocation(groupId, memberId);
+		return JsonUtil.dataToJson(location);
+	};
+
+
+	private static Location getLocation( String groupId, String memberId){
+		if (groupId != null && memberId != null) {
+			return TripController.getLocation(groupId, memberId);
+		}
+		return null;
+	}
+
+	private static void addOrUpdateUser(String groupId, User user){
+		MemberController.addOrUpdateUser(user.getId(), user.getName(), user.getPlatform());
+		TripController.updateLocation(groupId, user.getId(), user.getLatitude(), user.getLongitude(), user.getHeading(), user.getSpeed());
+	}
+}
