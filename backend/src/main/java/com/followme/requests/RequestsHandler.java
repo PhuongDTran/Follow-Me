@@ -112,7 +112,7 @@ public class RequestsHandler {
 
 	//https://firebase.google.com/docs/cloud-messaging/admin/send-messages
 	private static void notifyToLeader(String groupId, String payload ){
-		String leaderToken = groups.get(groupId).getLeaderToken();
+		String leaderToken = getLeaderToken(groupId);
 
 		Message message = Message.builder()
 				.putData("member", payload)
@@ -158,6 +158,18 @@ public class RequestsHandler {
 		return JsonUtil.dataToJson(location);
 	};
 
+	private static String getLeaderToken(String groupId){
+		Group currentGroup = groups.get(groupId); 
+		String leaderToken = currentGroup.getLeaderToken();
+		
+		if (leaderToken == null){
+			String leaderId = currentGroup.getLeaderId();
+			leaderToken = MemberController.getToken(leaderId);
+			currentGroup.addToken(leaderId, leaderToken);
+		}
+		
+		return leaderToken;
+	}
 
 	private static Location getLocation( String groupId, String memberId){
 		if (groupId != null && memberId != null) {
