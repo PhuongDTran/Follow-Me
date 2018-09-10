@@ -32,7 +32,7 @@ namespace FollowMeApp.Model
 
         public async Task SendTokenAsync(String token)
         {
-            string url = "http://192.168.4.146:4567/token/?member=" + _device.DeviceID;
+            string url = "http://192.168.4.140:4567/token/?member=" + _device.DeviceID;
             string contentType = "application/json";
             JObject json = new JObject
             {
@@ -74,7 +74,7 @@ namespace FollowMeApp.Model
         public async Task RequestGroupIdAsync(Location location)
         {
             string groupId = "";
-            string url = "http://192.168.4.146:4567/group/";
+            string url = "http://192.168.4.140:4567/group/";
             string contentType = "application/json";
             JObject json = new JObject
             {
@@ -114,7 +114,7 @@ namespace FollowMeApp.Model
 
         public async Task<string> GetLeaderIdAsync()
         {
-            string url = "http://192.168.4.146:4567/leader/?group=" + GroupID;
+            string url = "http://192.168.4.140:4567/leader/?group=" + GroupID;
             HttpClient client = new HttpClient();
             HttpResponseMessage response = await client.GetAsync(url);
             if (response.IsSuccessStatusCode)
@@ -132,7 +132,7 @@ namespace FollowMeApp.Model
         /// <returns></returns>
         public async Task SendMemberInfo()
         {
-            string url = "http://192.168.4.146:4567/member/";
+            string url = "http://192.168.4.140:4567/member/";
             string contentType = "application/json";
             JObject json = new JObject
             {
@@ -166,7 +166,7 @@ namespace FollowMeApp.Model
 
         public async Task<string> GetMemberIdAsync(string groupId)
         {
-            string url = "http://192.168.4.146:4567/member/?groupid=" + groupId;
+            string url = "http://192.168.4.140:4567/member/?groupid=" + groupId;
 
             HttpClient client = new HttpClient();
             try
@@ -196,7 +196,7 @@ namespace FollowMeApp.Model
 
         public async Task SendLocationAsync(Location location)
         {
-            string url = String.Format("http://192.168.4.146:4567/trip/?group={0}&member={1}", GroupID, _device.DeviceID);
+            string url = String.Format("http://192.168.4.140:4567/trip/?group={0}&member={1}", GroupID, _device.DeviceID);
             string contentType = "application/json";
             JObject json = new JObject
             {
@@ -231,7 +231,7 @@ namespace FollowMeApp.Model
 
         public async Task<Location> GetLocationAsync(string memberId)
         {
-            string url = String.Format("http://192.168.4.146:4567/trip/?group={0}&member={1}", GroupID, memberId);
+            string url = String.Format("http://192.168.4.140:4567/trip/?group={0}&member={1}", GroupID, memberId);
 
             HttpClient client = new HttpClient();
             try
