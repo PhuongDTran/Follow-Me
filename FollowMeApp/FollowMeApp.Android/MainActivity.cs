@@ -48,7 +48,6 @@ namespace FollowMeApp.Droid
             var leaderId = Intent?.Data?.GetQueryParameter("leaderid");
             if ( groupId != null && leaderId != null)
             {
-                SubscribeToATopic("track_leader");
                 ServerCommunicator.Instance.GroupID = groupId;
                 Messenger.Default.Send(leaderId, PublishedData.GroupIdNotification);
             }
@@ -125,13 +124,7 @@ namespace FollowMeApp.Droid
             var notificationManager = (NotificationManager)GetSystemService(Android.Content.Context.NotificationService);
             notificationManager.CreateNotificationChannel(channel);
         }
-
-        void SubscribeToATopic(string topic)
-        {
-            FirebaseMessaging.Instance.SubscribeToTopic(topic);
-            Log.Debug(TAG, "Subscribed to topic messaging");
-        }
-
+        
         public override void OnBackPressed()
         {
             if (Rg.Plugins.Popup.Popup.SendBackPressed(base.OnBackPressed))
