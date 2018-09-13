@@ -26,13 +26,12 @@ public class FollowMeMain {
 		staticFiles.location("/public");
 		
 		get("/hello/", (req,res) -> "hello");
-		post(Path.Web.GROUP,					RequestHandlers.HandleGroupIdRequest);
-		get(Path.Web.TRIP, 	"application/json" ,RequestHandlers.HandleGettingLocation);
-		post(Path.Web.TRIP,						RequestHandlers.HandleUpdatingLocation);
-		post(Path.Web.MEMBER, 					RequestHandlers.HandleAddingMember);
-		get(Path.Web.LEADER, 					RequestHandlers.HandleGettingLeaderId);
-		post(Path.Web.TOKEN, 					RequestHandlers.HandleUpdatingToken);
-		get(Path.Web.TOKEN, RequestHandlers.Test);
+		post(Path.Web.GROUP,					RequestHandlers.groupIdRequestHandler);
+		get(Path.Web.TRIP, 	"application/json" ,RequestHandlers.getLocationHandler);
+		post(Path.Web.TRIP,						RequestHandlers.updateLocationHandler);
+		post(Path.Web.MEMBER, 					RequestHandlers.addMemberHandler);
+		get(Path.Web.LEADER, 					RequestHandlers.getLeaderIdHandler);
+		post(Path.Web.TOKEN, 					RequestHandlers.updateTokenHandler);
 	}
 
 }

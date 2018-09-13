@@ -33,7 +33,7 @@ public class RequestHandlers {
 	// <leaderid : token>
 	//private static Map<String,String> leaders = new HashMap<String,String>();
 
-	public static Route HandleGroupIdRequest = (Request request, Response response) -> {
+	public static Route groupIdRequestHandler = (Request request, Response response) -> {
 		if( !request.body().isEmpty()){
 			Gson gson = new GsonBuilder().create();
 			JsonObject json = gson.fromJson(request.body(), JsonObject.class);
@@ -60,11 +60,7 @@ public class RequestHandlers {
 
 	};
 
-	public static Route Test = (Request request, Response response) -> {
-		return "hello";
-	};
-
-	public static Route HandleUpdatingToken = (Request request, Response response) -> {
+	public static Route updateTokenHandler = (Request request, Response response) -> {
 		String memberId = request.queryParams("member");
 		Gson gson = new GsonBuilder().create();
 		JsonObject json = gson.fromJson(request.body(), JsonObject.class);
@@ -73,7 +69,7 @@ public class RequestHandlers {
 		return "ok";
 	};
 
-	public static Route HandleAddingMember = (Request request, Response response) -> {
+	public static Route addMemberHandler = (Request request, Response response) -> {
 		Gson gson = new GsonBuilder().create();
 		JsonObject json = gson.fromJson(request.body(), JsonObject.class);
 		String id = json.get("id").getAsString();
@@ -83,7 +79,7 @@ public class RequestHandlers {
 		return response.status();
 	};
 
-	public static Route HandleUpdatingLocation = (Request request, Response response) -> {
+	public static Route updateLocationHandler = (Request request, Response response) -> {
 		String groupId = request.queryParams("group");
 		String sendingMember = request.queryParams("member");
 
@@ -109,6 +105,21 @@ public class RequestHandlers {
 		
 		return ""; 
 	};
+
+	public static Route getLeaderIdHandler = (Request request, Response response) -> {
+		String groupId = request.queryParams("group");
+		String leaderId = GroupController.getLeaderId(groupId);
+
+		return leaderId;
+	};
+
+	public static Route getLocationHandler = (Request request, Response response) -> {
+		String groupId = request.queryParams("group");
+		String memberId = request.queryParams("member");
+		Location location = getLocation(groupId, memberId);
+		return JsonUtil.dataToJson(location);
+	};
+
 
 	//https://firebase.google.com/docs/cloud-messaging/admin/send-messages
 	private static void notifyToLeader(String groupId, String payload ){
@@ -144,20 +155,7 @@ public class RequestHandlers {
 		}
 	}
 
-	public static Route HandleGettingLeaderId = (Request request, Response response) -> {
-		String groupId = request.queryParams("group");
-		String leaderId = GroupController.getLeaderId(groupId);
-
-		return leaderId;
-	};
-
-	public static Route HandleGettingLocation = (Request request, Response response) -> {
-		String groupId = request.queryParams("group");
-		String memberId = request.queryParams("member");
-		Location location = getLocation(groupId, memberId);
-		return JsonUtil.dataToJson(location);
-	};
-
+	
 	private static String getLeaderToken(String groupId){
 		Group currentGroup = groups.get(groupId); 
 		String leaderToken = currentGroup.getLeaderToken();
@@ -184,6 +182,7 @@ public class RequestHandlers {
 		return leaderToken;
 	}
 	*/
+	
 	private static Location getLocation( String groupId, String memberId){
 		if (groupId != null && memberId != null) {
 			return TripController.getLocation(groupId, memberId);
