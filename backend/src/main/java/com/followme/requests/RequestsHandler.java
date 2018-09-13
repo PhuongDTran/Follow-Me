@@ -121,7 +121,7 @@ public class RequestsHandler {
 		try{
 			FirebaseMessaging.getInstance().send(message);
 		} catch (FirebaseMessagingException e) {
-			logger.error("Firebase Single Device Messaging failed." + e.getMessage());
+			logger.error("notifyToLeader() failed" + e.getMessage());
 		}
 
 	}
@@ -138,7 +138,7 @@ public class RequestsHandler {
 				try{
 					FirebaseMessaging.getInstance().send(message);
 				}catch (FirebaseMessagingException e) {
-					logger.error("Firebase Topic Messaging failed." + e.getMessage());
+					logger.error("notifyToMembers() failed. " + e.getMessage());
 				}
 			}
 		}
@@ -170,7 +170,20 @@ public class RequestsHandler {
 		
 		return leaderToken;
 	}
-
+	
+	/*private static String getMemberToken(String memberId){
+		Group currentGroup = groups.get(groupId); 
+		String leaderToken = currentGroup.getLeaderToken();
+		
+		if (leaderToken == null){
+			String leaderId = currentGroup.getLeaderId();
+			leaderToken = MemberController.getToken(leaderId);
+			currentGroup.addToken(leaderId, leaderToken);
+		}
+		
+		return leaderToken;
+	}
+	*/
 	private static Location getLocation( String groupId, String memberId){
 		if (groupId != null && memberId != null) {
 			return TripController.getLocation(groupId, memberId);
