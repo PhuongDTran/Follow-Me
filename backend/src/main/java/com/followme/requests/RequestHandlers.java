@@ -24,7 +24,7 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
-public class RequestsHandler {
+public class RequestHandlers {
 
 	final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
