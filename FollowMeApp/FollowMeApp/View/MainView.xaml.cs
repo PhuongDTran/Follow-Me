@@ -52,10 +52,8 @@ namespace FollowMeApp.View
             {
                 MainMap.IsShowingUser = true;
                 MainMap.ClearCirclePins();
-
                 var leaderPosition = new Position(_mainVM.LeaderLocation.Latitude, _mainVM.LeaderLocation.Longitude);
-                MainMap.RouteCoordinates.Add(leaderPosition);
-
+               
                 var pin = new CirclePin
                 {
                     Type = PinType.Place,
@@ -63,6 +61,7 @@ namespace FollowMeApp.View
                     Label = "Leader"
                 };
                 MainMap.Pins.Add(pin);
+                MainMap.RouteCoordinates.Add(leaderPosition);
                 MainMap.MoveToRegion(MapSpan.FromCenterAndRadius(leaderPosition, Distance.FromMiles(1)));
             }
 
