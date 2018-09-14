@@ -34,6 +34,7 @@ namespace FollowMeApp.Droid
             if (e.OldElement != null)
             {
                 NativeMap.InfoWindowClick -= OnInfoWindowClick;
+                _routeCoordinates.CollectionChanged -= _routeCoordinates_CollectionChanged;
             }
 
             if (e.NewElement != null)
@@ -43,7 +44,7 @@ namespace FollowMeApp.Droid
                 formsMap.PinsCleared += FormsMap_PinsCleared;
                 _pins = formsMap.Pins;
                 _routeCoordinates = formsMap.RouteCoordinates;
-                _routeCoordinates.CollectionChanged -= _routeCoordinates_CollectionChanged;
+                
                 _routeCoordinates.CollectionChanged += _routeCoordinates_CollectionChanged;
                 if(NativeMap == null)
                     Control.GetMapAsync(this);
@@ -56,8 +57,6 @@ namespace FollowMeApp.Droid
             {
                 if (pin.Overlay != null)
                     (pin.Overlay as Circle).Remove();
-                else
-                    Log.Debug(TAG, "removing overlay is null ");
             }
         }
 
