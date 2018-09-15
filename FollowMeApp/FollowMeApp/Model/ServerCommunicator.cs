@@ -103,7 +103,7 @@ namespace FollowMeApp.Model
             }
             catch (HttpRequestException ex)
             {
-                Console.WriteLine("Underlying issue:network connectivity, DNS failure, or timeout.", ex.Message);
+                Console.WriteLine("RequestGroupIdAsync() failed. network connectivity, DNS failure, or timeout.", ex.Message);
             }
             catch (Exception ex)
             {
@@ -156,7 +156,7 @@ namespace FollowMeApp.Model
             }
             catch (HttpRequestException ex)
             {
-                Console.WriteLine("Underlying issue:network connectivity, DNS failure, or timeout.", ex.Message);
+                Console.WriteLine("SendMemberInfo() failed. network connectivity, DNS failure, or timeout.", ex.Message);
             }
             catch (Exception ex)
             {
@@ -185,7 +185,7 @@ namespace FollowMeApp.Model
             }
             catch (HttpRequestException ex)
             {
-                Console.WriteLine("Underlying issue:network connectivity, DNS failure, or timeout.", ex.Message);
+                Console.WriteLine("GetMemberIdAsync() failed. network connectivity, DNS failure, or timeout.", ex.Message);
             }
             catch (Exception ex)
             {
@@ -209,7 +209,10 @@ namespace FollowMeApp.Model
             try
             {
                 var response = await client.PostAsync(url, new StringContent(json.ToString(), Encoding.UTF8, contentType));
-                response.EnsureSuccessStatusCode();
+                if (!response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine("Unsucessfully sending location to server.");
+                }
             }
             catch (ArgumentNullException ex)
             {
@@ -221,7 +224,7 @@ namespace FollowMeApp.Model
             }
             catch (HttpRequestException ex)
             {
-                Console.WriteLine("Underlying issue:network connectivity, DNS failure, or timeout.", ex.Message);
+                Console.WriteLine("SendLocationAsync() failed. network connectivity, DNS failure, or timeout.", ex.Message);
             }
             catch (Exception ex)
             {
@@ -237,18 +240,25 @@ namespace FollowMeApp.Model
             try
             {
                 var response = await client.GetAsync(url);
-                var content = await response.Content.ReadAsStringAsync();
-
-                JObject jContent = (JObject)JsonConvert.DeserializeObject(content);
-
-                Location location = new Location
+                if (response.IsSuccessStatusCode)
                 {
-                    Latitude = (double)jContent.GetValue("latitude"),
-                    Longitude = (double)jContent.GetValue("longitude"),
-                    Heading = (int)jContent.GetValue("heading"),
-                    Speed = (int)jContent.GetValue("speed")
-                };
-                return location;
+                    var content = await response.Content.ReadAsStringAsync();
+
+                    JObject jContent = (JObject)JsonConvert.DeserializeObject(content);
+
+                    Location location = new Location
+                    {
+                        Latitude = (double)jContent.GetValue("latitude"),
+                        Longitude = (double)jContent.GetValue("longitude"),
+                        Heading = (int)jContent.GetValue("heading"),
+                        Speed = (int)jContent.GetValue("speed")
+                    };
+                    return location;
+                }
+                else
+                {
+                    Console.WriteLine("Unsuccessfully get location.");
+                }
             }
             catch (COMException ex)
             {
@@ -256,7 +266,7 @@ namespace FollowMeApp.Model
             }
             catch (OutOfMemoryException ex)
             {
-                Console.WriteLine("Underlying issue:network connectivity, DNS failure, or timeout.", ex.Message);
+                Console.WriteLine("GetLocationAsync() failed. Network connectivity, DNS failure, or timeout.", ex.Message);
             }
             catch (ObjectDisposedException ex)
             {
