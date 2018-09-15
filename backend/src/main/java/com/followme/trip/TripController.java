@@ -16,6 +16,8 @@ public class TripController {
 	 * If the member already exists, only location info updated 
 	 */
 	public static void updateLocation(String groupId,String memberId, double latitude, double longitude, int heading, int speed){
+		groupId = groupId.trim();
+		memberId = memberId.trim();
 		try{
 			TripDao tripDao = new TripDao();
 			if (tripDao.doesExist(groupId, memberId)){
@@ -30,6 +32,8 @@ public class TripController {
 	
 	public static Location getLocation( String groupId, String memberId) {
 		Location location = null;
+		groupId = groupId.trim();
+		memberId = memberId.trim();
 		try {
 			TripDao tripDao = new TripDao();
 			location = tripDao.getLocation(groupId, memberId);
