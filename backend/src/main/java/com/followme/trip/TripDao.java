@@ -49,7 +49,7 @@ class TripDao {
 		return false;
 	}
 	
-	protected void addMemberToTrip(String groupId, String memberId, double latitude, double longitude, int heading, int speed){
+	protected void addNewLocation(String groupId, String memberId, double latitude, double longitude, int heading, int speed){
 		PreparedStatement pstmt = null;
 		try {
 			String sql = "INSERT INTO TripInfo VALUES(null, ?, ?, ?, ?, ?, ?,?)";
@@ -63,37 +63,17 @@ class TripDao {
 			pstmt.setString(7, LocalDateTime.now().format(formatter));
 			pstmt.executeUpdate();
 		}catch (SQLException ex){
-			logger.error("addMemberToTrip() failed." + ex.getMessage());
+			logger.error("addNewLocation() failed." + ex.getMessage());
 		}
 	}
-	
-	protected void update(String groupId, String memberId, double latitude, double longitude, int heading, int speed){
-		PreparedStatement pstmt = null;
-		try {
-			String sql = "UPDATE TripInfo"
-					+ " SET latitude=?, longitude=?, heading=?, speed=?, location_updated_at=?"
-					+ " WHERE group_id=? AND member_id=?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setDouble(1, latitude);
-			pstmt.setDouble(2, longitude);
-			pstmt.setInt(3, heading);
-			pstmt.setInt(4, speed);
-			pstmt.setString(5, LocalDateTime.now().format(formatter));
-			pstmt.setString(6, groupId);
-			pstmt.setString(7, memberId);
-			pstmt.executeUpdate();
-		}catch (SQLException ex){
-			logger.error("update() failed." + ex.getMessage());
-		}
-	}
-	
+
 	protected Location getLocation( String groupId, String memberId) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		Location location = null;
 		try {
 			String sql = "SELECT latitude,longitude,speed,heading FROM TripInfo "
-					+ "WHERE group_id=? AND member_id=?";
+					+ "WHERE group_id=? AND member_id=? ORDER BY location_updated_at DESC LIMIT 1";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, groupId);
 			pstmt.setString(2, memberId);

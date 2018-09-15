@@ -20,16 +20,12 @@ public class TripController {
 		memberId = memberId.trim();
 		try{
 			TripDao tripDao = new TripDao();
-			if (tripDao.doesExist(groupId, memberId)){
-				tripDao.update(groupId, memberId, latitude, longitude, heading, speed);
-			} else{
-				tripDao.addMemberToTrip(groupId, memberId, latitude, longitude, heading, speed);
-			}
+			tripDao.addNewLocation(groupId, memberId, latitude, longitude, heading, speed);
 		}catch(SQLException ex){
 			logger.error("error when creating TripDao()." + ex.getMessage());
 		}
 	}
-	
+
 	public static Location getLocation( String groupId, String memberId) {
 		Location location = null;
 		groupId = groupId.trim();
