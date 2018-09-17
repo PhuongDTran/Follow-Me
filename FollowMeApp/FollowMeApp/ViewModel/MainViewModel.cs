@@ -22,6 +22,7 @@ namespace FollowMeApp.ViewModel
         private Location _myLocation;
         private Location _leaderLocation;
         private bool _isShowingLocation = false;
+        private bool _hasSent = false;
         #endregion
 
         #region Properties
@@ -134,6 +135,11 @@ namespace FollowMeApp.ViewModel
                    {
                        LeaderLocation = location;
                    });
+                }
+                if (!_hasSent)
+                {
+                    await ServerCommunicator.Instance.SendLocationAsync(MyLocation);
+                    _hasSent = true;
                 }
             });
         }
