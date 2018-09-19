@@ -144,7 +144,10 @@ namespace FollowMeApp.Model
             try
             {
                 var response = await client.PostAsync(url, new StringContent(json.ToString(), Encoding.UTF8, contentType));
-                response.EnsureSuccessStatusCode();
+               if (!response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine("SendMemberInfo(): Could not get \"success\" response");
+                }
             }
             catch (ArgumentNullException ex)
             {
