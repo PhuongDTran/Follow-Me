@@ -52,15 +52,7 @@ namespace FollowMeApp.Droid
                 Messenger.Default.Send(leaderId, PublishedData.GroupIdNotification);
             }
             #endregion
-            //TODO: do i need this intent extra???
-            /*if (Intent.Extras != null)
-            {
-                foreach (var key in Intent.Extras.KeySet())
-                {
-                    var value = Intent.Extras.GetString(key);
-                    Log.Debug(TAG, "Key: {0} Value: {1}", key, value);
-                }
-            }*/
+      
             CreateNotificationChannel();
 
             LoadApplication(new App());
