@@ -76,7 +76,7 @@ public class RequestHandlers {
 		String name = json.get("name").getAsString();
 		String platform = json.get("platform").getAsString();
 		MemberController.addOrUpdateUser(id, name, platform);
-		return response.status();
+		return "";
 	};
 
 	public static Route updateLocationHandler = (Request request, Response response) -> {
