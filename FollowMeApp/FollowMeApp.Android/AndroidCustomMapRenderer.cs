@@ -13,18 +13,33 @@ using Xamarin.Forms.Maps;
 using Android.Util;
 using System.Collections.Specialized;
 using Xamarin.Forms.Maps.Android;
+using System.ComponentModel;
 
 [assembly: ExportRenderer(typeof(CustomMap), typeof(AndroidCustomMapRenderer))]
 namespace FollowMeApp.Droid
 {
     public class AndroidCustomMapRenderer : MapRenderer
     {
+       // private global::Android.Gms.Maps.MapView NativeMap { get { return Control; }}
         private readonly string TAG = "CustomMapRenderer";
         IList<Pin> _pins;
         ObservableCollection<Position> _routeCoordinates;
+        private CustomMap _customMap;
         
         public AndroidCustomMapRenderer(Context context) : base(context)
         {
+        }
+
+        protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            base.OnElementPropertyChanged(sender, e);
+            if (e.PropertyName.Equals("VisibleRegion"))
+            {
+                if (NativeMap == null)
+                {
+                    Control.GetMapAsync(this);
+                }
+            }
         }
 
         protected override void OnElementChanged(Xamarin.Forms.Platform.Android.ElementChangedEventArgs<Map> e)
@@ -35,15 +50,15 @@ namespace FollowMeApp.Droid
             {
                 NativeMap.InfoWindowClick -= OnInfoWindowClick;
                 _routeCoordinates.CollectionChanged -= _routeCoordinates_CollectionChanged;
+                _customMap.PinsCleared -= FormsMap_PinsCleared;
             }
 
             if (e.NewElement != null)
             {
-                var formsMap = (CustomMap)e.NewElement;
-                formsMap.PinsCleared -= FormsMap_PinsCleared;
-                formsMap.PinsCleared += FormsMap_PinsCleared;
-                _pins = formsMap.Pins;
-                _routeCoordinates = formsMap.RouteCoordinates;
+                _customMap = (CustomMap)e.NewElement;
+                _customMap.PinsCleared += _customMap_PinsCleared;
+                _pins = _customMap.Pins;
+                _routeCoordinates = _customMap.RouteCoordinates;
                 
                 _routeCoordinates.CollectionChanged += _routeCoordinates_CollectionChanged;
                 if(NativeMap == null)
@@ -51,7 +66,7 @@ namespace FollowMeApp.Droid
             }
         }
 
-        private void FormsMap_PinsCleared(object sender, IList<CirclePin> pins)
+        private void _customMap_PinsCleared(object sender, IList<CirclePin> pins)
         {
             foreach (var pin in pins)
             {
@@ -93,11 +108,10 @@ namespace FollowMeApp.Droid
                 }
                 
             }
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
+            else
+            {
+                Log.Debug(TAG,"not ADD action");
+            }
         }
 
         protected override MarkerOptions CreateMarker(Pin pin)
