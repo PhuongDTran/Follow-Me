@@ -33,7 +33,11 @@ namespace FollowMeApp.Droid
         protected override void OnElementChanged(Xamarin.Forms.Platform.Android.ElementChangedEventArgs<Map> e)
         {
             base.OnElementChanged(e);
-
+           if(Control == null)
+            {
+                var mapView = new MapView(this.Context);
+                SetNativeControl(mapView);
+            }
             if (e.OldElement != null)
             {
                 NativeMap.InfoWindowClick -= OnInfoWindowClick;
