@@ -30,18 +30,6 @@ namespace FollowMeApp.Droid
         {
         }
 
-        protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            base.OnElementPropertyChanged(sender, e);
-            if (e.PropertyName.Equals("VisibleRegion"))
-            {
-                if (NativeMap == null)
-                {
-                    Control.GetMapAsync(this);
-                }
-            }
-        }
-
         protected override void OnElementChanged(Xamarin.Forms.Platform.Android.ElementChangedEventArgs<Map> e)
         {
             base.OnElementChanged(e);
@@ -50,7 +38,8 @@ namespace FollowMeApp.Droid
             {
                 NativeMap.InfoWindowClick -= OnInfoWindowClick;
                 _routeCoordinates.CollectionChanged -= _routeCoordinates_CollectionChanged;
-                _customMap.PinsCleared -= FormsMap_PinsCleared;
+                _customMap.PinsCleared -= _customMap_PinsCleared;
+;
             }
 
             if (e.NewElement != null)
@@ -61,8 +50,9 @@ namespace FollowMeApp.Droid
                 _routeCoordinates = _customMap.RouteCoordinates;
                 
                 _routeCoordinates.CollectionChanged += _routeCoordinates_CollectionChanged;
-                if(NativeMap == null)
+                if(NativeMap == null) { 
                     Control.GetMapAsync(this);
+                }
             }
         }
 
