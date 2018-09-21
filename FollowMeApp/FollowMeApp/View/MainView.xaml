@@ -16,13 +16,18 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <!-- Title -->
-    	<Label Grid.Column="1" Grid.Row="0" Text="{Binding Title,Mode=OneWay}" 
+    	  <Label Grid.Column="1" Grid.Row="0" Text="{Binding Title,Mode=OneWay}" 
            HorizontalOptions="Center"
            VerticalOptions="Center" />
+        <!--Buttons-->
         <Button Grid.Column="2" Grid.Row="0" Text="{Binding StartTripText,Mode=OneWay}"
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
                 Clicked="DisplaySharingMethodsPopup"/>
+        <Button Grid.Column="0" Grid.Row = "0" Text="End"
+              HorizontalOptions="Center"
+              VerticalOptions="Center"/>
+        
         <Grid x:Name="MapGrid" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3">
             <!--Map component used in both Android and iOS-->
             <maps:CustomMap
