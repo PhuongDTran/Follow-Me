@@ -41,8 +41,11 @@ namespace FollowMeApp.View
 
         private void EndTrip_Clicked(object sender, EventArgs e)
         {
+            if (_mainVM.EndTripCommand.CanExecute(null))
+            {
+                _mainVM.EndTripCommand.Execute(null);
+            }
             MainMap.ClearCirclePins();
-
         }
 
         private void OnMainViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)

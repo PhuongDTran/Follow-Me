@@ -10,6 +10,7 @@ using System;
 using GalaSoft.MvvmLight.Messaging;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using GalaSoft.MvvmLight.Command;
 using Device = Xamarin.Forms.Device;
 
 namespace FollowMeApp.ViewModel
@@ -88,6 +89,21 @@ namespace FollowMeApp.ViewModel
         }
         #endregion
 
+        #region Commands
+        public ICommand EndTripCommand { get; private set; }
+        private async void OnEndTripCommandAsync()
+        {
+
+            LeaderLocation = null;
+            Members = null;
+            ServerCommunicator.Instance.GroupID = null;
+        }
+        private bool CanEndTripCommand()
+        {
+            return true;
+        }
+        #endregion
+
         #region Constructors
         public MainViewModel() :
            this(null)
@@ -97,7 +113,7 @@ namespace FollowMeApp.ViewModel
             //  project from the original sample code, and so null is passed for the navigation service here.
             // NOTE: in production, we would do this differently, to allow different IDataService and
             //  INavigationService instances to be passed in. This is just for making the basic test work.
-
+            EndTripCommand = new RelayCommand(OnEndTripCommandAsync, CanEndTripCommand);
         }
 
         /// <summary>
