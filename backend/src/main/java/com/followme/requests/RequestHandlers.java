@@ -120,6 +120,14 @@ public class RequestHandlers {
 		return JsonUtil.dataToJson(location);
 	};
 
+	public static Route removeLocationsHandler = (Request request, Response response) -> {
+		String groupId = request.queryParams("group");
+		boolean isSuccess = TripController.removeLocations(groupId);
+		if (isSuccess){
+			GroupController.remove(groupId);
+		}
+		return "";
+	};
 
 	//https://firebase.google.com/docs/cloud-messaging/admin/send-messages
 	private static void notifyToLeader(String groupId, String payload ){

@@ -98,17 +98,19 @@ class TripDao {
 		return location;
 	}
 	
-	protected void removeLocations(String groupId){
+	protected boolean removeLocations(String groupId){
 		PreparedStatement pstmt = null;
 		try {
 			String sql = "DELETE FROM TripInfo WHERE group_id=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, groupId);
 			pstmt.executeUpdate();
+			return true;
 		}catch (SQLException ex){
 			logger.error("removeLocations() failed." + ex.getMessage());
 		}finally {
 			release(pstmt);
 		}
+		return false;
 	}
 }

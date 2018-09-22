@@ -1,13 +1,12 @@
 package com.followme.util;
 
-import lombok.Getter;
-
 public class Path {
 	public static class Web{
-		@Getter public static final String GROUP = "/group/";
-		@Getter public static final String TRIP = "/trip/";
-		@Getter public static final String LEADER = "/leader/";
-		@Getter public static final String TOKEN = "/token/";
-		@Getter public static final String MEMBER = "/member/";
+		public static final String GROUP = "/group/";
+		public static final String TRIP = "/trip/";
+		public static final String LEADER = "/leader/";
+		public static final String TOKEN = "/token/";
+		public static final String MEMBER = "/member/";
+		public static final String ENDTRIP = "/endtrip/";
 	}
 }

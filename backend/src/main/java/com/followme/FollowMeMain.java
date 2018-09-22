@@ -32,6 +32,7 @@ public class FollowMeMain {
 		post(Path.Web.MEMBER, 					RequestHandlers.addMemberHandler);
 		get(Path.Web.LEADER, 					RequestHandlers.getLeaderIdHandler);
 		post(Path.Web.TOKEN, 					RequestHandlers.updateTokenHandler);
+		get(Path.Web.ENDTRIP,						RequestHandlers.removeLocationsHandler);
 	}
 
 }
