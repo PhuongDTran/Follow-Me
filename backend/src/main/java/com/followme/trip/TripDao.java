@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.followme.util.ConnectionManager;
+import static com.followme.util.Release.release;
 
 class TripDao {
 
@@ -45,6 +46,8 @@ class TripDao {
 			return rs.next() ? true : false;
 		}catch (SQLException ex){
 			logger.error("addTrip() failed." + ex.getMessage());
+		}finally {
+			release(pstmt, rs);
 		}
 		return false;
 	}
@@ -64,6 +67,8 @@ class TripDao {
 			pstmt.executeUpdate();
 		}catch (SQLException ex){
 			logger.error("addNewLocation() failed." + ex.getMessage());
+		}finally {
+			release(pstmt);
 		}
 	}
 
@@ -87,7 +92,23 @@ class TripDao {
 			}
 		}catch (SQLException ex){
 			logger.error("getLocation() failed." + ex.getMessage());
+		}finally {
+			release(pstmt, rs);
 		}
 		return location;
+	}
+	
+	protected void removeLocations(String groupId){
+		PreparedStatement pstmt = null;
+		try {
+			String sql = "DELETE FROM TripInfo WHERE group_id=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, groupId);
+			pstmt.executeUpdate();
+		}catch (SQLException ex){
+			logger.error("removeLocations() failed." + ex.getMessage());
+		}finally {
+			release(pstmt);
+		}
 	}
 }
