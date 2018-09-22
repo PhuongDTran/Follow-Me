@@ -41,7 +41,8 @@ namespace FollowMeApp.View
 
         private void EndTrip_Clicked(object sender, EventArgs e)
         {
-            DisplayAlert("end", "trip ended", "ok");
+            MainMap.ClearCirclePins();
+
         }
 
         private void OnMainViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -54,21 +55,23 @@ namespace FollowMeApp.View
 
             if (e.PropertyName == nameof(_mainVM.LeaderLocation))
             {
-                MainMap.IsShowingUser = true;
-                MainMap.ClearCirclePins();
-                var leaderPosition = new Position(_mainVM.LeaderLocation.Latitude, _mainVM.LeaderLocation.Longitude);
-               
-                var pin = new CirclePin
+                if (_mainVM.LeaderLocation != null)
                 {
-                    Type = PinType.Place,
-                    Position = leaderPosition,
-                    Label = "Leader"
-                };
-                MainMap.Pins.Add(pin);
-                MainMap.RouteCoordinates.Add(leaderPosition);
-                MainMap.MoveToRegion(MapSpan.FromCenterAndRadius(leaderPosition, Distance.FromMiles(1)));
-            }
+                    MainMap.IsShowingUser = true;
+                    MainMap.ClearCirclePins();
+                    var leaderPosition = new Position(_mainVM.LeaderLocation.Latitude, _mainVM.LeaderLocation.Longitude);
 
+                    var pin = new CirclePin
+                    {
+                        Type = PinType.Place,
+                        Position = leaderPosition,
+                        Label = "Leader"
+                    };
+                    MainMap.Pins.Add(pin);
+                    MainMap.RouteCoordinates.Add(leaderPosition);
+                    MainMap.MoveToRegion(MapSpan.FromCenterAndRadius(leaderPosition, Distance.FromMiles(1)));
+                }
+            }
             if (e.PropertyName == nameof(_mainVM.Members))
             {
                 MainMap.ClearCirclePins();
