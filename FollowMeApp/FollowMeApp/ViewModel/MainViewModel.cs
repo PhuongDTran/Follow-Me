@@ -65,14 +65,20 @@ namespace FollowMeApp.ViewModel
             }
         }
 
-        public string StartTripText
+        public string StartTrip
         {
             get
             {
                 return "Start a trip";
             }
         }
-
+        public string EndTrip
+        {
+            get
+            {
+                return "End";
+            }
+        }
         public string Title
         {
             get

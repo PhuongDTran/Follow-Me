@@ -39,6 +39,10 @@ namespace FollowMeApp.View
             await PopupNavigation.Instance.PushAsync(_shareView, true);
         }
 
+        private void EndTrip_Clicked(object sender, EventArgs e)
+        {
+            DisplayAlert("end", "trip ended", "ok");
+        }
 
         private void OnMainViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
