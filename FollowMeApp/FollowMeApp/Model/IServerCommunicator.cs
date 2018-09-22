@@ -15,6 +15,7 @@ namespace FollowMeApp.Model
         Task<string> GetMemberIdAsync(string groupId);
         Task SendLocationAsync(Location location);
         Task<Location> GetLocationAsync(string memberId);
-        Task SendTokenAsync(String token);
+        Task SendTokenAsync(string token);
+        Task EndTripAsync();
     }
 }

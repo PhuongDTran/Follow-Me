@@ -282,5 +282,26 @@ namespace FollowMeApp.Model
             return null;
         }
 
+        public async Task EndTripAsync()
+        {
+            string url = "http://192.168.4.140:4567/endtrip/?group=" + GroupID;
+            HttpClient client = new HttpClient();
+            try
+            {
+                var response = await client.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+                    GroupID = null;
+                }
+                else
+                {
+                    Console.WriteLine("EndTripAsync(): unsuccess status code.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("EndTripAsync()" + ex.Message);
+            }
+        }
     }
 }

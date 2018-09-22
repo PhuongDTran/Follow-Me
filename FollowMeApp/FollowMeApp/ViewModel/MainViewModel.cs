@@ -93,10 +93,9 @@ namespace FollowMeApp.ViewModel
         public ICommand EndTripCommand { get; private set; }
         private async void OnEndTripCommandAsync()
         {
-
+            await ServerCommunicator.Instance.EndTripAsync();
             LeaderLocation = null;
             Members = null;
-            ServerCommunicator.Instance.GroupID = null;
         }
         private bool CanEndTripCommand()
         {
