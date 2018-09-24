@@ -96,22 +96,6 @@ class GroupDao {
 		return leaderId;
 	}
 	
-	protected boolean remove(String groupId){
-		PreparedStatement pstmt = null;
-		try {
-			String sql = "DELETE FROM GroupInfo WHERE group_id=?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, groupId);
-			pstmt.executeUpdate();
-			return true;
-		}catch (SQLException ex) {
-			logger.error("remove() failed. " + ex.getMessage());
-		}finally {
-			release(pstmt);
-		}
-		return false;
-	}
-	
 	/**
 	 * close connection to database
 	 */

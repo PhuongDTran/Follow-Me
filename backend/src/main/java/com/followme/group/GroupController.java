@@ -47,13 +47,4 @@ public class GroupController {
 		return leaderId;
 	}
 	
-	public static boolean remove(String groupId){
-		try{
-			GroupDao groupDao = new GroupDao();
-			return groupDao.remove(groupId);
-		}catch(SQLException ex){
-			logger.error("remove() error." + ex.getMessage());
-		}
-		return false;
-	}
 }
