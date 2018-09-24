@@ -136,7 +136,9 @@ public class RequestHandlers {
 				.setToken(leaderToken)
 				.build();
 		try{
-			FirebaseMessaging.getInstance().send(message);
+			System.out.println("Sending message to leader with registration token: " + leaderToken);
+			String response = FirebaseMessaging.getInstance().send(message);
+			System.out.println("Successfully sent message: " + response);
 		} catch (FirebaseMessagingException e) {
 			logger.error("notifyToLeader() failed" + e.getMessage());
 		}
@@ -153,7 +155,9 @@ public class RequestHandlers {
 						.setToken(token)
 						.build();
 				try{
-					FirebaseMessaging.getInstance().send(message);
+					System.out.println("Sending message to members with registration token: " + token);
+					String response = FirebaseMessaging.getInstance().send(message);
+					System.out.println("Successfully sent message: " + response);
 				}catch (FirebaseMessagingException e) {
 					logger.error("notifyToMembers() failed. " + e.getMessage());
 				}
