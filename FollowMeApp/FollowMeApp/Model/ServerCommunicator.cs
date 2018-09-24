@@ -284,19 +284,16 @@ namespace FollowMeApp.Model
 
         public async Task EndTripAsync()
         {
-            string url = "http://192.168.4.140:4567/endtrip/?group=" + GroupID;
+            string url = string.Format("http://192.168.4.140:4567/endtrip/?group={0}&member={1}", GroupID, _device.DeviceID);
             HttpClient client = new HttpClient();
             try
             {
                 var response = await client.GetAsync(url);
+
                 if (response.IsSuccessStatusCode)
-                {
                     GroupID = null;
-                }
                 else
-                {
                     Console.WriteLine("EndTripAsync(): unsuccess status code.");
-                }
             }
             catch (Exception ex)
             {
