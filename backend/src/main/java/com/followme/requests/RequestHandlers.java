@@ -122,10 +122,8 @@ public class RequestHandlers {
 
 	public static Route removeLocationsHandler = (Request request, Response response) -> {
 		String groupId = request.queryParams("group");
-		boolean isSuccess = TripController.removeLocations(groupId);
-		if (isSuccess){
-			GroupController.remove(groupId);
-		}
+		String memberId = request.queryParams("member");
+		TripController.removeLocations(groupId, memberId);
 		return "";
 	};
 

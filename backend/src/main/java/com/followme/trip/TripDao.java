@@ -98,14 +98,14 @@ class TripDao {
 		return location;
 	}
 	
-	protected boolean removeLocations(String groupId){
+	protected boolean removeLocations(String groupId, String memberId){
 		PreparedStatement pstmt = null;
 		try {
-			String sql = "DELETE FROM TripInfo WHERE group_id=?";
+			String sql = "DELETE FROM TripInfo WHERE group_id=? AND member_id=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, groupId);
-			pstmt.executeUpdate();
-			return true;
+			pstmt.setString(2, memberId);
+			return pstmt.executeUpdate()>0 ? true : false;
 		}catch (SQLException ex){
 			logger.error("removeLocations() failed." + ex.getMessage());
 		}finally {

@@ -39,10 +39,10 @@ public class TripController {
 		return location;
 	}
 
-	public static boolean removeLocations( String groupId){
+	public static boolean removeLocations( String groupId, String memberId){
 		try {
 			TripDao tripDao = new TripDao();
-			return tripDao.removeLocations(groupId);
+			return tripDao.removeLocations(groupId, memberId);
 		} catch(SQLException ex){
 			logger.error("error when creating removeLocations()." + ex.getMessage());
 		}
