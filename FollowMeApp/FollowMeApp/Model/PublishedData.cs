@@ -18,5 +18,7 @@
         /// <para>group leader uses member id to update member's locations.</para>
         /// </summary>
         public static readonly string MemberLocationNotification = "memberid_received";
+
+        public static readonly string TripStarted = "trip_started";
     }
 }
