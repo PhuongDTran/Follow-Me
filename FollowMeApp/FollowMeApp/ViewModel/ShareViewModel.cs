@@ -49,6 +49,7 @@ namespace FollowMeApp.ViewModel
         {
             await ServerCommunicator.Instance.RequestGroupIdAsync(_location);
             GroupId = ServerCommunicator.Instance.GroupID;
+            MessengerInstance.Send<object>(null,PublishedData.TripStarted);
         }
 
         private bool CanGenerateUrlCommand()
