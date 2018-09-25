@@ -20,13 +20,14 @@
            HorizontalOptions="Center"
            VerticalOptions="Center" />
         <!--Buttons-->
-        <Button Grid.Column="2" Grid.Row="0" Text="{Binding StartTrip,Mode=OneWay}"
+        <Button x:Name="StartBtn" Grid.Column="2" Grid.Row="0" Text="{Binding StartTrip,Mode=OneWay}"
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
                 Clicked="DisplaySharingMethodsPopup"/>
-        <Button Grid.Column="0" Grid.Row = "0" Text="{Binding EndTrip,Mode=OneWay}"
+        <Button x:Name="EndBtn" Grid.Column="0" Grid.Row = "0" Text="{Binding EndTrip,Mode=OneWay}"
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
+                IsEnabled="False"
                 Clicked="EndTrip_Clicked"/>
         
         <Grid x:Name="MapGrid" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3">
